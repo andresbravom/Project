@@ -49,10 +49,10 @@ const typeDefs = `
         endCoordinate: Float!
         intersection: Float!
         street: Street!
-        signal: [Signals]!
+        signal: [Signal]!
     }
 
-    type Signals {
+    type Signal {
         _id: ID!
         name: String!
         type: String!
@@ -67,7 +67,8 @@ const typeDefs = `
 
     type Mutation {
         addStreet (name: String!, lenght: Float!, startCoordinate: Float!, endCoordinate: Float!): Street
-        addSegment (lenght: Float!, speed: Int!, startCoordinate: Float!, middleCoordinate: Float!, endCoordinate: Float!, intersection: Float!, street: ID!, signal: [Signals]!): Segment!
+        addSegment (lenght: Float!, speed: Int!, startCoordinate: Float!, middleCoordinate: Float!, endCoordinate: Float!, intersection: Float!, street: ID!, signal: [ID]!): Segment!
+        addSignal (name: String!, type: String!, coordinate: Float!, probability: Float!): Signal!
     }
 `
 const resolvers = {
@@ -122,6 +123,23 @@ const resolvers = {
                 intersection,
                 street,
                 signal,
+                id: result.ops[0]._id
+            }
+        },
+
+        addSignal: async (parent, args, ctx, info) => {
+            const {name, type, position, probability} = args;
+            const {client} = ctx;
+
+            const db = client.db("DataBase");
+            const collection = db.collection ("Signals");
+
+            const result = await collection.insertOne({name, type, position, probability});
+
+            return{
+                name,
+                position,
+                probability,
                 id: result.ops[0]._id
             }
         }
