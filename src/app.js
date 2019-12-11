@@ -36,18 +36,18 @@ const typeDefs = `
         _id: ID!
         name: String!
         lenght: Float!
-        startCoordinate: Float!
-        endCoordinate: Float!
+        startCoordinate: [Float!]
+        endCoordinate: [Float!]
     }
 
     type Segment {
         _id: ID!
         lenght: Float!
         speed: Int!
-        startCoordinate: Float!
-        middleCoordinate: Float!
-        endCoordinate: Float!
-        intersection: Float!
+        startCoordinate: [Float!]
+        middleCoordinate: [Float!]
+        endCoordinate: [Float!]
+        intersection: [Float!]
         street: Street!
         signal: [Signal]!
     }
@@ -56,7 +56,7 @@ const typeDefs = `
         _id: ID!
         name: String!
         type: String!
-        coordinate: Float!
+        coordinate: [Float!]
         probability: Float!
     }
 
@@ -66,9 +66,9 @@ const typeDefs = `
     }
 
     type Mutation {
-        addStreet (name: String!, lenght: Float!, startCoordinate: Float!, endCoordinate: Float!): Street
-        addSegment (lenght: Float!, speed: Int!, startCoordinate: Float!, middleCoordinate: Float!, endCoordinate: Float!, intersection: Float!, street: ID!, signal: [ID]!): Segment!
-        addSignal (name: String!, type: String!, coordinate: Float!, probability: Float!): Signal!
+        addStreet (name: String!, lenght: Float!, startCoordinate: [Float!], endCoordinate: [Float!]): Street
+        addSegment (lenght: Float!, speed: Int!, startCoordinate: [Float!], middleCoordinate: [Float!], endCoordinate: [Float!], intersection: [Float!], street: ID!, signal: [ID]!): Segment!
+        addSignal (name: String!, type: String!, coordinate: [Float!], probability: Float!): Signal!
     }
 `
 const resolvers = {
@@ -128,17 +128,18 @@ const resolvers = {
         },
 
         addSignal: async (parent, args, ctx, info) => {
-            const {name, type, position, probability} = args;
+            const {name, type, coordinate, probability} = args;
             const {client} = ctx;
 
             const db = client.db("DataBase");
             const collection = db.collection ("Signals");
 
-            const result = await collection.insertOne({name, type, position, probability});
+            const result = await collection.insertOne({name, type, coordinate, probability});
 
             return{
                 name,
-                position,
+                type,
+                coordinate,
                 probability,
                 id: result.ops[0]._id
             }
