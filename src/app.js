@@ -3,8 +3,6 @@ import { MongoClient, ObjectID} from "mongodb";
 import "babel-polyfill";
 import * as uuid from 'uuid'
 
-
-//mongodb+srv://AndresBravo:<password>@cluster0-q6wtw.gcp.mongodb.net/test?retryWrites=true&w=majority
 const usr = "AndresBravo";
 const pwd = "qwerty123";
 const url = "cluster0-q6wtw.gcp.mongodb.net/test?retryWrites=true&w=majority";
@@ -42,12 +40,34 @@ const typeDefs = `
         endCoordinate: Float!
     }
 
+    type Segment {
+        _id: ID!
+        lenght: Float!
+        speed: Int!
+        startCoordinate: Float!
+        middleCoordinate: Float!
+        endCoordinate: Float!
+        intersection: Float!
+        street: Street!
+        signal: [Signals]!
+    }
+
+    type Signals {
+        _id: ID!
+        name: String!
+        type: String!
+        coordinate: Float!
+        probability: Float!
+    }
+
     type Query {
-        getStreet(name: String!, id: ID!): [Street]
+        getStreet (name: String!, id: ID!): [Street]
+        getSegment (id: ID!): [Segment]
     }
 
     type Mutation {
-        addStreet(name: String!, lenght: Float!, startCoordinate: Float!, endCoordinate: Float!): Street
+        addStreet (name: String!, lenght: Float!, startCoordinate: Float!, endCoordinate: Float!): Street
+        addSegment (lenght: Float!, speed: Int!, startCoordinate: Float!, middleCoordinate: Float!, endCoordinate: Float!, intersection: Float!, street: ID!, signal: [Signals]!): Segment!
     }
 `
 const resolvers = {
@@ -82,7 +102,28 @@ const resolvers = {
                 endCoordinate,
                 id: result.ops[0]._id,
             }
+        },
+        
+        addSegment: async (parent, args, ctx, info) => {
+            const {lenght, speed, startCoordinate, middleCoordinate, endCoordinate, intersection, street, signal} = args;
+            const {client} = ctx;
 
+            const db = client.db ("DataBase");
+            const collection = db.collection ("Segments");
+
+            const result = await collection.insertOne({lenght, speed, startCoordinate, middleCoordinate, endCoordinate, intersection, street: ObjectID(street), signal: signal.map(obj => ObjectID(obj))});
+
+            return{
+                lenght,
+                speed,
+                startCoordinate,
+                middleCoordinate,
+                endCoordinate,
+                intersection,
+                street,
+                signal,
+                id: result.ops[0]._id
+            }
         }
     }
 }
