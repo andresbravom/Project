@@ -38,6 +38,7 @@ const typeDefs = `
         lenght: Float!
         startCoordinate: [Float!]
         endCoordinate: [Float!]
+        segment: [Segment!]
     }
 
     type Segment {
@@ -58,6 +59,7 @@ const typeDefs = `
         type: String!
         coordinate: [Float!]
         probability: Float!
+        segment: [Segment!]
     }
 
     type Query {
@@ -72,6 +74,20 @@ const typeDefs = `
     }
 `
 const resolvers = {
+    Street:{
+        segment: async (parent, args, ctx, info) => {
+            const segmentID = ObjectID(parent._id);
+            const {client} = ctx;
+
+            const db = client.db("DataBase");
+            const collection = db.collection("Segments");
+
+            const result = await collection.find({street: segmentID}).toArray();
+
+            return result;
+        }
+    },
+
     Query: { 
         getStreet: async (parent, args, ctx, info) => {
             //const  {name, lenght, startCoordinate, endCoordinate} = args;
