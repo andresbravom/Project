@@ -31,6 +31,7 @@ type Street {
     type Query {
         getStreet (name: String!, id: ID!): [Street]
         getSegment (id: ID!): [Segment]
+        getSignal (id: ID!): [Signal]
     }
 
     type Mutation {

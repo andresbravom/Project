@@ -31,6 +31,21 @@ const Query = {
         }else{
             return new Error ("Insert correct ID");
         }
+    },
+    
+    getSignal: async (parent, args, ctx, info) => {
+        const {client} = ctx;
+
+        const db = client.db("DataBase");
+        const collection = db.collection("Signals");
+
+        const result = await collection.find({}).toArray();
+
+        if (result) {
+            return result;
+        }else{
+            return new Error ("Insert correct ID");
+        }
     }
 }
 export {Query as default};
