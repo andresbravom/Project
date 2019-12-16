@@ -1,6 +1,9 @@
+import  {GraphQLServer, PubSub} from 'graphql-yoga'
+import { MongoClient, ObjectID} from "mongodb";
+import "babel-polyfill";
+
 const Query = { 
     getStreet: async (parent, args, ctx, info) => {
-        //const  {name, lenght, startCoordinate, endCoordinate} = args;
         const {client} = ctx;
 
         const db = client.db ("DataBase");
@@ -8,7 +11,26 @@ const Query = {
         
         const result = await collection.find({}).toArray();
 
-        return result;
+        if (result){
+            return result;
+        }else{
+            return new Error ("Insert correct ID");
+        }
+    },
+
+    getSegment: async (parent, args, ctx, info) => {
+        const {client} = ctx;
+
+        const db = client.db("DataBase");
+        const collection = db.collection("Segments");
+
+        const result = await collection.find({}).toArray();
+
+        if (result){
+            return result;
+        }else{
+            return new Error ("Insert correct ID");
+        }
     }
 }
 export {Query as default};

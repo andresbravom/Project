@@ -3,8 +3,10 @@ import { MongoClient, ObjectID} from "mongodb";
 import "babel-polyfill";
 
 import Street from './resolvers/Street'
+import Segment from './resolvers/Segment'
 import Query from './resolvers/Query'
 import Mutation from './resolvers/Mutation'
+
 
 const usr = "AndresBravo";
 const pwd = "qwerty123";
@@ -37,6 +39,7 @@ const runGraphQLServer = function (context) {
 
 const resolvers = {
     Street,
+    Segment,
     Query,
     Mutation,
 }
