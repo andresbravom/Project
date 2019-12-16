@@ -1,7 +1,10 @@
-import  {GraphQLServer} from 'graphql-yoga'
+import  {GraphQLServer, PubSub} from 'graphql-yoga'
 import { MongoClient, ObjectID} from "mongodb";
 import "babel-polyfill";
-import * as uuid from 'uuid'
+
+import Street from './resolvers/Street'
+import Query from './resolvers/Query'
+import Mutation from './resolvers/Mutation'
 
 const usr = "AndresBravo";
 const pwd = "qwerty123";
@@ -31,147 +34,23 @@ const connectToDb = async function(usr, pwd, url) {
  */
 
 const runGraphQLServer = function (context) {
-const typeDefs = `
-    type Street {
-        _id: ID!
-        name: String!
-        lenght: Float!
-        startCoordinate: [Float!]
-        endCoordinate: [Float!]
-        segment: [Segment!]
-    }
 
-    type Segment {
-        _id: ID!
-        lenght: Float!
-        speed: Int!
-        startCoordinate: [Float!]
-        middleCoordinate: [Float!]
-        endCoordinate: [Float!]
-        intersection: [Float!]
-        street: Street!
-        signal: [Signal]!
-    }
-
-    type Signal {
-        _id: ID!
-        name: String!
-        type: String!
-        coordinate: [Float!]
-        probability: Float!
-        segment: [Segment!]
-    }
-
-    type Query {
-        getStreet (name: String!, id: ID!): [Street]
-        getSegment (id: ID!): [Segment]
-    }
-
-    type Mutation {
-        addStreet (name: String!, lenght: Float!, startCoordinate: [Float!], endCoordinate: [Float!]): Street
-        addSegment (lenght: Float!, speed: Int!, startCoordinate: [Float!], middleCoordinate: [Float!], endCoordinate: [Float!], intersection: [Float!], street: ID!, signal: [ID]!): Segment!
-        addSignal (name: String!, type: String!, coordinate: [Float!], probability: Float!): Signal!
-    }
-`
 const resolvers = {
-    Street:{
-        segment: async (parent, args, ctx, info) => {
-            const segmentID = ObjectID(parent._id);
-            const {client} = ctx;
-
-            const db = client.db("DataBase");
-            const collection = db.collection("Segments");
-
-            const result = await collection.find({street: segmentID}).toArray();
-
-            return result;
-        }
-    },
-
-    Query: { 
-        getStreet: async (parent, args, ctx, info) => {
-            //const  {name, lenght, startCoordinate, endCoordinate} = args;
-            const {client} = ctx;
-
-            const db = client.db ("DataBase");
-            const collection = db.collection ("Streets");
-            
-            const result = await collection.find({}).toArray();
-
-            return result;
-        }
-    },
-
-    Mutation: {
-        addStreet: async (parent, args, ctx, info) => {
-            const  {name, lenght, startCoordinate, endCoordinate} = args;
-            const {client} = ctx;
-
-            const db = client.db ("DataBase");
-            const collection = db.collection("Streets");
-            
-            const result = await collection.insertOne({name, lenght, startCoordinate, endCoordinate});
-
-            return{
-                name,
-                lenght,
-                startCoordinate,
-                endCoordinate,
-                id: result.ops[0]._id,
-            }
-        },
-        
-        addSegment: async (parent, args, ctx, info) => {
-            const {lenght, speed, startCoordinate, middleCoordinate, endCoordinate, intersection, street, signal} = args;
-            const {client} = ctx;
-
-            const db = client.db ("DataBase");
-            const collection = db.collection ("Segments");
-
-            const result = await collection.insertOne({lenght, speed, startCoordinate, middleCoordinate, endCoordinate, intersection, street: ObjectID(street), signal: signal.map(obj => ObjectID(obj))});
-
-            return{
-                lenght,
-                speed,
-                startCoordinate,
-                middleCoordinate,
-                endCoordinate,
-                intersection,
-                street,
-                signal,
-                id: result.ops[0]._id
-            }
-        },
-
-        addSignal: async (parent, args, ctx, info) => {
-            const {name, type, coordinate, probability} = args;
-            const {client} = ctx;
-
-            const db = client.db("DataBase");
-            const collection = db.collection ("Signals");
-
-            const result = await collection.insertOne({name, type, coordinate, probability});
-
-            return{
-                name,
-                type,
-                coordinate,
-                probability,
-                id: result.ops[0]._id
-            }
-        }
-    }
+    Street,
+    Query,
+    Mutation,
 }
 
-const server = new GraphQLServer({typeDefs, resolvers, context});
+const server = new GraphQLServer({typeDefs: './src/schema.graphql', resolvers, context});
 server.start(() => console.log("Server started"));
 };
 
 const runApp = async function (){
     const client = await connectToDb (usr, pwd, url);
     console.log("Connect to Mongo DB");
+    const pubsub = new PubSub();
 
-    runGraphQLServer({client});
+    runGraphQLServer({client, pubsub});
 };
 
 runApp();

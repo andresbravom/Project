@@ -1,0 +1,40 @@
+type Street {
+        _id: ID!
+        name: String!
+        lenght: Float!
+        startCoordinate: [Float!]
+        endCoordinate: [Float!]
+        segment: [Segment!]
+    }
+
+    type Segment {
+        _id: ID!
+        lenght: Float!
+        speed: Int!
+        startCoordinate: [Float!]
+        middleCoordinate: [Float!]
+        endCoordinate: [Float!]
+        intersection: [Float!]
+        street: Street!
+        signal: [Signal]!
+    }
+
+    type Signal {
+        _id: ID!
+        name: String!
+        type: String!
+        coordinate: [Float!]
+        probability: Float!
+        segment: [Segment!]
+    }
+
+    type Query {
+        getStreet (name: String!, id: ID!): [Street]
+        getSegment (id: ID!): [Segment]
+    }
+
+    type Mutation {
+        addStreet (name: String!, lenght: Float!, startCoordinate: [Float!], endCoordinate: [Float!]): Street
+        addSegment (lenght: Float!, speed: Int!, startCoordinate: [Float!], middleCoordinate: [Float!], endCoordinate: [Float!], intersection: [Float!], street: ID!, signal: [ID]!): Segment!
+        addSignal (name: String!, type: String!, coordinate: [Float!], probability: Float!): Signal!
+    }
