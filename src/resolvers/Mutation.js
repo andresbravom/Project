@@ -68,15 +68,44 @@ const Mutation = {
 
         let jsonUpdate;
 
-        if (args.name){
+        if (args.name) {
             jsonUpdate = {
                 name: args.name,
+                ...jsonUpdate
+            }
+        }
+        if (args.lenght) {
+            jsonUpdate = {
+                lenght: args.lenght,
+                ...jsonUpdate
+            }
+        }
+        if (args.startCoordinate) {
+            jsonUpdate = {
+                startCoordinate: args.startCoordinate,
+                ...jsonUpdate
+            }
+        }
+        if (args.endCoordinate) {
+            jsonUpdate = {
+                endCoordinate: args.endCoordinate,
                 ...jsonUpdate
             }
         }
         const result = await collection.findOneAndUpdate({_id: ObjectID(resultID)}, {$set: jsonUpdate}, {returnOriginal: false});
 
         return result.value;
+    },
+    updateSegment: async (parent, args, ctx, info) => {
+        const resultID = args.id;
+        const {client} = ctx;
+
+        const db = client.db("DataBAse");
+        const collection = db.collection("Segments");
+
+        let jsonUpdate;
+
+    //     if(args.)
     }
 }
 export {Mutation as default};
