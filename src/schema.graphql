@@ -29,13 +29,14 @@ type Street {
     }
 
     type Query {
-        getStreet (name: String!, id: ID!): [Street]
+        getStreet (id: ID!): [Street]
         getSegment (id: ID!): [Segment]
-        getSignal (id: ID): [Signal]
+        getSignal (id: ID!): [Signal]
     }
 
     type Mutation {
         addStreet (name: String!, lenght: Float!, startCoordinate: [Float!], endCoordinate: [Float!]): Street
         addSegment (lenght: Float!, speed: Int!, startCoordinate: [Float!], middleCoordinate: [Float!], endCoordinate: [Float!], intersection: [Float!], street: ID!, signal: [ID]!): Segment!
         addSignal (name: String!, type: String!, coordinate: [Float!], probability: Float!): Signal!
+        updateStreet (id: ID!, name: String, lenght: Float, startCoordinate: [Float], endCoordinate: [Float]): Street
     }

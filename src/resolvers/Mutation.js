@@ -57,6 +57,26 @@ const Mutation = {
             probability,
             id: result.ops[0]._id
         }
+    },
+
+    updateStreet: async (parent, args, ctx, info) => {
+        const resultID = args.id;
+        const {client} = ctx;
+
+        const db = client.db("DataBase");
+        const collection = db.collection("Streets");
+
+        let jsonUpdate;
+
+        if (args.name){
+            jsonUpdate = {
+                name: args.name,
+                ...jsonUpdate
+            }
+        }
+        const result = await collection.findOneAndUpdate({_id: ObjectID(resultID)}, {$set: jsonUpdate}, {returnOriginal: false});
+
+        return result.value;
     }
 }
 export {Mutation as default};
