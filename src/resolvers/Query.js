@@ -1,7 +1,3 @@
-import  {GraphQLServer, PubSub} from 'graphql-yoga'
-import { MongoClient, ObjectID} from "mongodb";
-import "babel-polyfill";
-
 const Query = { 
     getStreet: async (parent, args, ctx, info) => {
         const {client} = ctx;

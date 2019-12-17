@@ -11,6 +11,10 @@ const Signal = {
         const result = await collection.find({signal: signalID}).toArray();
 
         return result;
+    },
+    _id: (parent, args, ctx, info) => {
+        const result = ObjectID(parent._id);
+        return result;
     }
 }
 
