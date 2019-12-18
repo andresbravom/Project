@@ -100,12 +100,61 @@ const Mutation = {
         const resultID = args.id;
         const {client} = ctx;
 
-        const db = client.db("DataBAse");
+        const db = client.db("DataBase");
         const collection = db.collection("Segments");
 
         let jsonUpdate;
 
-    //     if(args.)
+        if (args.lenght) {
+            jsonUpdate = {
+                lenght: args.lenght,
+                ...jsonUpdate
+            }
+        }
+        if (args.speed) {
+            jsonUpdate = {
+                speed: args.speed,
+                ...jsonUpdate
+            }
+        }
+        if (args.startCoordinate) {
+            jsonUpdate = {
+                startCoordinate: args.startCoordinate,
+                ...jsonUpdate
+            }
+        }
+        if (args.middleCoordinate) {
+            jsonUpdate = {
+                middleCoordinate: args.middleCoordinate,
+                ...jsonUpdate
+            }
+        }
+        if (args.endCoordinate) {
+            jsonUpdate = {
+                endCoordinate: args.endCoordinate,
+                ...jsonUpdate
+            }
+        }
+        if (args.intersection) {
+            jsonUpdate = {
+                intersection: args.intersection,
+                ...jsonUpdate
+            }
+        }
+        if (args.street) {
+            jsonUpdate = {
+                street: args.street,
+                ...jsonUpdate
+            }
+        }
+        if (args.signal) {
+            jsonUpdate = {
+                signalArray: args.signal,
+                ...jsonUpdate
+            }
+        }
+        const result = await collection.findOneAndUpdate({_id: ObjectID(resultID)}, {$set: jsonUpdate}, {returnOriginal: false});
+        return result.value;
     }
 }
 export {Mutation as default};
