@@ -96,6 +96,7 @@ const Mutation = {
 
         return result.value;
     },
+
     updateSegment: async (parent, args, ctx, info) => {
         const resultID = args.id;
         const {client} = ctx;
@@ -150,6 +151,43 @@ const Mutation = {
         if (args.signal) {
             jsonUpdate = {
                 signal: args.signal,
+                ...jsonUpdate
+            }
+        }
+        const result = await collection.findOneAndUpdate({_id: ObjectID(resultID)}, {$set: jsonUpdate}, {returnOriginal: false});
+        return result.value;
+    },
+
+    updateSignal: async (parent, args, ctx, info) => {
+        const resultID = args.id;
+        const {client} = ctx;
+
+        const db = client.db("DataBase");
+        const collection = db.collection("Signals");
+
+        let jsonUpdate;
+
+        if (args.name){
+            jsonUpdate = {
+                name: args.name,
+                ...jsonUpdate
+            }
+        }
+        if (args.type) {
+            jsonUpdate = {
+                type: args.type,
+                ...jsonUpdate
+            }
+        }
+        if (args.coordinate) {
+            jsonUpdate = {
+                coordinate: args.coordinate,
+                ...jsonUpdate
+            }
+        }
+        if (args.probability) {
+            jsonUpdate = {
+                probability: args.probability,
                 ...jsonUpdate
             }
         }
