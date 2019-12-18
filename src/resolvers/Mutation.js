@@ -149,7 +149,7 @@ const Mutation = {
         }
         if (args.signal) {
             jsonUpdate = {
-                signalArray: args.signal,
+                signal: args.signal,
                 ...jsonUpdate
             }
         }
