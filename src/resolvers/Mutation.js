@@ -144,13 +144,13 @@ const Mutation = {
         }
         if (args.street) {
             jsonUpdate = {
-                street: args.street,
+                street: ObjectID(args.street),
                 ...jsonUpdate
             }
         }
         if (args.signal) {
             jsonUpdate = {
-                signal: args.signal,
+                signal: ObjectID(args.signal),
                 ...jsonUpdate
             }
         }
@@ -193,6 +193,37 @@ const Mutation = {
         }
         const result = await collection.findOneAndUpdate({_id: ObjectID(resultID)}, {$set: jsonUpdate}, {returnOriginal: false});
         return result.value;
+    },
+
+    removeStreet: async (parent, args, ctx, info) => {
+        const streetID = args.id;
+        const {client} = ctx;
+
+        const db = client.db("DataBase");
+        const collectionStreet = db.collection("Streets");
+        const collectionSegment = db.collection("Segments");
+        let resultado;
+        const findStreet = await collectionStreet.findOne({_d: ObjectID(streetID)});
+
+        const deleteStreet = () => {
+            return new Promise((resolve, reject) => {
+                resultado = collectionStreet.findOneAndDelete({_id: ObjectID(streetID)},{returnOriginal: true});
+                resolve(resultado.value);
+            }
+        )};
+        const deleteSegment = () => {
+            return new Promise((resolve, reject) => {
+                const result = collectionSegment.findOneAndDelete({street: ObjectID(streetID)}, {returnOriginal: true});
+                resolve(result.value);
+            }
+        )};
+        (async function(){
+            const asyncFuntions = [deleteStreet(), deleteSegment()];
+        await Promise.all(asyncFuntions).value;  
+        })();
+    
+        return resultado.value;
+
     }
 }
 export {Mutation as default};
