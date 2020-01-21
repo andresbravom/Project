@@ -4,7 +4,9 @@ type Street {
         lenght: Float!
         startCoordinate: [Float!]
         endCoordinate: [Float!]
+        speed: Int!
         segment: [Segment!]
+
     }
 
     type Segment {
@@ -21,9 +23,11 @@ type Street {
 
     type Signal {
         _id: ID!
+        index: Int!
         name: String!
+        lenght: Float!
         type: String!
-        coordinate: [Float!]
+        coordinate: Float!
         probability: Float!
         segment: [Segment!]
     }
@@ -35,9 +39,9 @@ type Street {
     }
 
     type Mutation {
-        addStreet (name: String!, lenght: Float!, startCoordinate: [Float!], endCoordinate: [Float!]): Street!
-        addSegment (lenght: Float!, speed: Int!, startCoordinate: [Float!], middleCoordinate: [Float!], endCoordinate: [Float!], intersection: [Float!], street: ID!, signal: [ID]!): Segment!
-        addSignal (name: String!, type: String!, coordinate: [Float!], probability: Float!): Signal!
+        addStreet (name: String!, lenght: Float!, startCoordinate: [Float!], endCoordinate: [Float!], speed: Int!): Street!
+        addSegment (street: ID!): Segment
+        addSignal (name: String!, type: String!, coordinate: Float!, probability: Float!): Signal!
         updateStreet (id: ID!, name: String, lenght: Float, startCoordinate: [Float], endCoordinate: [Float]): Street!
         updateSegment (id: ID!, lenght: Float, speed: Int, startCoordinate: [Float], middleCoordinate: [Float], endCoordinate: [Float], intersection: [Float], street: ID!, signal: [ID!]): Segment!
         updateSignal (id: ID!, name: String, type: String, coordinate: [Float], probability: Float): Signal!

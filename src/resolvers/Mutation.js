@@ -2,42 +2,91 @@ import {ObjectID} from 'mongodb';
 
 const Mutation = {
     addStreet: async (parent, args, ctx, info) => {
-        const  {name, lenght, startCoordinate, endCoordinate} = args;
+        const  {name, lenght, startCoordinate, endCoordinate, speed} = args;
         const {client} = ctx;
 
         const db = client.db ("DataBase");
         const collection = db.collection("Streets");
         
-        const result = await collection.insertOne({name, lenght, startCoordinate, endCoordinate});
+        const result = await collection.insertOne({name, lenght, startCoordinate, endCoordinate, speed});
 
-        return{
-            name,
-            lenght,
-            startCoordinate,
-            endCoordinate,
-            id: result.ops[0]._id,
-        }
+        return result.ops[0]  
     },
     
-    addSegment: async (parent, args, ctx, info) => {
-        const {lenght, speed, startCoordinate, middleCoordinate, endCoordinate, intersection, street, signal} = args;
+    addSegment: async (parent, args, ctx, info) => { 
+        const {street} = args;
         const {client} = ctx;
 
         const db = client.db ("DataBase");
-        const collection = db.collection ("Segments");
+        const collectionStreet = db.collection ("Streets");
+        const collectionSegment = db.collection ("Segments");
 
-        const result = await collection.insertOne({lenght, speed, startCoordinate, middleCoordinate, endCoordinate, intersection, street: ObjectID(street), signal: signal.map(obj => ObjectID(obj))});
+        const result = await collectionStreet.findOne({_id: ObjectID(street)});
 
-        return{
-            lenght,
-            speed,
-            startCoordinate,
-            middleCoordinate,
-            endCoordinate,
-            intersection,
-            street,
-            signal,
-            id: result.ops[0]._id
+        
+        if(result){
+            if(result.speed === 50){
+                console.log("hola");
+                let array = [];
+                let index = 0;
+                let lenght = 50;
+                const name = result.name;
+
+
+                if(result.lenght < 50){
+                    console.log("1");
+
+                    const result = await collectionSegment.insertOne({lenght, index: index+1, name, street: ObjectID(street)});
+
+                    return result.ops[0];
+                }
+                else if((result.lenght % 50) === 0){
+                    console.log("2");
+                    for(let i=0; i<result.lenght; i += 50){
+                        index = index + 1;
+                        array = [...array, new Promise ((resolve, reject) => {
+                            const obj = collectionSegment.insertOne({lenght, index, name, street: ObjectID(street)});
+                            resolve (obj);
+                            }
+                        )];
+                    }
+
+                (async function(){
+                    await Promise.all(array);
+                })();
+                return result;
+                }
+
+                else{
+                    
+                    for (let i=0; i < result.lenght; i += 50){
+                        index = index+1;
+                        console.log(i, result.lenght);
+                        if((i +50) > result.lenght){
+                            console.log("Pasa");
+                            const newLenght = result.lenght - (i - 50)  ;
+                            array = [...array, new Promise((resolve, reject) => {
+                                const obj = collectionSegment.insertOne({newLenght, index, name, street: ObjectID(street)});
+                                resolve(obj);
+                            }
+                            )];
+                            
+                        }else{
+                            array = [...array, new Promise((resolve, reject) => {
+                                const obj = collectionSegment.insertOne({lenght, index, name, street: ObjectID(street)});
+                                resolve(obj);
+                            }
+                            )];
+                        }
+                    }
+                (async function(){
+                    await Promise.all(array);
+                })();
+                return result;
+                    
+                }
+
+            }
         }
     },
 
@@ -208,7 +257,7 @@ const Mutation = {
         const deleteStreet = () => {
             return new Promise((resolve, reject) => {
                 resultado = collectionStreet.findOneAndDelete({_id: ObjectID(streetID)},{returnOriginal: true});
-                resolve(resultado.value);
+                resolve(result.value);
             }
         )};
         const deleteSegment = () => {
