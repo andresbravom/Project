@@ -23,10 +23,8 @@ const Mutation = {
 
         const result = await collectionStreet.findOne({_id: ObjectID(street)});
 
-        
         if(result){
             if(result.speed === 50){
-                console.log("hola");
                 let array = [];
                 let index = 0;
                 let lenght = 50;
@@ -34,14 +32,12 @@ const Mutation = {
 
 
                 if(result.lenght < 50){
-                    console.log("1");
 
                     const result = await collectionSegment.insertOne({lenght, index: index+1, name, street: ObjectID(street)});
 
                     return result.ops[0];
                 }
                 else if((result.lenght % 50) === 0){
-                    console.log("2");
                     for(let i=0; i<result.lenght; i += 50){
                         index = index + 1;
                         array = [...array, new Promise ((resolve, reject) => {
@@ -51,20 +47,17 @@ const Mutation = {
                         )];
                     }
 
-                (async function(){
-                    await Promise.all(array);
-                })();
-                return result;
-                }
-
-                else{
+                    (async function(){
+                        await Promise.all(array);
+                    })();
+                    return result;
+                }else{
                     
                     for (let i=0; i < result.lenght; i += 50){
                         index = index+1;
-                        console.log(i, result.lenght);
-                        if((i +50) > result.lenght){
-                            console.log("Pasa");
-                            const newLenght = result.lenght - (i - 50)  ;
+                        
+                        if((i + 50) > result.lenght){
+                            const newLenght = (result.lenght) - (i );
                             array = [...array, new Promise((resolve, reject) => {
                                 const obj = collectionSegment.insertOne({newLenght, index, name, street: ObjectID(street)});
                                 resolve(obj);
@@ -82,30 +75,23 @@ const Mutation = {
                 (async function(){
                     await Promise.all(array);
                 })();
-                return result;
-                    
+                return result;    
                 }
-
             }
         }
     },
 
     addSignal: async (parent, args, ctx, info) => {
-        const {name, type, coordinate, probability} = args;
+        const {name, location, type, coordinate, probability, description} = args;
         const {client} = ctx;
 
         const db = client.db("DataBase");
         const collection = db.collection ("Signals");
 
-        const result = await collection.insertOne({name, type, coordinate, probability});
+        const result = await collection.insertOne({name, location, type, coordinate, probability, description});
 
-        return{
-            name,
-            type,
-            coordinate,
-            probability,
-            id: result.ops[0]._id
-        }
+        return result.ops[0];
+        
     },
 
     updateStreet: async (parent, args, ctx, info) => {
