@@ -14,31 +14,32 @@ const Mutation = {
     },
     
     addSegment: async (parent, args, ctx, info) => { 
-        const {street} = args;
+        const {street, signal} = args;
         const {client} = ctx;
 
         const db = client.db ("DataBase");
         const collectionStreet = db.collection ("Streets");
         const collectionSegment = db.collection ("Segments");
+        const collectionSignal = db.collection ("Signals");
 
-        const result = await collectionStreet.findOne({_id: ObjectID(street)});
+        const resultStreet = await collectionStreet.findOne({_id: ObjectID(street)});
+        // const resultSignal = await collectionSignal.findOne({_id: ObjectID(signal)});
 
-        if(result){
-            if(result.speed === 50){
+        if(resultStreet ){
+            if(resultStreet.speed === 50){
                 let array = [];
                 let index = 0;
                 let lenght = 50;
-                const name = result.name;
+                const name = resultStreet.name;    
 
+                if(resultStreet.lenght < 50){
 
-                if(result.lenght < 50){
-
-                    const result = await collectionSegment.insertOne({lenght, index: index+1, name, street: ObjectID(street)});
+                    const result = await collectionSegment.insertOne({lenght, index: index+1, name, street: ObjectID(street), signal: signal.map(obj => ObjectID(obj))});
 
                     return result.ops[0];
                 }
-                else if((result.lenght % 50) === 0){
-                    for(let i=0; i<result.lenght; i += 50){
+                else if((resultStreet.lenght % 50) === 0){
+                    for(let i=0; i<resultStreet.lenght; i += 50){
                         index = index + 1;
                         array = [...array, new Promise ((resolve, reject) => {
                             const obj = collectionSegment.insertOne({lenght, index, name, street: ObjectID(street)});
@@ -50,14 +51,14 @@ const Mutation = {
                     (async function(){
                         await Promise.all(array);
                     })();
-                    return result;
+                    return resultStreet;
                 }else{
                     
-                    for (let i=0; i < result.lenght; i += 50){
+                    for (let i=0; i < resultStreet.lenght; i += 50){
                         index = index+1;
                         
-                        if((i + 50) > result.lenght){
-                            const newLenght = (result.lenght) - (i );
+                        if((i + 50) > resultStreet.lenght){
+                            const newLenght = (resultStreet.lenght) - (i );
                             array = [...array, new Promise((resolve, reject) => {
                                 const obj = collectionSegment.insertOne({newLenght, index, name, street: ObjectID(street)});
                                 resolve(obj);
@@ -75,7 +76,7 @@ const Mutation = {
                 (async function(){
                     await Promise.all(array);
                 })();
-                return result;    
+                return resultStreet;    
                 }
             }
         }
