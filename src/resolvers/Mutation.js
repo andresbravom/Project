@@ -22,8 +22,17 @@ const Mutation = {
         const collectionSegment = db.collection ("Segments");
         const collectionSignal = db.collection ("Signals");
 
-        const resultStreet = await collectionStreet.findOne({_id: ObjectID(street)});
         // const resultSignal = await collectionSignal.findOne({_id: ObjectID(signal)});
+        // console.log(resultSignal);
+        const signalArray = signal.map(obj => ObjectID(obj));
+
+        const result = await collectionSignal.find({_id: {$in: signalArray}}).toArray();
+        console.log(result);
+        //return result;
+        
+        const resultStreet = await collectionStreet.findOne({_id: ObjectID(street)});
+        console.log(resultStreet);
+        
 
         if(resultStreet ){
             if(resultStreet.speed === 50){

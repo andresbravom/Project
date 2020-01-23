@@ -29,13 +29,13 @@ type Street {
         coordinate: [Float!]
         probability: Float!
         description: String!
-        segment: [Segment]!
+        segment: [Segment!]
     }
 
     type Query {
-        getStreet (id: ID!): [Street]
-        getSegment (id: ID!): [Segment]
-        getSignal (id: ID!): [Signal]
+        getStreet (_id: ID!): [Street]
+        getSegment (_id: ID!): [Segment]
+        getSignal (_id: ID!): [Signal]
     }
 
     type Mutation {
