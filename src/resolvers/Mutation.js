@@ -21,40 +21,39 @@ const Mutation = {
         const collectionStreet = db.collection ("Streets");
         const collectionSegment = db.collection ("Segments");
         const collectionSignal = db.collection ("Signals");
-
-        // const resultSignal = await collectionSignal.findOne({_id: ObjectID(signal)});
-        // console.log(resultSignal);
-        const signalArray = signal.map(obj => ObjectID(obj));
-
-        const result = await collectionSignal.find({_id: {$in: signalArray}}).toArray();
-        console.log(result);
-        //return result;
-        
+   
         const resultStreet = await collectionStreet.findOne({_id: ObjectID(street)});
-        console.log(resultStreet);
-        
 
+        const signalArray = signal.map(obj => ObjectID(obj));
+        const resultSignal = await collectionSignal.findOne({_id: {$in: signalArray}});  
+        
         if(resultStreet ){
             if(resultStreet.speed === 50){
                 let array = [];
                 let index = 0;
                 let lenght = 50;
-                const name = resultStreet.name;    
+                const name = resultStreet.name;  
 
                 if(resultStreet.lenght < 50){
-
                     const result = await collectionSegment.insertOne({lenght, index: index+1, name, street: ObjectID(street), signal: signal.map(obj => ObjectID(obj))});
-
                     return result.ops[0];
-                }
-                else if((resultStreet.lenght % 50) === 0){
+                
+                }else if((resultStreet.lenght % 50) === 0){
                     for(let i=0; i<resultStreet.lenght; i += 50){
                         index = index + 1;
-                        array = [...array, new Promise ((resolve, reject) => {
-                            const obj = collectionSegment.insertOne({lenght, index, name, street: ObjectID(street)});
-                            resolve (obj);
-                            }
-                        )];
+                        if((i + 50 >= resultSignal.location) && (resultSignal.location >= i)){
+                            array = [...array, new Promise ((resolve, reject) => {
+                                const obj = collectionSegment.insertOne({lenght, index, name, street: ObjectID(street), signal: signal.map(obj => ObjectID(obj))});
+                                resolve (obj);
+                                }
+                            )];
+                        }else{
+                            array = [...array, new Promise ((resolve, reject) => {
+                                const obj = collectionSegment.insertOne({lenght, index, name, street: ObjectID(street)});
+                                resolve (obj);
+                                }
+                            )];
+                        }
                     }
 
                     (async function(){
@@ -78,7 +77,7 @@ const Mutation = {
                             array = [...array, new Promise((resolve, reject) => {
                                 const obj = collectionSegment.insertOne({lenght, index, name, street: ObjectID(street)});
                                 resolve(obj);
-                            }
+                                }
                             )];
                         }
                     }
