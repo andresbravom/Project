@@ -55,30 +55,45 @@ const Mutation = {
                             )];
                         }
                     }
-
                     (async function(){
                         await Promise.all(array);
                     })();
                     return resultStreet;
                 }else{
-                    
                     for (let i=0; i < resultStreet.lenght; i += 50){
                         index = index+1;
-                        
+            
                         if((i + 50) > resultStreet.lenght){
-                            const newLenght = (resultStreet.lenght) - (i );
-                            array = [...array, new Promise((resolve, reject) => {
-                                const obj = collectionSegment.insertOne({newLenght, index, name, street: ObjectID(street)});
-                                resolve(obj);
-                            }
-                            )];
-                            
-                        }else{
-                            array = [...array, new Promise((resolve, reject) => {
-                                const obj = collectionSegment.insertOne({lenght, index, name, street: ObjectID(street)});
-                                resolve(obj);
+                            if((i + 50 >= resultSignal.location) && (resultSignal.location >= i)){
+                                
+                                const newLenght = (resultStreet.lenght) - (i );
+                                array = [...array, new Promise((resolve, reject) => {
+                                    const obj = collectionSegment.insertOne({newLenght, index, name, street: ObjectID(street), signal: signal.map(obj => ObjectID(obj))});
+                                    resolve(obj);
                                 }
-                            )];
+                                )];
+                            }else{
+                                const newLenght = (resultStreet.lenght) - (i );
+                                array = [...array, new Promise((resolve, reject) => {
+                                    const obj = collectionSegment.insertOne({newLenght, index, name, street: ObjectID(street)});
+                                    resolve(obj);
+                                }
+                                )];
+                            }
+                        }else{
+                            if((i + 50 >= resultSignal.location) && (resultSignal.location >= i)){
+                                array = [...array, new Promise((resolve, reject) => {
+                                    const obj = collectionSegment.insertOne({lenght, index, name, street: ObjectID(street), signal: signal.map(obj => ObjectID(obj))});
+                                    resolve(obj);
+                                    }
+                                )];
+                            }else{
+                                array = [...array, new Promise((resolve, reject) => {
+                                    const obj = collectionSegment.insertOne({lenght, index, name, street: ObjectID(street)});
+                                    resolve(obj);
+                                    }
+                                )];
+                            }
                         }
                     }
                 (async function(){
