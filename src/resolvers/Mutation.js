@@ -1,14 +1,27 @@
 import {ObjectID} from 'mongodb';
 
+function lenghtSegments(velocity){
+    // const a = 3.9;
+    // const vf = 0;
+    const vo = velocity * (5/18);
+
+    return vo;
+
+}
 const Mutation = {
     addStreet: async (parent, args, ctx, info) => {
         const  {name, lenght, startCoordinate, endCoordinate, speed} = args;
         const {client} = ctx;
-
+    
         const db = client.db ("DataBase");
         const collection = db.collection("Streets");
-        
+       
         const result = await collection.insertOne({name, lenght, startCoordinate, endCoordinate, speed});
+       
+        // const a = lenghtSegments(2);
+        // console.log(a);
+
+        console.log(lenghtSegments(50));
 
         return result.ops[0]  
     },
@@ -33,7 +46,7 @@ const Mutation = {
                 let index = 0;
                 let lenght = 50;
                 const name = resultStreet.name;  
-
+                
                 if(resultStreet.lenght < 50){
                     const result = await collectionSegment.insertOne({lenght, index: index+1, name, street: ObjectID(street), signal: signal.map(obj => ObjectID(obj))});
                     return result.ops[0];
