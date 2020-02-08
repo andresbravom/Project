@@ -1,12 +1,14 @@
 import {ObjectID} from 'mongodb';
 
 function lenghtSegments(velocity){
-    // const a = 3.9;
-    // const vf = 0;
+    
+    const a = 3.9;
+    const vf = 0;
     const vo = velocity * (5/18);
+    const t = (vf - vo) / -a;
+    var s = (vo * t - 1/2 * a * (t * t)) * 2;
 
-    return vo;
-
+    return Math.ceil(s);
 }
 const Mutation = {
     addStreet: async (parent, args, ctx, info) => {
@@ -18,9 +20,6 @@ const Mutation = {
        
         const result = await collection.insertOne({name, lenght, startCoordinate, endCoordinate, speed});
        
-        // const a = lenghtSegments(2);
-        // console.log(a);
-
         console.log(lenghtSegments(50));
 
         return result.ops[0]  
