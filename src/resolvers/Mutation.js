@@ -40,80 +40,84 @@ const Mutation = {
         const resultSignal = await collectionSignal.findOne({_id: {$in: signalArray}});  
         
         if(resultStreet ){
-            if(resultStreet.speed === 50){
-                let array = [];
-                let index = 0;
-                let lenght = 50;
-                const name = resultStreet.name;  
-                
-                if(resultStreet.lenght < 50){
-                    const result = await collectionSegment.insertOne({lenght, index: index+1, name, street: ObjectID(street), signal: signal.map(obj => ObjectID(obj))});
-                    return result.ops[0];
-                
-                }else if((resultStreet.lenght % 50) === 0){
-                    for(let i=0; i<resultStreet.lenght; i += 50){
-                        index = index + 1;
-                        if((i + 50 >= resultSignal.location) && (resultSignal.location >= i)){
-                            array = [...array, new Promise ((resolve, reject) => {
-                                const obj = collectionSegment.insertOne({lenght, index, name, street: ObjectID(street), signal: signal.map(obj => ObjectID(obj))});
-                                resolve (obj);
-                                }
-                            )];
-                        }else{
-                            array = [...array, new Promise ((resolve, reject) => {
-                                const obj = collectionSegment.insertOne({lenght, index, name, street: ObjectID(street)});
-                                resolve (obj);
-                                }
-                            )];
-                        }
-                    }
-                    (async function(){
-                        await Promise.all(array);
-                    })();
-                    return resultStreet;
-                }else{
-                    for (let i=0; i < resultStreet.lenght; i += 50){
-                        index = index+1;
             
-                        if((i + 50) > resultStreet.lenght){
-                            if((i + 50 >= resultSignal.location) && (resultSignal.location >= i)){
-                                
-                                const newLenght = (resultStreet.lenght) - (i );
-                                array = [...array, new Promise((resolve, reject) => {
-                                    const obj = collectionSegment.insertOne({newLenght, index, name, street: ObjectID(street), signal: signal.map(obj => ObjectID(obj))});
-                                    resolve(obj);
-                                }
-                                )];
-                            }else{
-                                const newLenght = (resultStreet.lenght) - (i );
-                                array = [...array, new Promise((resolve, reject) => {
-                                    const obj = collectionSegment.insertOne({newLenght, index, name, street: ObjectID(street)});
-                                    resolve(obj);
-                                }
-                                )];
+            let array = [];
+            let index = 0;
+            const name = resultStreet.name;  
+            const speed = resultStreet.speed;
+            console.log(speed);
+            const lenghtSegment = lenghtSegments(speed);
+
+            console.log(lenghtSegment);
+            
+            if(resultStreet.lenght < lenghtSegment){
+                const result = await collectionSegment.insertOne({lenghtSegment, index: index+1, name, street: ObjectID(street), signal: signal.map(obj => ObjectID(obj))});
+                return result.ops[0];
+            
+            }else if((resultStreet.lenght % lenghtSegment) === 0){
+                for(let i=0; i<resultStreet.lenght; i += lenghtSegment){
+                    index = index + 1;
+                    if((i + lenghtSegment >= resultSignal.location) && (resultSignal.location >= i)){
+                        array = [...array, new Promise ((resolve, reject) => {
+                            const obj = collectionSegment.insertOne({lenghtSegment, index, name, street: ObjectID(street), signal: signal.map(obj => ObjectID(obj))});
+                            resolve (obj);
                             }
-                        }else{
-                            if((i + 50 >= resultSignal.location) && (resultSignal.location >= i)){
-                                array = [...array, new Promise((resolve, reject) => {
-                                    const obj = collectionSegment.insertOne({lenght, index, name, street: ObjectID(street), signal: signal.map(obj => ObjectID(obj))});
-                                    resolve(obj);
-                                    }
-                                )];
-                            }else{
-                                array = [...array, new Promise((resolve, reject) => {
-                                    const obj = collectionSegment.insertOne({lenght, index, name, street: ObjectID(street)});
-                                    resolve(obj);
-                                    }
-                                )];
+                        )];
+                    }else{
+                        array = [...array, new Promise ((resolve, reject) => {
+                            const obj = collectionSegment.insertOne({lenghtSegment, index, name, street: ObjectID(street)});
+                            resolve (obj);
                             }
-                        }
+                        )];
                     }
+                }
                 (async function(){
                     await Promise.all(array);
                 })();
-                return resultStreet;    
+                return resultStreet;
+            }else{
+                for (let i=0; i < resultStreet.lenght; i += lenghtSegment){
+                    index = index+1;
+        
+                    if((i + lenghtSegment) > resultStreet.lenght){
+                        if((i + lenghtSegment >= resultSignal.location) && (resultSignal.location >= i)){
+                            
+                            const newLenght = (resultStreet.lenght) - (i );
+                            array = [...array, new Promise((resolve, reject) => {
+                                const obj = collectionSegment.insertOne({newLenght, index, name, street: ObjectID(street), signal: signal.map(obj => ObjectID(obj))});
+                                resolve(obj);
+                            }
+                            )];
+                        }else{
+                            const newLenght = (resultStreet.lenght) - (i );
+                            array = [...array, new Promise((resolve, reject) => {
+                                const obj = collectionSegment.insertOne({newLenght, index, name, street: ObjectID(street)});
+                                resolve(obj);
+                            }
+                            )];
+                        }
+                    }else{
+                        if((i + lenghtSegment >= resultSignal.location) && (resultSignal.location >= i)){
+                            array = [...array, new Promise((resolve, reject) => {
+                                const obj = collectionSegment.insertOne({lenghtSegment, index, name, street: ObjectID(street), signal: signal.map(obj => ObjectID(obj))});
+                                resolve(obj);
+                                }
+                            )];
+                        }else{
+                            array = [...array, new Promise((resolve, reject) => {
+                                const obj = collectionSegment.insertOne({lenghtSegment, index, name, street: ObjectID(street)});
+                                resolve(obj);
+                                }
+                            )];
+                        }
+                    }
                 }
+            (async function(){
+                await Promise.all(array);
+            })();
+            return resultStreet;    
             }
+            
         }
     },
 
