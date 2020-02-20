@@ -1,7 +1,6 @@
 import {ObjectID} from 'mongodb';
 
 function lenghtSegments(velocity){
-    
     const a = 3.9;
     const vf = 0;
     const vo = velocity * (5/18);
@@ -45,11 +44,9 @@ const Mutation = {
             let index = 0;
             const name = resultStreet.name;  
             const speed = resultStreet.speed;
-            console.log(speed);
             const lenghtSegment = lenghtSegments(speed);
+       
 
-            console.log(lenghtSegment);
-            
             if(resultStreet.lenght < lenghtSegment){
                 const result = await collectionSegment.insertOne({lenghtSegment, index: index+1, name, street: ObjectID(street), signal: signal.map(obj => ObjectID(obj))});
                 return result.ops[0];
@@ -61,11 +58,13 @@ const Mutation = {
                         array = [...array, new Promise ((resolve, reject) => {
                             const obj = collectionSegment.insertOne({lenghtSegment, index, name, street: ObjectID(street), signal: signal.map(obj => ObjectID(obj))});
                             resolve (obj);
-                            }
+                        }
+                            
                         )];
                     }else{
+                        
                         array = [...array, new Promise ((resolve, reject) => {
-                            const obj = collectionSegment.insertOne({lenghtSegment, index, name, street: ObjectID(street)});
+                            const obj = collectionSegment.insertOne({lenghtSegment, index, name, street: ObjectID(street), signal: null});
                             resolve (obj);
                             }
                         )];
