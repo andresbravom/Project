@@ -50,6 +50,7 @@ const Mutation = {
             if(resultStreet.lenght < lenghtSegment){
                 const result = await collectionSegment.insertOne({lenghtSegment, index: index+1, name, street: ObjectID(street), signal: signal.map(obj => ObjectID(obj))});
                 return result.ops[0];
+                
             
             }else if((resultStreet.lenght % lenghtSegment) === 0){
                 for(let i=0; i<resultStreet.lenght; i += lenghtSegment){
@@ -90,7 +91,7 @@ const Mutation = {
                         }else{
                             const newLenght = (resultStreet.lenght) - (i );
                             array = [...array, new Promise((resolve, reject) => {
-                                const obj = collectionSegment.insertOne({newLenght, index, name, street: ObjectID(street)});
+                                const obj = collectionSegment.insertOne({newLenght, index, name, street: ObjectID(street), signal: null});
                                 resolve(obj);
                             }
                             )];
@@ -104,7 +105,7 @@ const Mutation = {
                             )];
                         }else{
                             array = [...array, new Promise((resolve, reject) => {
-                                const obj = collectionSegment.insertOne({lenghtSegment, index, name, street: ObjectID(street)});
+                                const obj = collectionSegment.insertOne({lenghtSegment, index, name, street: ObjectID(street), signal: null});
                                 resolve(obj);
                                 }
                             )];

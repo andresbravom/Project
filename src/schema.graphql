@@ -17,6 +17,7 @@ type Street {
         middleCoordinate: [Float!]
         endCoordinate: [Float!]
         intersection: [Float!]
+        index: Int!
         street: Street!
         signal: [Signal]
     }
@@ -33,9 +34,9 @@ type Street {
     }
 
     type Query {
-        getStreet (_id: ID!): [Street]
-        getSegment (_id: ID!): [Segment]
-        getSignal (_id: ID!): [Signal]
+        getStreet: [Street]
+        getSegment: [Segment]
+        getSignal: [Signal]
     }
 
     type Mutation {
