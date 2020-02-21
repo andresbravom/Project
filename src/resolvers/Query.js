@@ -1,11 +1,14 @@
+import { ObjectID } from "mongodb";
+
 const Query = { 
-    getStreet: async (parent, args, ctx, info) => {
+    getStreetID: async (parent, args, ctx, info) => {
+        const {_id} = args;
         const {client} = ctx;
 
         const db = client.db ("DataBase");
         const collection = db.collection ("Streets");
         
-        const result = await collection.find({}).toArray();
+        const result = await collection.find({_id: ObjectID(_id)}).toArray();
 
         if (result){
             return result;
@@ -14,13 +17,14 @@ const Query = {
         }
     },
 
-    getSegment: async (parent, args, ctx, info) => {
+    getSegmentID: async (parent, args, ctx, info) => {
+        const {_id} = args;
         const {client} = ctx;
 
         const db = client.db("DataBase");
         const collection = db.collection("Segments");
 
-        const result = await collection.find({}).toArray();
+        const result = await collection.find({_id: ObjectID(_id)}).toArray();
 
         if (result){
             return result;
@@ -29,19 +33,37 @@ const Query = {
         }
     },
     
-    getSignal: async (parent, args, ctx, info) => {
+    getSignalID: async (parent, args, ctx, info) => {
+        const {_id} = args;
         const {client} = ctx;
 
         const db = client.db("DataBase");
         const collection = db.collection("Signals");
 
-        const result = await collection.find({}).toArray();
+        const result = await collection.find({_id: ObjectID(_id)}).toArray();
 
         if (result) {
             return result;
         }else{
             return new Error ("Insert correct ID");
         }
-    }
+    },
+
+
+    // getSignalID: async (parent, args, ctx, info) => {
+    //     const {client} = ctx;
+
+    //     const db = client.db("DataBase");
+    //     const collection = db.collection("Signals");
+
+    //     const result = await collection.find({}).toArray();
+
+    //     if (result) {
+    //         return result;
+    //     }else{
+    //         return new Error ("Insert correct ID");
+    //     }
+    // },
 }
+
 export {Query as default};

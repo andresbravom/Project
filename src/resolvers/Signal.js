@@ -12,10 +12,6 @@ const Signal = {
 
         return result;
     },
-    // _id: (parent, args, ctx, info) => {
-    //     const result = ObjectID(parent._id);
-    //     return result;
-    // }
 }
 
 export{Signal as default};

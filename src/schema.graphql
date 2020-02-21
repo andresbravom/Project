@@ -5,19 +5,14 @@ type Street {
         startCoordinate: [Float!]
         endCoordinate: [Float!]
         speed: Int!
-        segment: [Segment!]
+        segment: [Segment]!
 
     }
 
     type Segment {
         _id: ID!
-        lenght: Float!
-        speed: Int!
-        startCoordinate: [Float!]
-        middleCoordinate: [Float!]
-        endCoordinate: [Float!]
-        intersection: [Float!]
         index: Int!
+        lenghtSegment: Float!
         street: Street!
         signal: [Signal]
     }
@@ -34,9 +29,9 @@ type Street {
     }
 
     type Query {
-        getStreet: [Street]
-        getSegment: [Segment]
-        getSignal: [Signal]
+        getStreetID(_id: ID): Street
+        getSegmentID(_id: ID): [Segment]
+        getSignalID(_id: ID): [Signal]
     }
 
     type Mutation {

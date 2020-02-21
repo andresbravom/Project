@@ -23,9 +23,5 @@ const Segment = {
         const result = await collection.find({_id: {$in: signalArray}}).toArray();
         return result;
     },
-    _id: (parent, args, ctx, info) => {
-        const result = parent._id;
-        return result;
-    }
 }
 export {Segment as default};
