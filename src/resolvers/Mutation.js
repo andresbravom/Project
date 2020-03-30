@@ -9,9 +9,10 @@ function lenghtSegments(velocity) {
 
   return Math.ceil(s);
 }
+
 const Mutation = {
   addStreet: async (parent, args, ctx, info) => {
-    const { name, lenght, startCoordinate, endCoordinate, speed, intersection} = args;
+    const { name, lenght, startCoordinate, endCoordinate, speed} = args;
     const { client } = ctx;
 
     const db = client.db("DataBase");
@@ -22,8 +23,7 @@ const Mutation = {
       lenght,
       startCoordinate,
       endCoordinate,
-      speed,
-      intersection: ObjectID(intersection)
+      speed, 
     });
 
     console.log(lenghtSegments(50));
@@ -62,9 +62,13 @@ const Mutation = {
     });
 
     const signalArray = signal.map(obj => ObjectID(obj));
+    console.log("Aqui");
+    console.log(signalArray);
     const resultSignal = await collectionSignal.findOne({
       _id: { $in: signalArray }
+    
     });
+    console.log(resultSignal);
 
     if (resultStreet) {
       let array = [];
@@ -84,7 +88,7 @@ const Mutation = {
         for (let i = 0; i < resultStreet.lenght; i += lenghtSegment) {
           index = index + 1;
           if (
-            i + lenghtSegment >= resultSignal.location &&
+            i + lenghtSegment > resultSignal.location &&
             resultSignal.location >= i
           ) {
             array = [
@@ -399,6 +403,7 @@ const Mutation = {
     })();
 
     return resultado.value;
-  }
+  },
+
 };
 export { Mutation as default };

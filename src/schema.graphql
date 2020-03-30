@@ -5,7 +5,7 @@ type Street {
     startCoordinate: [Float!]
     endCoordinate: [Float!]
     speed: Int!
-    intersection: Intersection
+    intersection: [Intersection]!
     segment: [Segment]!
 }
 
@@ -15,11 +15,11 @@ type Intersection {
     rightState: Boolean!
     leftState: Boolean!
     frontState: Boolean!
-    street: Street!
+    street: [Street]!
 }
 
 type Segment {
-    _id: ID!
+    _id:ID
     index: Int!
     lenghtSegment: Float!
     street: Street!
@@ -39,20 +39,25 @@ type Signal {
 
 type Query {
     getStreetID(_id: ID): Street
+    getIntersectionID(_id: ID): [Intersection]
     getSegmentID(_id: ID): [Segment]
     getSignalID(_id: ID): [Signal]
     getStreet: [Street]
+    getIntersection: [Intersection]
     getSegment: [Segment]
     getSignal: [Signal]
+    getCalcule(street: ID): [Segment]
+    
 }
 
 type Mutation {
-    addStreet (name: String!, lenght: Float!, startCoordinate: [Float!], endCoordinate: [Float!], speed: Int!, intersection: ID): Street!
-    addIntersection (lenght: Float!, rightState: Boolean, leftState: Boolean, frontState: Boolean, street: ID!): Intersection!
+    addStreet (name: String!, lenght: Float!, startCoordinate: [Float!], endCoordinate: [Float!], speed: Int!): Street!
+    addIntersection (lenght: Float!, rightState: Boolean, leftState: Boolean, frontState: Boolean, street: [ID]!): Intersection!
     addSegment (street: ID!, signal: [ID]!): Segment!
     addSignal (name: String!, location: Float, type: String!, coordinate: [Float!], probability: Float!, description: String!): Signal!
     updateStreet (id: ID!, name: String, lenght: Float, startCoordinate: [Float], endCoordinate: [Float]): Street!
     updateSegment (id: ID!, lenght: Float, speed: Int, startCoordinate: [Float], middleCoordinate: [Float], endCoordinate: [Float], intersection: [Float], street: ID!, signal: [ID!]): Segment!
     updateSignal (id: ID!, name: String, type: String, coordinate: [Float], probability: Float): Signal!
     removeStreet (id: ID!): Street
+   
 }

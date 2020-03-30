@@ -2,8 +2,8 @@ import {ObjectID} from 'mongodb';
 
 const Intersection = {
     street: async (parent, args, ctx, info) => {
-        const streetID = parent.street;
-        const {client} = ctx;
+        const { streetID } = parent.street;
+        const { client } = ctx;
 
         const db = client.db("DataBase");
         const collection = db.collection("Streets");
