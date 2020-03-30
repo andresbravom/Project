@@ -161,7 +161,7 @@ const Mutation = {
             }
           } else {
             if (
-              i + lenghtSegment >= resultSignal.location &&
+              i + lenghtSegment > resultSignal.location &&
               resultSignal.location >= i
             ) {
               array = [
