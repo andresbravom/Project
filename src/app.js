@@ -2,11 +2,13 @@ import  {GraphQLServer, PubSub} from 'graphql-yoga'
 import { MongoClient, ObjectID} from "mongodb";
 import "babel-polyfill";
 
-import Street from './resolvers/Street'
-import Segment from './resolvers/Segment'
-import Signal from './resolvers/Signal'
-import Query from './resolvers/Query'
-import Mutation from './resolvers/Mutation'
+import Street from './resolvers/Street';
+import Intersection from './resolvers/Intersection';
+import Segment from './resolvers/Segment';
+import Signal from './resolvers/Signal';
+import Query from './resolvers/Query';
+import Mutation from './resolvers/Mutation';
+
 
 const usr = "AndresBravo";
 const pwd = "qwerty123";
@@ -39,6 +41,7 @@ const runGraphQLServer = function (context) {
 
 const resolvers = {
     Street,
+    Intersection,
     Segment,
     Signal,
     Query,

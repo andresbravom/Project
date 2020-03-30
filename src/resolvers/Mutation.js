@@ -11,7 +11,7 @@ function lenghtSegments(velocity) {
 }
 const Mutation = {
   addStreet: async (parent, args, ctx, info) => {
-    const { name, lenght, startCoordinate, endCoordinate, speed } = args;
+    const { name, lenght, startCoordinate, endCoordinate, speed, intersection} = args;
     const { client } = ctx;
 
     const db = client.db("DataBase");
@@ -22,11 +22,29 @@ const Mutation = {
       lenght,
       startCoordinate,
       endCoordinate,
-      speed
+      speed,
+      intersection: ObjectID(intersection)
     });
 
     console.log(lenghtSegments(50));
 
+    return result.ops[0];
+  },
+
+  addIntersection: async (parent, args, ctx, info) => {
+    const { lenght, rightState, leftState, frontState, street} = args;
+    const { client } = ctx;
+
+    const db = client.db("DataBase");
+    const collection = db.collection("Intersections");
+
+    const result = await collection.insertOne({
+      lenght,
+      rightState,
+      leftState,
+      frontState,
+      street: ObjectID(street)
+    });
     return result.ops[0];
   },
 
