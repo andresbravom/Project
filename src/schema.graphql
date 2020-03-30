@@ -32,6 +32,9 @@ type Street {
         getStreetID(_id: ID): Street
         getSegmentID(_id: ID): [Segment]
         getSignalID(_id: ID): [Signal]
+        getStreet: [Street]
+        getSegment: [Segment]
+        getSignal: [Signal]
     }
 
     type Mutation {

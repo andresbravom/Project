@@ -8,7 +8,7 @@ const Query = {
         const db = client.db ("DataBase");
         const collection = db.collection ("Streets");
         
-        const result = await collection.find({_id: ObjectID(_id)}).toArray();
+        const result = await collection.findOne({_id: ObjectID(_id)});
 
         if (result){
             return result;
@@ -48,6 +48,39 @@ const Query = {
             return new Error ("Insert correct ID");
         }
     },
+
+    getStreet: async (parent, args, ctx, info) => {
+        const {client} = ctx;
+        
+        const db = client.db("DataBase");
+        const collection = db.collection("Streets");
+
+        const result = await collection.find({}).toArray();
+
+        return result;
+    },
+
+    getSegment: async (parent, args, ctx, info) => {
+        const {client} = ctx;
+        
+        const db = client.db("DataBase");
+        const collection = db.collection("Segments");
+
+        const result = await collection.find({}).toArray();
+
+        return result;
+    }, 
+
+    getSignal: async (parent, args, ctx, info) => {
+        const {client} = ctx;
+        
+        const db = client.db("DataBase");
+        const collection = db.collection("Signals");
+
+        const result = await collection.find({}).toArray();
+
+        return result;
+    }
 
 
     // getSignalID: async (parent, args, ctx, info) => {
