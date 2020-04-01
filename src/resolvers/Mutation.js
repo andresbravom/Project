@@ -132,12 +132,13 @@ const Mutation = {
               resultSignal.location >= i
             ) {
               const newLenght = resultStreet.lenght - i;
+              let lenghtSegment = newLenght;
               array = [
                 ...array,
                 new Promise((resolve, reject) => {
                   const obj = collectionSegment.insertOne({
                     index,
-                    newLenght,
+                    lenghtSegment,
                     street: ObjectID(street),
                     signal: signal.map(obj => ObjectID(obj))
                   });
@@ -146,12 +147,13 @@ const Mutation = {
               ];
             } else {
               const newLenght = resultStreet.lenght - i;
+              let lenghtSegment = newLenght;
               array = [
                 ...array,
                 new Promise((resolve, reject) => {
                   const obj = collectionSegment.insertOne({
                     index,
-                    newLenght,
+                    lenghtSegment,
                     street: ObjectID(street),
                     signal: [0]
                   });
