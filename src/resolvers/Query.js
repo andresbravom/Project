@@ -131,11 +131,25 @@ const Query = {
         const db = client.db("DataBase");
         const collection = db.collection("Segments");
 
-        const array = await collection.find({street: ObjectID(street)}).toArray();
-        if(array){
-            console.log(array);
-        
-            return array;
+        const result = await collection.find({street: ObjectID(street)}).toArray();
+       
+        if(result){
+            let calculeGeneral = 0;
+            let calculeSpecific = 0;
+            const signals = result.map(obj => obj.index);
+            const filterSignal = result.filter(obj => obj.signal != 0);
+            
+            const lengthGeneral = signals.length;
+            const lengthSpecific = filterSignal.length;
+
+            calculeGeneral = (lengthGeneral - lengthSpecific) * 2;
+            calculeSpecific = lengthSpecific * 1;
+
+            const r = calculeGeneral + calculeSpecific;
+
+            console.log(r);
+            
+            return result;
         }
         else{
             null
