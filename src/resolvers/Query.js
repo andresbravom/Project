@@ -136,8 +136,10 @@ const Query = {
         if(result){
             let calculeGeneral = 0;
             let calculeSpecific = 0;
-            const signals = result.map(obj => obj.index);
+            const signals = result.map(obj => obj);
             const filterSignal = result.filter(obj => obj.signal != 0);
+
+            console.log(signals);
             
             const lengthGeneral = signals.length;
             const lengthSpecific = filterSignal.length;

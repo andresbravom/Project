@@ -26,8 +26,6 @@ const Mutation = {
       speed, 
     });
 
-    console.log(lenghtSegments(50));
-
     return result.ops[0];
   },
 
@@ -62,13 +60,19 @@ const Mutation = {
     });
 
     const signalArray = signal.map(obj => ObjectID(obj));
-    console.log("Aqui");
-    console.log(signalArray);
     const resultSignal = await collectionSignal.findOne({
       _id: { $in: signalArray }
-    
     });
-    console.log(resultSignal);
+
+    //const result = await collectionSignal.find({}).toArray();
+    //console.log(result);
+    const auxArray = signal.map(obj => obj.location);
+
+    const lenghtAuxArray = auxArray.length;
+    console.log("aqui");
+
+    console.log(lenghtAuxArray);
+    //console.log( auxArray);
 
     if (resultStreet) {
       let array = [];
@@ -89,8 +93,11 @@ const Mutation = {
           index = index + 1;
           if (
             i + lenghtSegment > resultSignal.location &&
-            resultSignal.location >= i
+            resultSignal.location >= i 
           ) {
+            console.log("1");
+            const newLenght = lenghtAuxArray * 16;
+           let lenghtSegment = newLenght
             array = [
               ...array,
               new Promise((resolve, reject) => {
@@ -104,6 +111,7 @@ const Mutation = {
               })
             ];
           } else {
+            console.log("2");
             array = [
               ...array,
               new Promise((resolve, reject) => {
@@ -127,12 +135,19 @@ const Mutation = {
           index = index + 1;
 
           if (i + lenghtSegment > resultStreet.lenght) {
+            console.log("3");
             if (
               i + lenghtSegment >= resultSignal.location &&
-              resultSignal.location >= i
+              resultSignal.location >= i 
             ) {
-              const newLenght = resultStreet.lenght - i;
+              //const newLenght = resultStreet.lenght - i;
+              const newLenght = lenghtAuxArray * 16;
               let lenghtSegment = newLenght;
+
+              console.log("4");
+              // const arrayTest = collectionSegment.signal.map(obj =>(obj));
+              // console.log(arrayTest);
+
               array = [
                 ...array,
                 new Promise((resolve, reject) => {
@@ -148,6 +163,11 @@ const Mutation = {
             } else {
               const newLenght = resultStreet.lenght - i;
               let lenghtSegment = newLenght;
+
+              console.log("5");
+              // const arrayTest = collectionSegment.signal.map(obj =>(obj));
+              // console.log(arrayTest);
+
               array = [
                 ...array,
                 new Promise((resolve, reject) => {
@@ -162,16 +182,29 @@ const Mutation = {
               ];
             }
           } else {
+
+            // const result = await collectionSignal.find({}).toArray();
+             //console.log(result);
+
+            // const auxArray = result.map(obj => obj.location);
+            // console.log( auxArray);
+
+
+
+
             if (
               i + lenghtSegment > resultSignal.location &&
               resultSignal.location >= i
             ) {
+              console.log("6");
+              const newLenght = lenghtAuxArray * 16;
+              let lenghtSegmentg = lenghtSegment + newLenght;
               array = [
                 ...array,
                 new Promise((resolve, reject) => {
                   const obj = collectionSegment.insertOne({
                     index,
-                    lenghtSegment,
+                    lenghtSegmentg,
                     street: ObjectID(street),
                     signal: signal.map(obj => ObjectID(obj))
                   });
@@ -179,6 +212,7 @@ const Mutation = {
                 })
               ];
             } else {
+              console.log("7");
               array = [
                 ...array,
                 new Promise((resolve, reject) => {
