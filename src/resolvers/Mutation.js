@@ -78,7 +78,7 @@ const Mutation = {
       let array = [];
       let index = 0;
       const speed = resultStreet.speed;
-      const lenghtSegment = lenghtSegments(speed);
+      let lenghtSegment = lenghtSegments(speed);
 
       if (resultStreet.lenght < lenghtSegment) {
         const result = await collectionSegment.insertOne({
@@ -94,7 +94,12 @@ const Mutation = {
           if (
             i + lenghtSegment > resultSignal.location &&
             resultSignal.location >= i 
-          ) {
+          ) 
+          
+          {
+            if(i + lenghtSegment > resultSignal.lenght){
+              
+            }
             console.log("1");
             const newLenght = lenghtAuxArray * 16;
            let lenghtSegment = newLenght
@@ -132,7 +137,13 @@ const Mutation = {
         return resultStreet;
       } else {
         for (let i = 0; i < resultStreet.lenght; i += lenghtSegment) {
+          
+          
+          console.log("valor actual " + i);
           index = index + 1;
+          let lenghtSegment = lenghtSegments(speed);
+          
+          
 
           if (i + lenghtSegment > resultStreet.lenght) {
             console.log("3");
@@ -197,14 +208,33 @@ const Mutation = {
               resultSignal.location >= i
             ) {
               console.log("6");
-              const newLenght = lenghtAuxArray * 16;
-              let lenghtSegmentg = lenghtSegment + newLenght;
+              // const newLenght = resultStreet.lenght -i;
+
+              // let a = lenghtSegment + newLenght;
+              // let b = a - lenghtSegment
+              // lenghtSegment = b;
+              
+              const a = i + lenghtSegment;
+              console.log(a);
+              const b = lenghtAuxArray * 16;
+              console.log(b);
+              const c = a + b;
+              console.log(c);
+              const d = c - lenghtSegment;
+
+              console.log(d);
+              i = d - lenghtSegment;
+              lenghtSegment = d;
+              console.log("Hola")
+             
+              console.log(i);
+              
               array = [
                 ...array,
                 new Promise((resolve, reject) => {
                   const obj = collectionSegment.insertOne({
                     index,
-                    lenghtSegmentg,
+                    lenghtSegment,
                     street: ObjectID(street),
                     signal: signal.map(obj => ObjectID(obj))
                   });
