@@ -88,61 +88,83 @@ const Mutation = {
           signal: signal.map(obj => ObjectID(obj))
         });
         return result.ops[0];
-      } else if (resultStreet.lenght % lenghtSegment === 0) {
-        for (let i = 0; i < resultStreet.lenght; i += lenghtSegment) {
-          index = index + 1;
-          if (
-            i + lenghtSegment > resultSignal.location &&
-            resultSignal.location >= i 
-          ) 
+      // } else if (resultStreet.lenght % lenghtSegment === 0) {
+      //   for (let i = 0; i < resultStreet.lenght; i += lenghtSegment) {
+      //     index = index + 1;
+      //     if (
+      //       i + lenghtSegment > resultSignal.location &&
+      //       resultSignal.location >= i 
+      //     ) 
           
-          {
-            if(i + lenghtSegment > resultSignal.lenght){
+      //     {
+      //       if(i + lenghtSegment > resultSignal.lenght){
               
-            }
-            console.log("1");
-            const newLenght = lenghtAuxArray * 16;
-           let lenghtSegment = newLenght
-            array = [
-              ...array,
-              new Promise((resolve, reject) => {
-                const obj = collectionSegment.insertOne({
-                  index,
-                  lenghtSegment,
-                  street: ObjectID(street),
-                  signal: signal.map(obj => ObjectID(obj))
-                });
-                resolve(obj);
-              })
-            ];
-          } else {
-            console.log("2");
-            array = [
-              ...array,
-              new Promise((resolve, reject) => {
-                const obj = collectionSegment.insertOne({
-                  index,
-                  lenghtSegment,
-                  street: ObjectID(street),
-                  signal: [0]
-                });
-                resolve(obj);
-              })
-            ];
-          }
-        }
-        (async function() {
-          await Promise.all(array);
-        })();
-        return resultStreet;
+      //       }
+      //       console.log("1");
+      //       const newLenght = lenghtAuxArray * 16;
+      //      let lenghtSegment = newLenght
+      //       array = [
+      //         ...array,
+      //         new Promise((resolve, reject) => {
+      //           const obj = collectionSegment.insertOne({
+      //             index,
+      //             lenghtSegment,
+      //             street: ObjectID(street),
+      //             signal: signal.map(obj => ObjectID(obj))
+      //           });
+      //           resolve(obj);
+      //         })
+      //       ];
+      //     } else {
+      //       console.log("2");
+      //       array = [
+      //         ...array,
+      //         new Promise((resolve, reject) => {
+      //           const obj = collectionSegment.insertOne({
+      //             index,
+      //             lenghtSegment,
+      //             street: ObjectID(street),
+      //             signal: [0]
+      //           });
+      //           resolve(obj);
+      //         })
+      //       ];
+      //     }
+      //   }
+      //   (async function() {
+      //     await Promise.all(array);
+      //   })();
+      //   return resultStreet;
       } else {
+        let lenghtSegment1 = lenghtSegments(speed);
         for (let i = 0; i < resultStreet.lenght; i += lenghtSegment) {
           
           
           console.log("valor actual " + i);
           index = index + 1;
-          let lenghtSegment = lenghtSegments(speed);
-          
+
+          let lenghtSegment = lenghtSegment1;
+
+          if(counter === 1){
+            i = lenghtSegment;
+          }
+          let counter = 0
+          // if(counter === 1){
+          //   //let lenghtSegment = lenghtSegments(speed);
+          //   console.log("lenghSEgmentxxxx " + lenghtSegment1);
+          //   i = i + lenghtSegment1;
+          //   console.log("valor actual xxxx " + i);
+            
+          //   //counter = 0;
+          // }else{
+          //   //let lenghtSegment = lenghtSegments(speed);
+          //   i = i + lenghtSegment1;
+          //   console.log("valor actual yyyyy " + i);
+          //   console. log ("lenghtSegment yyyyyy " + lenghtSegment1);
+
+          //   //counter = 0;
+          // }
+        
           
 
           if (i + lenghtSegment > resultStreet.lenght) {
@@ -213,21 +235,41 @@ const Mutation = {
               // let a = lenghtSegment + newLenght;
               // let b = a - lenghtSegment
               // lenghtSegment = b;
-              
-              const a = i + lenghtSegment;
-              console.log(a);
-              const b = lenghtAuxArray * 16;
-              console.log(b);
-              const c = a + b;
-              console.log(c);
-              const d = c - lenghtSegment;
+              if(i === 0){
+                const a = i + lenghtSegment;
+                console.log(a);
+                const b = lenghtAuxArray * 16;
+                console.log(b);
+                const c = a + b;
+                console.log(c);
+                const d = c - lenghtSegment;
 
-              console.log(d);
-              i = d - lenghtSegment;
-              lenghtSegment = d;
-              console.log("Hola")
-             
-              console.log(i);
+                console.log(d);
+                i = d - lenghtSegment;
+                lenghtSegment = d;
+                console.log("Hola")
+              
+                console.log("amarillo 1 " + i);
+                
+              }else{
+                const a = i + lenghtSegment;
+                console.log(a);
+                const b = lenghtAuxArray * 16;
+                console.log(b);
+                const c = a + b;
+                console.log(c);
+                const d = c - lenghtSegment;
+
+                console.log(d);
+                i = d;
+                lenghtSegment = b;
+                console.log("Hola")
+              
+                console.log("amarillo 2 " + i);
+
+                
+              }
+              counter = 1;
               
               array = [
                 ...array,
