@@ -63,8 +63,6 @@ const Mutation = {
     let resultSignal = null;
     let auxArray = null;
     let lenghtAuxArray = null;
-    console.log(resultStreet);
-    console.log(signal);
 
       if(signal !== undefined){
         signalArray = signal.map(obj => ObjectID(obj));
@@ -93,7 +91,6 @@ const Mutation = {
       }else if(signal === undefined){
           for (let i = 0; i <= resultStreet.lenght; i += lenghtSegment) {
             index = index + 1;
-            console.log("j")
             array = [
               ...array,
               new Promise((resolve, reject) => {
@@ -116,19 +113,14 @@ const Mutation = {
         let counter = 0;
         for (let i = 0; i < resultStreet.lenght; i += lenghtSegment) {
           index = index + 1;
-
           let lenghtSegment = lenghtSegment1;
-          console.log("counterGeneral" + counter);
-        console.log("valor actual " + i);
           if (i + lenghtSegment > resultStreet.lenght) {
-            console.log("3");
             if (
               i + lenghtSegment >= resultSignal.location &&
               resultSignal.location >= i 
             ) {
               const newLenght = lenghtAuxArray * 16;
               let lenghtSegment = newLenght;
-              console.log("4");
               array = [
                 ...array,
                 new Promise((resolve, reject) => {
@@ -144,8 +136,6 @@ const Mutation = {
             } else {
               const newLenght = resultStreet.lenght - i;
               let lenghtSegment = newLenght;
-
-              console.log("5");
               array = [
                 ...array,
                 new Promise((resolve, reject) => {
@@ -164,40 +154,21 @@ const Mutation = {
               i + lenghtSegment > resultSignal.location &&
               resultSignal.location >= i && counter === 0
             ) {
-              console.log("6");
-
               if(i === 0){
                 const a = i + lenghtSegment;
-                console.log(a);
                 const b = lenghtAuxArray * 16;
-                console.log(b);
                 const c = a + b;
-                console.log(c);
                 const d = c - lenghtSegment;
-
-                console.log(d);
                 i = d - lenghtSegment;
                 lenghtSegment = d;
-                console.log("Hola")
-              
-                console.log("amarillo 1 " + i);
                 counter = 1;
-                
               }else{
                 const a = i + lenghtSegment;
-                console.log(a);
                 const b = lenghtAuxArray * 16;
-                console.log(b);
                 const c = a + b;
-                console.log(c);
                 const d = c - lenghtSegment;
-
-                console.log(d);
                 i = d;
                 lenghtSegment = b;
-                console.log("Hola")
-              
-                console.log("amarillo 2 " + i);  
               }
               array = [
                 ...array,
@@ -212,7 +183,6 @@ const Mutation = {
                 })
               ];
             } else {
-              console.log("7");
               array = [
                 ...array,
                 new Promise((resolve, reject) => {
