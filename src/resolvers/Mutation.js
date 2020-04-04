@@ -2,10 +2,10 @@ import { ObjectID } from "mongodb";
 
 function lenghtSegments(velocity) {
   const a = 3.9;
-  const vf = 0;
-  const vo = velocity * (5 / 18);
-  const t = (vf - vo) / -a;
-  var s = (vo * t - (1 / 2) * a * (t * t)) * 2;
+  const vi = 0;
+  const v0 = velocity * (5 / 18);
+  const t = (vi - v0) / -a;
+  var s = (v0 * t - (1 / 2) * a * (t * t)) * 2;
 
   return Math.ceil(s);
 }
