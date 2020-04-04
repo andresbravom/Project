@@ -53,7 +53,7 @@ type Query {
 type Mutation {
     addStreet (name: String!, lenght: Float!, startCoordinate: [Float!], endCoordinate: [Float!], speed: Int!): Street!
     addIntersection (lenght: Float!, rightState: Boolean, leftState: Boolean, frontState: Boolean, street: [ID]!): Intersection!
-    addSegment (street: ID!, signal: [ID]!): Segment!
+    addSegment (street: ID!, signal: [ID]): Segment!
     addSignal (name: String!, location: Float, type: String!, coordinate: [Float!], probability: Float!, description: String!): Signal!
     updateStreet (id: ID!, name: String, lenght: Float, startCoordinate: [Float], endCoordinate: [Float]): Street!
     updateSegment (id: ID!, lenght: Float, speed: Int, startCoordinate: [Float], middleCoordinate: [Float], endCoordinate: [Float], intersection: [Float], street: ID!, signal: [ID!]): Segment!

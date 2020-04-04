@@ -59,14 +59,21 @@ const Mutation = {
       _id: ObjectID(street)
     });
 
-    const signalArray = signal.map(obj => ObjectID(obj));
-    const resultSignal = await collectionSignal.findOne({
-      _id: { $in: signalArray }
-    });
+    let signalArray = null;
+    let resultSignal = null;
+    let auxArray = null;
+    let lenghtAuxArray = null;
+    console.log(resultStreet);
+    console.log(signal);
 
-    const auxArray = signal.map(obj => obj.location);
-
-    const lenghtAuxArray = auxArray.length;
+      if(signal !== undefined){
+        signalArray = signal.map(obj => ObjectID(obj));
+        resultSignal = await collectionSignal.findOne({
+          _id: { $in: signalArray }
+        });
+        auxArray = signal.map(obj => obj.location);
+        lenghtAuxArray = auxArray.length;
+    }
 
     if (resultStreet) {
       let array = [];
@@ -83,21 +90,45 @@ const Mutation = {
         });
         return result.ops[0];
       
+      }else if(signal === undefined){
+          for (let i = 0; i <= resultStreet.lenght; i += lenghtSegment) {
+            index = index + 1;
+            console.log("j")
+            array = [
+              ...array,
+              new Promise((resolve, reject) => {
+                const obj = collectionSegment.insertOne({
+                  index,
+                  lenghtSegment,
+                  street: ObjectID(street),
+                  signal: [0]
+                });
+                resolve(obj);
+              })
+            ];
+          }
+          (async function() {
+            await Promise.all(array);
+          })();
+          return resultStreet;
       } else {
         let lenghtSegment1 = lenghtSegments(speed);
+        let counter = 0;
         for (let i = 0; i < resultStreet.lenght; i += lenghtSegment) {
+          index = index + 1;
+
           let lenghtSegment = lenghtSegment1;
-          if(counter === 1){
-            i = lenghtSegment;
-          }
-          let counter = 0
+          console.log("counterGeneral" + counter);
+        console.log("valor actual " + i);
           if (i + lenghtSegment > resultStreet.lenght) {
+            console.log("3");
             if (
               i + lenghtSegment >= resultSignal.location &&
               resultSignal.location >= i 
             ) {
               const newLenght = lenghtAuxArray * 16;
               let lenghtSegment = newLenght;
+              console.log("4");
               array = [
                 ...array,
                 new Promise((resolve, reject) => {
@@ -113,6 +144,8 @@ const Mutation = {
             } else {
               const newLenght = resultStreet.lenght - i;
               let lenghtSegment = newLenght;
+
+              console.log("5");
               array = [
                 ...array,
                 new Promise((resolve, reject) => {
@@ -129,24 +162,43 @@ const Mutation = {
           } else {
             if (
               i + lenghtSegment > resultSignal.location &&
-              resultSignal.location >= i
+              resultSignal.location >= i && counter === 0
             ) {
+              console.log("6");
+
               if(i === 0){
                 const a = i + lenghtSegment;
+                console.log(a);
                 const b = lenghtAuxArray * 16;
+                console.log(b);
                 const c = a + b;
+                console.log(c);
                 const d = c - lenghtSegment;
+
+                console.log(d);
                 i = d - lenghtSegment;
-                lenghtSegment = d;                
+                lenghtSegment = d;
+                console.log("Hola")
+              
+                console.log("amarillo 1 " + i);
+                counter = 1;
+                
               }else{
                 const a = i + lenghtSegment;
+                console.log(a);
                 const b = lenghtAuxArray * 16;
+                console.log(b);
                 const c = a + b;
+                console.log(c);
                 const d = c - lenghtSegment;
+
+                console.log(d);
                 i = d;
                 lenghtSegment = b;
+                console.log("Hola")
+              
+                console.log("amarillo 2 " + i);  
               }
-              counter = 1;
               array = [
                 ...array,
                 new Promise((resolve, reject) => {
@@ -160,6 +212,7 @@ const Mutation = {
                 })
               ];
             } else {
+              console.log("7");
               array = [
                 ...array,
                 new Promise((resolve, reject) => {
@@ -182,7 +235,7 @@ const Mutation = {
       }
     }
   },
-
+  
   addSignal: async (parent, args, ctx, info) => {
     const { name, location, type, coordinate, probability, description } = args;
     const { client } = ctx;
@@ -390,3 +443,45 @@ const Mutation = {
 
 };
 export { Mutation as default };
+
+
+
+// else if (resultStreet.lenght % lenghtSegment === 0) {
+//   for (let i = 0; i < resultStreet.lenght; i += lenghtSegment) {
+//     index = index + 1;
+//     if (
+//       i + lenghtSegment > resultSignal.location &&
+//       resultSignal.location >= i
+//     ) {
+//       array = [
+//         ...array,
+//         new Promise((resolve, reject) => {
+//           const obj = collectionSegment.insertOne({
+//             index,
+//             lenghtSegment,
+//             street: ObjectID(street),
+//             signal: signal.map(obj => ObjectID(obj))
+//           });
+//           resolve(obj);
+//         })
+//       ];
+//     } else {
+//       array = [
+//         ...array,
+//         new Promise((resolve, reject) => {
+//           const obj = collectionSegment.insertOne({
+//             index,
+//             lenghtSegment,
+//             street: ObjectID(street),
+//             signal: [0]
+//           });
+//           resolve(obj);
+//         })
+//       ];
+//     }
+//   }
+//   (async function() {
+//     await Promise.all(array);
+//   })();
+//   return resultStreet;
+// }
