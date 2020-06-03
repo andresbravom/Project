@@ -1,26 +1,42 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from "react";
+import AppContext from "./AppContext";
+import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
+import { ApolloProvider } from "@apollo/client";
 import './App.css';
 
+import Header from "./components/Header";
+
+const httpLink = new HttpLink ({
+  uri: "http://127.0.0.1:4002/",
+});
+
+const client = new ApolloClient ({
+  cache: new InMemoryCache(),
+  link : httpLink,
+});
+
 function App() {
+  const [button, setButton] = useState(1);
+
+  const contextData = {
+    button: {get: button, set: setButton},
+  }
+  let content = null;
+
+  if(button === 1) {
+    content = (
+      <AppContext.Provider value={contextData}>
+       <ApolloProvider client={client}>
+         <Header/>
+       </ApolloProvider>
+     </AppContext.Provider>
+    )
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+     {content}
     </div>
   );
 }
-
 export default App;
