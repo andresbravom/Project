@@ -12,7 +12,7 @@ function lenghtSegments(speed) {
 
 const Mutation = {
   addStreet: async (parent, args, ctx, info) => {
-    const { name, lenght, startCoordinate, endCoordinate, speed} = args;
+    const { name, lenght, startCoordinate, endCoordinate, speed } = args;
     const { client } = ctx;
 
     const db = client.db("DataBase");
@@ -23,14 +23,14 @@ const Mutation = {
       lenght,
       startCoordinate,
       endCoordinate,
-      speed, 
+      speed,
     });
 
     return result.ops[0];
   },
 
   addIntersection: async (parent, args, ctx, info) => {
-    const { lenght, rightState, leftState, frontState, street} = args;
+    const { lenght, rightState, leftState, frontState, street } = args;
     const { client } = ctx;
 
     const db = client.db("DataBase");
@@ -41,7 +41,7 @@ const Mutation = {
       rightState,
       leftState,
       frontState,
-      street: ObjectID(street)
+      street: ObjectID(street),
     });
     return result.ops[0];
   },
@@ -56,7 +56,7 @@ const Mutation = {
     const collectionSignal = db.collection("Signals");
 
     const resultStreet = await collectionStreet.findOne({
-      _id: ObjectID(street)
+      _id: ObjectID(street),
     });
 
     let signalArray = null;
@@ -64,13 +64,13 @@ const Mutation = {
     let auxArray = null;
     let lenghtAuxArray = null;
 
-      if(signal !== undefined){
-        signalArray = signal.map(obj => ObjectID(obj));
-        resultSignal = await collectionSignal.findOne({
-          _id: { $in: signalArray }
-        });
-        auxArray = signal.map(obj => obj.location);
-        lenghtAuxArray = auxArray.length;
+    if (signal !== undefined) {
+      signalArray = signal.map((obj) => ObjectID(obj));
+      resultSignal = await collectionSignal.findOne({
+        _id: { $in: signalArray },
+      });
+      auxArray = signal.map((obj) => obj.location);
+      lenghtAuxArray = auxArray.length;
     }
 
     if (resultStreet) {
@@ -84,30 +84,29 @@ const Mutation = {
           index: index + 1,
           lenghtSegment,
           street: ObjectID(street),
-          signal: signal.map(obj => ObjectID(obj))
+          signal: signal.map((obj) => ObjectID(obj)),
         });
         return result.ops[0];
-      
-      }else if(signal === undefined){
-          for (let i = 0; i <= resultStreet.lenght; i += lenghtSegment) {
-            index = index + 1;
-            array = [
-              ...array,
-              new Promise((resolve, reject) => {
-                const obj = collectionSegment.insertOne({
-                  index,
-                  lenghtSegment,
-                  street: ObjectID(street),
-                  signal: [0]
-                });
-                resolve(obj);
-              })
-            ];
-          }
-          (async function() {
-            await Promise.all(array);
-          })();
-          return resultStreet;
+      } else if (signal === undefined) {
+        for (let i = 0; i <= resultStreet.lenght; i += lenghtSegment) {
+          index = index + 1;
+          array = [
+            ...array,
+            new Promise((resolve, reject) => {
+              const obj = collectionSegment.insertOne({
+                index,
+                lenghtSegment,
+                street: ObjectID(street),
+                signal: [0],
+              });
+              resolve(obj);
+            }),
+          ];
+        }
+        (async function () {
+          await Promise.all(array);
+        })();
+        return resultStreet;
       } else {
         let lenghtSegment1 = lenghtSegments(speed);
         let counter = 0;
@@ -117,7 +116,7 @@ const Mutation = {
           if (i + lenghtSegment > resultStreet.lenght) {
             if (
               i + lenghtSegment >= resultSignal.location &&
-              resultSignal.location >= i 
+              resultSignal.location >= i
             ) {
               const newLenght = lenghtAuxArray * 16;
               let lenghtSegment = newLenght;
@@ -128,10 +127,10 @@ const Mutation = {
                     index,
                     lenghtSegment,
                     street: ObjectID(street),
-                    signal: signal.map(obj => ObjectID(obj))
+                    signal: signal.map((obj) => ObjectID(obj)),
                   });
                   resolve(obj);
-                })
+                }),
               ];
             } else {
               const newLenght = resultStreet.lenght - i;
@@ -143,18 +142,19 @@ const Mutation = {
                     index,
                     lenghtSegment,
                     street: ObjectID(street),
-                    signal: [0]
+                    signal: [0],
                   });
                   resolve(obj);
-                })
+                }),
               ];
             }
           } else {
             if (
               i + lenghtSegment > resultSignal.location &&
-              resultSignal.location >= i && counter === 0
+              resultSignal.location >= i &&
+              counter === 0
             ) {
-              if(i === 0){
+              if (i === 0) {
                 const a = i + lenghtSegment;
                 const b = lenghtAuxArray * 16;
                 const c = a + b;
@@ -162,7 +162,7 @@ const Mutation = {
                 i = d - lenghtSegment;
                 lenghtSegment = d;
                 counter = 1;
-              }else{
+              } else {
                 const a = i + lenghtSegment;
                 const b = lenghtAuxArray * 16;
                 const c = a + b;
@@ -177,10 +177,10 @@ const Mutation = {
                     index,
                     lenghtSegment,
                     street: ObjectID(street),
-                    signal: signal.map(obj => ObjectID(obj))
+                    signal: signal.map((obj) => ObjectID(obj)),
                   });
                   resolve(obj);
-                })
+                }),
               ];
             } else {
               array = [
@@ -190,22 +190,22 @@ const Mutation = {
                     index,
                     lenghtSegment,
                     street: ObjectID(street),
-                    signal: [0]
+                    signal: [0],
                   });
                   resolve(obj);
-                })
+                }),
               ];
             }
           }
         }
-        (async function() {
+        (async function () {
           await Promise.all(array);
         })();
         return resultStreet;
       }
     }
   },
-  
+
   addSignal: async (parent, args, ctx, info) => {
     const { name, location, type, coordinate, probability, description } = args;
     const { client } = ctx;
@@ -219,7 +219,7 @@ const Mutation = {
       type,
       coordinate,
       probability,
-      description
+      description,
     });
 
     return result.ops[0];
@@ -237,25 +237,25 @@ const Mutation = {
     if (args.name) {
       jsonUpdate = {
         name: args.name,
-        ...jsonUpdate
+        ...jsonUpdate,
       };
     }
     if (args.lenght) {
       jsonUpdate = {
         lenght: args.lenght,
-        ...jsonUpdate
+        ...jsonUpdate,
       };
     }
     if (args.startCoordinate) {
       jsonUpdate = {
         startCoordinate: args.startCoordinate,
-        ...jsonUpdate
+        ...jsonUpdate,
       };
     }
     if (args.endCoordinate) {
       jsonUpdate = {
         endCoordinate: args.endCoordinate,
-        ...jsonUpdate
+        ...jsonUpdate,
       };
     }
     const result = await collection.findOneAndUpdate(
@@ -279,49 +279,49 @@ const Mutation = {
     if (args.lenght) {
       jsonUpdate = {
         lenght: args.lenght,
-        ...jsonUpdate
+        ...jsonUpdate,
       };
     }
     if (args.speed) {
       jsonUpdate = {
         speed: args.speed,
-        ...jsonUpdate
+        ...jsonUpdate,
       };
     }
     if (args.startCoordinate) {
       jsonUpdate = {
         startCoordinate: args.startCoordinate,
-        ...jsonUpdate
+        ...jsonUpdate,
       };
     }
     if (args.middleCoordinate) {
       jsonUpdate = {
         middleCoordinate: args.middleCoordinate,
-        ...jsonUpdate
+        ...jsonUpdate,
       };
     }
     if (args.endCoordinate) {
       jsonUpdate = {
         endCoordinate: args.endCoordinate,
-        ...jsonUpdate
+        ...jsonUpdate,
       };
     }
     if (args.intersection) {
       jsonUpdate = {
         intersection: args.intersection,
-        ...jsonUpdate
+        ...jsonUpdate,
       };
     }
     if (args.street) {
       jsonUpdate = {
         street: ObjectID(args.street),
-        ...jsonUpdate
+        ...jsonUpdate,
       };
     }
     if (args.signal) {
       jsonUpdate = {
         signal: ObjectID(args.signal),
-        ...jsonUpdate
+        ...jsonUpdate,
       };
     }
     const result = await collection.findOneAndUpdate(
@@ -344,25 +344,25 @@ const Mutation = {
     if (args.name) {
       jsonUpdate = {
         name: args.name,
-        ...jsonUpdate
+        ...jsonUpdate,
       };
     }
     if (args.type) {
       jsonUpdate = {
         type: args.type,
-        ...jsonUpdate
+        ...jsonUpdate,
       };
     }
     if (args.coordinate) {
       jsonUpdate = {
         coordinate: args.coordinate,
-        ...jsonUpdate
+        ...jsonUpdate,
       };
     }
     if (args.probability) {
       jsonUpdate = {
         probability: args.probability,
-        ...jsonUpdate
+        ...jsonUpdate,
       };
     }
     const result = await collection.findOneAndUpdate(
@@ -382,7 +382,7 @@ const Mutation = {
     const collectionSegment = db.collection("Segments");
     let resultado;
     const findStreet = await collectionStreet.findOne({
-      _d: ObjectID(streetID)
+      _d: ObjectID(streetID),
     });
 
     const deleteStreet = () => {
@@ -403,55 +403,12 @@ const Mutation = {
         resolve(result.value);
       });
     };
-    (async function() {
+    (async function () {
       const asyncFuntions = [deleteStreet(), deleteSegment()];
       await Promise.all(asyncFuntions).value;
     })();
 
     return resultado.value;
   },
-
 };
 export { Mutation as default };
-
-
-
-// else if (resultStreet.lenght % lenghtSegment === 0) {
-//   for (let i = 0; i < resultStreet.lenght; i += lenghtSegment) {
-//     index = index + 1;
-//     if (
-//       i + lenghtSegment > resultSignal.location &&
-//       resultSignal.location >= i
-//     ) {
-//       array = [
-//         ...array,
-//         new Promise((resolve, reject) => {
-//           const obj = collectionSegment.insertOne({
-//             index,
-//             lenghtSegment,
-//             street: ObjectID(street),
-//             signal: signal.map(obj => ObjectID(obj))
-//           });
-//           resolve(obj);
-//         })
-//       ];
-//     } else {
-//       array = [
-//         ...array,
-//         new Promise((resolve, reject) => {
-//           const obj = collectionSegment.insertOne({
-//             index,
-//             lenghtSegment,
-//             street: ObjectID(street),
-//             signal: [0]
-//           });
-//           resolve(obj);
-//         })
-//       ];
-//     }
-//   }
-//   (async function() {
-//     await Promise.all(array);
-//   })();
-//   return resultStreet;
-// }
