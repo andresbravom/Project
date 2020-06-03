@@ -5,8 +5,8 @@ import "./Styles.css";
 
 const Header = () => {
     return (
-        <div>
-            Header
+        <div className="Header">
+            <h1>energy calculator</h1>
         </div>
     )
 }
