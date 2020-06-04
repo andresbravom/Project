@@ -93,7 +93,6 @@ const Mutation = {
         for (let i = 0; i <= resultStreet.lenght; i += lenghtSegment) {
           index = index + 1;
           if (i + lenghtSegment > resultStreet.lenght) {
-            
             const newLenght = resultStreet.lenght - i;
             let lenghtSegment = newLenght;
             array = [
@@ -129,14 +128,15 @@ const Mutation = {
         })();
         return resultStreet;
       } else {
-        console.log(5);
+        
         let lenghtSegment1 = lenghtSegments(speed);
         let counter = 0;
-        for (let i = 0; i < resultStreet.lenght; i += lenghtSegment) {
+        for (let i = 0; i <= resultStreet.lenght; i += lenghtSegment) {
+          console.log("5 " + i + index);
           index = index + 1;
           let lenghtSegment = lenghtSegment1;
           if (i + lenghtSegment > resultStreet.lenght) {
-            console.log(6);
+            console.log("6 " + i);
             if (
               i + lenghtSegment >= resultSignal.location &&
               resultSignal.location >= i
@@ -157,9 +157,10 @@ const Mutation = {
                 }),
               ];
             } else {
-              console.log(8);
+              console.log("8 " + i);
               const newLenght = resultStreet.lenght - i;
               let lenghtSegment = newLenght;
+
               array = [
                 ...array,
                 new Promise((resolve, reject) => {
@@ -196,8 +197,9 @@ const Mutation = {
                 const b = lenghtAuxArray * 16;
                 const c = a + b;
                 const d = c - lenghtSegment;
-                i = d;
+                i = d - lenghtSegment;
                 lenghtSegment = b;
+                counter = 1;
               }
               array = [
                 ...array,
