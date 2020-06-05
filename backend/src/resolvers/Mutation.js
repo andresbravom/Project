@@ -89,8 +89,8 @@ const Mutation = {
         });
         return result.ops[0];
       } else if (signal === undefined) {
-        console.log(4);
-        for (let i = 0; i <= resultStreet.lenght; i += lenghtSegment) {
+        console.log("4");
+        for (let i = 0; i < resultStreet.lenght; i += lenghtSegment) {
           index = index + 1;
           if (i + lenghtSegment > resultStreet.lenght) {
             const newLenght = resultStreet.lenght - i;
