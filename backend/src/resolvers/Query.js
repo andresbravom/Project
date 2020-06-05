@@ -44,7 +44,7 @@ const Query = {
     if (result) {
       return result;
     } else {
-      return new Error("Insert correct ID");
+      return new Error("There are no segments");
     }
   },
 
@@ -60,7 +60,7 @@ const Query = {
     if (result) {
       return result;
     } else {
-      return new Error("Insert correct ID");
+      return new Error("There are no Signals");
     }
   },
 
@@ -75,10 +75,9 @@ const Query = {
     if (result) {
       return result;
     } else {
-      return new Error("Insert correct ID");
+      return new Error("There are no Streets");
     }
   },
-
   getIntersection: async (parent, args, ctx, info) => {
     const { client } = ctx;
 
@@ -90,7 +89,7 @@ const Query = {
     if (result) {
       return result;
     } else {
-      return new Error("Insert correct ID");
+      return new Error("There are no Values");
     }
   },
 

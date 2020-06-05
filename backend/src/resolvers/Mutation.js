@@ -274,16 +274,25 @@ const Mutation = {
     const db = client.db("DataBase");
     const collection = db.collection("Values");
 
-    const result = await collection.insertOne({
-      street: ObjectID(street),
-      p,
-      Cd,
-      A,
-      M,
-      G,
-      fr,
-    });
-    return result.ops[0];
+    const idStreet = await collection.findOne({street: ObjectID(street)});
+
+    if(!idStreet){
+      const result = await collection.insertOne({
+        street: ObjectID(street),
+        p,
+        Cd,
+        A,
+        M,
+        G,
+        fr,
+      });
+      return result.ops[0];
+    }else {
+      return new Error("This street already has assigned values");
+    }
+  },
+  updateValues: async (parent, args, ctx, info) => {
+
   }
 
   // updateStreet: async (parent, args, ctx, info) => {

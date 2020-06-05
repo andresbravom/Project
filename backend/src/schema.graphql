@@ -51,6 +51,7 @@ type Query {
     getSignal: [Signal]
     getCalcule(street: ID): [Segment]
     getValues: [Values]
+    getO1:Float!
 }
 type Mutation {
     addStreet (name: String!, lenght: Float!, speed: Int!): Street!
@@ -58,6 +59,7 @@ type Mutation {
     addSegment (street: ID!, signal: [ID]): Segment!
     addSignal (name: String!, location: Float, type: String!, probability: Float!, description: String!): Signal!
     addValues (street: ID!, p: Float!, Cd: Float!, A: Float!, M: Float!, G: Float!, fr: Float!): Values!
+    updateValues (_id: ID, p: Float!, Cd: Float!, A: Float!, M: Float!, G: Float!, fr: Float!): Values!
     # updateStreet (id: ID!, name: String, lenght: Float, startCoordinate: [Float], endCoordinate: [Float]): Street!
     # updateSegment (id: ID!, lenght: Float, speed: Int, startCoordinate: [Float], middleCoordinate: [Float], endCoordinate: [Float], intersection: [Float], street: ID!, signal: [ID!]): Segment!
     # updateSignal (id: ID!, name: String, type: String, coordinate: [Float], probability: Float): Signal!
