@@ -12,5 +12,16 @@ const Street = {
     console;
     return result;
   },
+  values: async (parent, args, ctx, info) => {
+    const streetID = ObjectID(parent._id);
+    const { client } = ctx;
+
+    const db = client.db("DataBase");
+    const collection = db.collection("Values");
+
+    const result = await collection.findOne({ street: streetID });
+    console;
+    return result;
+  },
 };
 export { Street as default };

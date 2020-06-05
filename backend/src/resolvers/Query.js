@@ -124,6 +124,21 @@ const Query = {
     }
   },
 
+  getValues: async (parent, args, ctx, info) => {
+    const { client } = ctx;
+
+    const db = client.db("DataBase");
+    const collection = db.collection("Values");
+
+    const result = await collection.find({}).toArray();
+
+    if (result) {
+      return result;
+    } else {
+      return new Error("Insert correct ID");
+    }
+  },
+
   getCalcule: async (parent, args, ctx, info) => {
     const { street } = args;
     const { client } = ctx;
@@ -157,9 +172,6 @@ const Query = {
             total = total + energy;
             console.log("total: " + total + i);
           }
-         
-          
-        
       }
       console.log("total Final: " + total);
       

@@ -6,6 +6,7 @@ import Street from "./resolvers/Street";
 import Intersection from "./resolvers/Intersection";
 import Segment from "./resolvers/Segment";
 import Signal from "./resolvers/Signal";
+import Values from "./resolvers/Values";
 import Query from "./resolvers/Query";
 import Mutation from "./resolvers/Mutation";
 
@@ -42,6 +43,7 @@ const runGraphQLServer = function (context) {
     Intersection,
     Segment,
     Signal,
+    Values,
     Query,
     Mutation,
   };

@@ -4,10 +4,22 @@ function lenghtSegments(speed) {
   const a = 3.9;
   const vi = 0;
   const v0 = speed * (5 / 18);
-  const t = (vi - v0) / -a;
+  const t = (vi - v0) / - a;
   var s = (v0 * t - (1 / 2) * a * (t * t)) * 2;
 
   return Math.ceil(s);
+}
+
+function O1(p, Cd, A, v, M, g, fr) {
+  const a = 3.9;
+  const vi = 0;
+  const v0 = speed * (5 / 18);
+  const t = (vi - v0) / - a;
+
+  const energyConsumed = (1/2 * p * Cd * A * (Math.pow(v, 3)) * t * M * g * v * t * fr);
+
+
+  return energyConsumed
 }
 
 const Mutation = {
@@ -252,9 +264,27 @@ const Mutation = {
       probability,
       description,
     });
-
     return result.ops[0];
   },
+
+  addValues: async (parent, args, ctx, info) => {
+    const { street, p, Cd, A, M, G, fr } = args;
+    const { client } = ctx;
+
+    const db = client.db("DataBase");
+    const collection = db.collection("Values");
+
+    const result = await collection.insertOne({
+      street: ObjectID(street),
+      p,
+      Cd,
+      A,
+      M,
+      G,
+      fr,
+    });
+    return result.ops[0];
+  }
 
   // updateStreet: async (parent, args, ctx, info) => {
   //   const resultID = args.id;
