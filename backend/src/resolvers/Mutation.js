@@ -440,46 +440,51 @@ const Mutation = {
   //   return result.value;
   // },
 
-  // updateSignal: async (parent, args, ctx, info) => {
-  //   const resultID = args.id;
-  //   const { client } = ctx;
+  updateSignal: async (parent, args, ctx, info) => {
+    const resultID = args._id;
+    const { client } = ctx;
 
-  //   const db = client.db("DataBase");
-  //   const collection = db.collection("Signals");
+    const db = client.db("DataBase");
+    const collection = db.collection("Signals");
 
-  //   let jsonUpdate;
-
-  //   if (args.name) {
-  //     jsonUpdate = {
-  //       name: args.name,
-  //       ...jsonUpdate,
-  //     };
-  //   }
-  //   if (args.type) {
-  //     jsonUpdate = {
-  //       type: args.type,
-  //       ...jsonUpdate,
-  //     };
-  //   }
-  //   if (args.coordinate) {
-  //     jsonUpdate = {
-  //       coordinate: args.coordinate,
-  //       ...jsonUpdate,
-  //     };
-  //   }
-  //   if (args.probability) {
-  //     jsonUpdate = {
-  //       probability: args.probability,
-  //       ...jsonUpdate,
-  //     };
-  //   }
-  //   const result = await collection.findOneAndUpdate(
-  //     { _id: ObjectID(resultID) },
-  //     { $set: jsonUpdate },
-  //     { returnOriginal: false }
-  //   );
-  //   return result.value;
-  // },
+    let jsonUpdate;
+    if (args.name) {
+      jsonUpdate = {
+        name: args.name,
+        ...jsonUpdate,
+      };
+    }
+    if (args.location) {
+      jsonUpdate = {
+        location: args.location,
+        ...jsonUpdate,
+      };
+    }
+    if (args.type) {
+      jsonUpdate = {
+        type: args.type,
+        ...jsonUpdate,
+      };
+    }
+    if (args.probability) {
+      jsonUpdate = {
+        probability: args.probability,
+        ...jsonUpdate,
+      };
+    }
+    if (args.description) {
+      jsonUpdate = {
+        description: args.description,
+        ...jsonUpdate,
+      };
+    }
+    const result = await collection.findOneAndUpdate(
+      { _id: ObjectID(resultID) },
+      { $set: jsonUpdate },
+      { returnOriginal: false }
+    );
+    return result.value;
+  },
 
   // removeStreet: async (parent, args, ctx, info) => {
   //   const streetID = args.id;

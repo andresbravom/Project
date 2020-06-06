@@ -57,12 +57,12 @@ type Mutation {
     addStreet (name: String!, lenght: Float!, speed: Int!): Street!
     addIntersection (lenght: Float!, rightState: Boolean, leftState: Boolean, frontState: Boolean, street: [ID]!): Intersection!
     addSegment (street: ID!, signal: [ID]): Segment!
-    addSignal (name: String!, location: Float, type: String!, probability: Float!, description: String!): Signal!
+    addSignal (name: String!, location: Float!, type: String!, probability: Float!, description: String): Signal!
     addValues (street: ID!, p: Float!, Cd: Float!, A: Float!, M: Float!, G: Float!, fr: Float!): Values!
     updateValues (_id: ID!, p: Float, Cd: Float, A: Float, M: Float, G: Float, fr: Float): Values!
     updateStreet (_id: ID!, name: String, lenght: Float, speed: Int): Street!
     # updateSegment (id: ID!, lenght: Float, speed: Int, startCoordinate: [Float], middleCoordinate: [Float], endCoordinate: [Float], intersection: [Float], street: ID!, signal: [ID!]): Segment!
-    # updateSignal (id: ID!, name: String, type: String, coordinate: [Float], probability: Float): Signal!
+    updateSignal (_id: ID!, name: String, location: Float, type: String, probability: Float, description: String): Signal!
     # removeStreet (id: ID!): Street
    
 }
