@@ -536,34 +536,33 @@ const Mutation = {
     
   },
 
-  // removeSegments: async (parent, args, ctx, info) => {
-  //   const streetID = args._id;
-  //   const { client } = ctx;
+  removeSegments: async (parent, args, ctx, info) => {
+    const streetID = args.street;
+    const { client } = ctx;
 
-  //   const db = client.db("DataBase");
-  //   const collectionStreet = db.collection("Streets");
-  //   const collectionSegment = db.collection("Segments");
+    const db = client.db("DataBase");
+    const collectionStreet = db.collection("Streets");
+    const collectionSegment = db.collection("Segments");
 
-  //   let resultado;
-  //   const findStreet = await collectionStreet.findOne({
-  //     _id: ObjectID(streetID),
-  //   });
-
-  //   const deleteSegment = () => {
-  //     return new Promise((resolve, reject) => {
-  //       const result = collectionSegment.findOneAndDelete(
-  //         { street: ObjectID(streetID) },
-  //         { returnOriginal: true }
-  //       );
-  //       resolve(result.value);
-  //     });
-  //   };
-  //   (async function () {
-  //     const asyncFuntions = [deleteSegment()];
-  //     await Promise.all(asyncFuntions).value;
-  //   })();
-
-  //   return resultado.value;
-  // }
+    let result;
+    const findStreet = await collectionStreet.findOne({
+      _id: ObjectID(streetID),
+    });
+    if(findStreet){
+      const deleteSegment = () =>{
+        return new Promise((resolve, reject) =>{
+          result = collectionSegment.deleteMany({street: ObjectID(streetID)});
+          resolve(result);
+        }
+      )};
+      (async function () {
+        const asyncFuntions = [deleteSegment()];
+        await Promise.all(asyncFuntions).value;
+      })();
+      return result;
+    }else {
+      return new Error("Insert correct ID");
+    }
+  }
 };
 export { Mutation as default };
