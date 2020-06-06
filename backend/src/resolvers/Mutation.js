@@ -486,42 +486,53 @@ const Mutation = {
     return result.value;
   },
 
-  // removeStreet: async (parent, args, ctx, info) => {
-  //   const streetID = args.id;
-  //   const { client } = ctx;
+  removeStreet: async (parent, args, ctx, info) => {
+    const streetID = args._id;
+    const { client } = ctx;
 
-  //   const db = client.db("DataBase");
-  //   const collectionStreet = db.collection("Streets");
-  //   const collectionSegment = db.collection("Segments");
-  //   let resultado;
-  //   const findStreet = await collectionStreet.findOne({
-  //     _d: ObjectID(streetID),
-  //   });
+    const db = client.db("DataBase");
+    const collectionStreet = db.collection("Streets");
+    const collectionSegment = db.collection("Segments");
+    const collectionValues = db.collection("Values");
 
-  //   const deleteStreet = () => {
-  //     return new Promise((resolve, reject) => {
-  //       resultado = collectionStreet.findOneAndDelete(
-  //         { _id: ObjectID(streetID) },
-  //         { returnOriginal: true }
-  //       );
-  //       resolve(result.value);
-  //     });
-  //   };
-  //   const deleteSegment = () => {
-  //     return new Promise((resolve, reject) => {
-  //       const result = collectionSegment.findOneAndDelete(
-  //         { street: ObjectID(streetID) },
-  //         { returnOriginal: true }
-  //       );
-  //       resolve(result.value);
-  //     });
-  //   };
-  //   (async function () {
-  //     const asyncFuntions = [deleteStreet(), deleteSegment()];
-  //     await Promise.all(asyncFuntions).value;
-  //   })();
+    let resultado;
+    const findStreet = await collectionStreet.findOne({
+      _id: ObjectID(streetID),
+    });
 
-  //   return resultado.value;
-  // },
+    const deleteStreet = () => {
+      return new Promise((resolve, reject) => {
+        resultado = collectionStreet.findOneAndDelete(
+          { _id: ObjectID(streetID) },
+          { returnOriginal: true }
+        );
+        resolve(result.value);
+      });
+    };
+    const deleteSegment = () => {
+      return new Promise((resolve, reject) => {
+        const result = collectionSegment.findOneAndDelete(
+          { street: ObjectID(streetID) },
+          { returnOriginal: true }
+        );
+        resolve(result.value);
+      });
+    };
+    const deleteValues = () => {
+      return new Promise((resolve, reject) => {
+        const result = collectionValues.findOneAndDelete(
+          { street: ObjectID(streetID) },
+          { returnOriginal: true }
+        );
+        resolve(result.value);
+      });
+    };
+    (async function () {
+      const asyncFuntions = [deleteStreet(), deleteSegment(), deleteValues()];
+      await Promise.all(asyncFuntions).value;
+    })();
+
+    return resultado.value;
+  },
 };
 export { Mutation as default };
