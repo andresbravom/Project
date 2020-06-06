@@ -4,7 +4,7 @@ function lenghtSegments(speed) {
   const a = 3.9;
   const vi = 0;
   const v0 = speed * (5 / 18);
-  const t = (vi - v0) / - a;
+  const t = (vi - v0) / -a;
   var s = (v0 * t - (1 / 2) * a * (t * t)) * 2;
 
   return Math.ceil(s);
@@ -14,12 +14,12 @@ function O1(p, Cd, A, v, M, g, fr) {
   const a = 3.9;
   const vi = 0;
   const v0 = speed * (5 / 18);
-  const t = (vi - v0) / - a;
+  const t = (vi - v0) / -a;
 
-  const energyConsumed = (1/2 * p * Cd * A * (Math.pow(v, 3)) * t * M * g * v * t * fr);
+  const energyConsumed =
+    (1 / 2) * p * Cd * A * Math.pow(v, 3) * t * M * g * v * t * fr;
 
-
-  return energyConsumed
+  return energyConsumed;
 }
 
 const Mutation = {
@@ -119,20 +119,20 @@ const Mutation = {
                 resolve(obj);
               }),
             ];
-          }else {
+          } else {
             console.log(20);
-              array = [
-                ...array,
-                new Promise((resolve, reject) => {
-                  const obj = collectionSegment.insertOne({
-                    index,
-                    lenghtSegment,
-                    street: ObjectID(street),
-                    signal: [0],
-                  });
-                  resolve(obj);
-                }),
-              ];
+            array = [
+              ...array,
+              new Promise((resolve, reject) => {
+                const obj = collectionSegment.insertOne({
+                  index,
+                  lenghtSegment,
+                  street: ObjectID(street),
+                  signal: [0],
+                });
+                resolve(obj);
+              }),
+            ];
           }
         }
         (async function () {
@@ -140,7 +140,6 @@ const Mutation = {
         })();
         return resultStreet;
       } else {
-        
         let lenghtSegment1 = lenghtSegments(speed);
         let counter = 0;
         for (let i = 0; i <= resultStreet.lenght; i += lenghtSegment) {
@@ -274,9 +273,9 @@ const Mutation = {
     const db = client.db("DataBase");
     const collection = db.collection("Values");
 
-    const idStreet = await collection.findOne({street: ObjectID(street)});
+    const idStreet = await collection.findOne({ street: ObjectID(street) });
 
-    if(!idStreet){
+    if (!idStreet) {
       const result = await collection.insertOne({
         street: ObjectID(street),
         p,
@@ -287,55 +286,94 @@ const Mutation = {
         fr,
       });
       return result.ops[0];
-    }else {
+    } else {
       return new Error("This street already has assigned values");
     }
   },
   updateValues: async (parent, args, ctx, info) => {
+    const resultID = args._id;
+    const { client } = ctx;
 
-  }
+    const db = client.db("DataBase");
+    const collection = db.collection("Values");
 
-  // updateStreet: async (parent, args, ctx, info) => {
-  //   const resultID = args.id;
-  //   const { client } = ctx;
+    let jsonUpdate;
+    if (args.p) {
+      jsonUpdate = {
+        p: args.p,
+        ...jsonUpdate,
+      };
+    }
+    if (args.Cd) {
+      jsonUpdate = {
+        Cd: args.Cd,
+        ...jsonUpdate,
+      };
+    }
+    if (args.A) {
+      jsonUpdate = {
+        A: args.A,
+        ...jsonUpdate,
+      };
+    }
+    if (args.M) {
+      jsonUpdate = {
+        M: args.M,
+        ...jsonUpdate,
+      };
+    }
+    if (args.G) {
+      jsonUpdate = {
+        G: args.G,
+        ...jsonUpdate,
+      };
+    }
+    if (args.fr) {
+      jsonUpdate = {
+        fr: args.fr,
+        ...jsonUpdate,
+      };
+    }
+    const result = await collection.findOneAndUpdate(
+      { _id: ObjectID(resultID) },
+      { $set: jsonUpdate },
+      { returnOriginal: false }
+    );
+    return result.value;
+  },
+  updateStreet: async (parent, args, ctx, info) => {
+    const resultID = args._id;
+    const { client } = ctx;
 
-  //   const db = client.db("DataBase");
-  //   const collection = db.collection("Streets");
+    const db = client.db("DataBase");
+    const collection = db.collection("Streets");
 
-  //   let jsonUpdate;
-
-  //   if (args.name) {
-  //     jsonUpdate = {
-  //       name: args.name,
-  //       ...jsonUpdate,
-  //     };
-  //   }
-  //   if (args.lenght) {
-  //     jsonUpdate = {
-  //       lenght: args.lenght,
-  //       ...jsonUpdate,
-  //     };
-  //   }
-  //   if (args.startCoordinate) {
-  //     jsonUpdate = {
-  //       startCoordinate: args.startCoordinate,
-  //       ...jsonUpdate,
-  //     };
-  //   }
-  //   if (args.endCoordinate) {
-  //     jsonUpdate = {
-  //       endCoordinate: args.endCoordinate,
-  //       ...jsonUpdate,
-  //     };
-  //   }
-  //   const result = await collection.findOneAndUpdate(
-  //     { _id: ObjectID(resultID) },
-  //     { $set: jsonUpdate },
-  //     { returnOriginal: false }
-  //   );
-
-  //   return result.value;
-  // },
+    let jsonUpdate;
+    if (args.name) {
+      jsonUpdate = {
+        name: args.name,
+        ...jsonUpdate,
+      };
+    }
+    if (args.lenght) {
+      jsonUpdate = {
+        lenght: args.lenght,
+        ...jsonUpdate,
+      };
+    }
+    if (args.speed) {
+      jsonUpdate = {
+        speed: args.speed,
+        ...jsonUpdate,
+      };
+    }
+    const result = await collection.findOneAndUpdate(
+      { _id: ObjectID(resultID) },
+      { $set: jsonUpdate },
+      { returnOriginal: false }
+    );
+    return result.value;
+  },
 
   // updateSegment: async (parent, args, ctx, info) => {
   //   const resultID = args.id;
