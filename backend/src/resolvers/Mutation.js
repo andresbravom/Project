@@ -495,44 +495,75 @@ const Mutation = {
     const collectionSegment = db.collection("Segments");
     const collectionValues = db.collection("Values");
 
-    let resultado;
+    let result;
     const findStreet = await collectionStreet.findOne({
       _id: ObjectID(streetID),
     });
-
-    const deleteStreet = () => {
-      return new Promise((resolve, reject) => {
-        resultado = collectionStreet.findOneAndDelete(
-          { _id: ObjectID(streetID) },
-          { returnOriginal: true }
-        );
-        resolve(result.value);
-      });
-    };
-    const deleteSegment = () => {
-      return new Promise((resolve, reject) => {
-        const result = collectionSegment.findOneAndDelete(
-          { street: ObjectID(streetID) },
-          { returnOriginal: true }
-        );
-        resolve(result.value);
-      });
-    };
-    const deleteValues = () => {
-      return new Promise((resolve, reject) => {
-        const result = collectionValues.findOneAndDelete(
-          { street: ObjectID(streetID) },
-          { returnOriginal: true }
-        );
-        resolve(result.value);
-      });
-    };
-    (async function () {
-      const asyncFuntions = [deleteStreet(), deleteSegment(), deleteValues()];
-      await Promise.all(asyncFuntions).value;
-    })();
-
-    return resultado.value;
+    if (findStreet){
+      const deleteStreet = () => {
+        return new Promise((resolve, reject) => {
+          result = collectionStreet.findOneAndDelete(
+            { _id: ObjectID(streetID) },
+            { returnOriginal: false }
+          );
+          resolve(result);
+        });
+      };  
+      const deleteSegment = () =>{
+        return new Promise((resolve, reject) =>{
+          const result = collectionSegment.deleteMany({street: ObjectID(streetID)});
+          resolve(result);
+        }
+      )};
+      const deleteValues = () => {
+        return new Promise((resolve, reject) => {
+          const result = collectionValues.findOneAndDelete(
+            { street: ObjectID(streetID) },
+            { returnOriginal: false }
+          );
+          resolve(result.value);
+        });
+      };
+      (async function () {
+        const asyncFuntions = [deleteStreet(), deleteSegment(), deleteValues()];
+        await Promise.all(asyncFuntions).value;
+      })();
+  
+      return result.value;
+    }else {
+      return new Error("Insert correct ID");
+    }
+    
   },
+
+  // removeSegments: async (parent, args, ctx, info) => {
+  //   const streetID = args._id;
+  //   const { client } = ctx;
+
+  //   const db = client.db("DataBase");
+  //   const collectionStreet = db.collection("Streets");
+  //   const collectionSegment = db.collection("Segments");
+
+  //   let resultado;
+  //   const findStreet = await collectionStreet.findOne({
+  //     _id: ObjectID(streetID),
+  //   });
+
+  //   const deleteSegment = () => {
+  //     return new Promise((resolve, reject) => {
+  //       const result = collectionSegment.findOneAndDelete(
+  //         { street: ObjectID(streetID) },
+  //         { returnOriginal: true }
+  //       );
+  //       resolve(result.value);
+  //     });
+  //   };
+  //   (async function () {
+  //     const asyncFuntions = [deleteSegment()];
+  //     await Promise.all(asyncFuntions).value;
+  //   })();
+
+  //   return resultado.value;
+  // }
 };
 export { Mutation as default };

@@ -63,6 +63,6 @@ type Mutation {
     updateStreet (_id: ID!, name: String, lenght: Float, speed: Int): Street!
     # updateSegment (id: ID!, lenght: Float, speed: Int, startCoordinate: [Float], middleCoordinate: [Float], endCoordinate: [Float], intersection: [Float], street: ID!, signal: [ID!]): Segment!
     updateSignal (_id: ID!, name: String, location: Float, type: String, probability: Float, description: String): Signal!
-    removeStreet (_id: ID!): Street
-   
+    removeStreet (_id: ID!): Street!
+    removeSegments (street: ID!): Segment!
 }
