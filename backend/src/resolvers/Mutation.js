@@ -535,7 +535,6 @@ const Mutation = {
     }
     
   },
-
   removeSegments: async (parent, args, ctx, info) => {
     const streetID = args.street;
     const { client } = ctx;
@@ -563,6 +562,36 @@ const Mutation = {
     }else {
       return new Error("Insert correct ID");
     }
-  }
+  },
+  removeValues: async (parent, args, ctx, info) => {
+    const valuesID = args._id;
+    const { client } = ctx;
+
+    const db = client.db("DataBase");
+    const collection = db.collection("Values");
+
+    let result;
+    const findValues = await collection.findOne({
+      _id: ObjectID(valuesID),
+    });
+    if(findValues){
+      const deleteValues = () => {
+        return new Promise((resolve, reject) => {
+          result = collection.findOneAndDelete(
+            { _id: ObjectID(valuesID) },
+            { returnOriginal: false }
+          );
+          resolve(result);
+        });
+      }; 
+      (async function () {
+        const asyncFuntions = [deleteValues()];
+        await Promise.all(asyncFuntions).value;
+      })();
+      return result;
+    }else {
+      return new Error("Insert correct ID");
+    }
+  },
 };
 export { Mutation as default };

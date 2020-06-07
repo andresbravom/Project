@@ -4,7 +4,7 @@ type Street {
     lenght: Float!
     speed: Int!
     segment: [Segment]!
-    values: Values!
+    values: [Values]!
 }
 type Intersection {
     _id: ID
@@ -65,4 +65,5 @@ type Mutation {
     updateSignal (_id: ID!, name: String, location: Float, type: String, probability: Float, description: String): Signal!
     removeStreet (_id: ID!): Street!
     removeSegments (street: ID!): Segment!
+    removeValues (_id: ID!): Values!
 }

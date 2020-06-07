@@ -9,7 +9,6 @@ const Street = {
     const collection = db.collection("Segments");
 
     const result = await collection.find({ street: streetID }).toArray();
-    console;
     return result;
   },
   values: async (parent, args, ctx, info) => {
@@ -19,8 +18,7 @@ const Street = {
     const db = client.db("DataBase");
     const collection = db.collection("Values");
 
-    const result = await collection.findOne({ street: streetID });
-    console;
+    const result = await collection.find({ street: streetID }).toArray();
     return result;
   },
 };
