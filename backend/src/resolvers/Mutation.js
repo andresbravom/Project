@@ -569,7 +569,6 @@ const Mutation = {
     const db = client.db("DataBase");
     const collection = db.collection("Values");
 
-    let result;
     const findValues = await collection.findOne({
       _id: ObjectID(valuesID),
     });
@@ -588,6 +587,35 @@ const Mutation = {
         await Promise.all(asyncFuntions).value;
       })();
       return findValues;
+    }else {
+      return new Error("Insert correct ID");
+    }
+  },
+  removeSignal: async (parent, args, ctx, info) => {
+    const signalID = args._id;
+    const { client } = ctx;
+
+    const db = client.db("DataBase");
+    const collection = db.collection("Signals");
+
+    const findSignal = await collection.findOne({
+      _id: ObjectID(signalID),
+    });
+    if(findSignal){
+      const deleteSignals = () => {
+        return new Promise((resolve, reject) => {
+          const result = collection.findOneAndDelete(
+            { _id: ObjectID(signalID) },
+            { returnOriginal: true }
+          );
+          resolve(result.value);
+        });
+      };
+      (async function () {
+        const asyncFuntions = [deleteSignals()];
+        await Promise.all(asyncFuntions).value;
+      })();
+      return findSignal;
     }else {
       return new Error("Insert correct ID");
     }

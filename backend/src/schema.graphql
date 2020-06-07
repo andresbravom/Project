@@ -66,4 +66,5 @@ type Mutation {
     removeStreet (_id: ID!): Street!
     removeSegments (street: ID!): Segment!
     removeValues (_id: ID!): Values!
+    removeSignal (_id: ID): Signal!
 }
