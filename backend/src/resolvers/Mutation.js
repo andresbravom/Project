@@ -500,15 +500,7 @@ const Mutation = {
       _id: ObjectID(streetID),
     });
     if (findStreet){
-      const deleteStreet = () => {
-        return new Promise((resolve, reject) => {
-          result = collectionStreet.findOneAndDelete(
-            { _id: ObjectID(streetID) },
-            { returnOriginal: false }
-          );
-          resolve(result);
-        });
-      };  
+      
       const deleteSegment = () =>{
         return new Promise((resolve, reject) =>{
           const result = collectionSegment.deleteMany({street: ObjectID(streetID)});
@@ -519,17 +511,26 @@ const Mutation = {
         return new Promise((resolve, reject) => {
           const result = collectionValues.findOneAndDelete(
             { street: ObjectID(streetID) },
-            { returnOriginal: false }
+            { returnOriginal: true }
           );
           resolve(result.value);
         });
       };
+      const deleteStreet = () => {
+        return new Promise((resolve, reject) => {
+          result = collectionStreet.findOneAndDelete(
+            { _id: ObjectID(streetID) },
+            { returnOriginal: true }
+          );
+          resolve(result);
+        });
+      }; 
       (async function () {
         const asyncFuntions = [deleteStreet(), deleteSegment(), deleteValues()];
         await Promise.all(asyncFuntions).value;
       })();
-  
-      return result.value;
+      console.log(findStreet);
+      return findStreet;
     }else {
       return new Error("Insert correct ID");
     }
@@ -575,15 +576,12 @@ const Mutation = {
       _id: ObjectID(valuesID),
     });
     if(findValues){
-      const deleteValues = () => {
-        return new Promise((resolve, reject) => {
-          result = collection.findOneAndDelete(
-            { _id: ObjectID(valuesID) },
-            { returnOriginal: false }
-          );
+      const deleteValues = () =>{
+        return new Promise((resolve, reject) =>{
+          result = collection.deleteOne({_id: ObjectID(valuesID)});
           resolve(result);
-        });
-      }; 
+        }
+      )};
       (async function () {
         const asyncFuntions = [deleteValues()];
         await Promise.all(asyncFuntions).value;
