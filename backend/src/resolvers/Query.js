@@ -47,7 +47,6 @@ const Query = {
       return new Error("There are no segments");
     }
   },
-
   getSignalID: async (parent, args, ctx, info) => {
     const { _id } = args;
     const { client } = ctx;
@@ -63,7 +62,6 @@ const Query = {
       return new Error("There are no Signals");
     }
   },
-
   getStreet: async (parent, args, ctx, info) => {
     const { client } = ctx;
 
@@ -92,7 +90,6 @@ const Query = {
       return new Error("There are no Values");
     }
   },
-
   getSegment: async (parent, args, ctx, info) => {
     const { client } = ctx;
 
@@ -107,7 +104,6 @@ const Query = {
       return new Error("Insert correct ID");
     }
   },
-
   getSignal: async (parent, args, ctx, info) => {
     const { client } = ctx;
 
@@ -122,7 +118,6 @@ const Query = {
       return new Error("Insert correct ID");
     }
   },
-
   getValues: async (parent, args, ctx, info) => {
     const { client } = ctx;
 
@@ -205,18 +200,6 @@ const Query = {
     const resultStreet = await collectionStreet.findOne({ _id: ObjectID(street) });
     const resultValues = await collectionValues.findOne({ _id: ObjectID(values) });
 
-    
-    // console.log(p );
-    // console.log(Cd );
-    // console.log(A );
-    // console.log(v);
-    // console.log(t );
-    // console.log(M );
-    // console.log(G );
-    // console.log(fr );
-
-    
-
     if(resultStreet && resultValues){
       const a = 3.9;
 
@@ -233,6 +216,7 @@ const Query = {
     
       const energyConsumed =
         (1 / 2) * p * Cd * A * Math.pow(v, 3) * t + M * G * v * t * fr;
+
         return energyConsumed
     }else{
       return new Error("Insert correct ID");
