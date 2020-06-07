@@ -214,9 +214,10 @@ const Query = {
       const G = resultValues.G;
       const fr = resultValues.fr;
     
-      const energyConsumed =
+      let energyConsumed =
         (1 / 2) * p * Cd * A * Math.pow(v, 3) * t + M * G * v * t * fr;
-
+        energyConsumed = energyConsumed * 0.00027777777777778
+        energyConsumed = energyConsumed.toFixed(2);
         return energyConsumed
     }else{
       return new Error("Insert correct ID");
