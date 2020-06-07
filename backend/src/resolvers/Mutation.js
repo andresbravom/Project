@@ -529,12 +529,10 @@ const Mutation = {
         const asyncFuntions = [deleteStreet(), deleteSegment(), deleteValues()];
         await Promise.all(asyncFuntions).value;
       })();
-      console.log(findStreet);
       return findStreet;
     }else {
       return new Error("Insert correct ID");
     }
-    
   },
   removeSegments: async (parent, args, ctx, info) => {
     const streetID = args.street;
@@ -576,17 +574,20 @@ const Mutation = {
       _id: ObjectID(valuesID),
     });
     if(findValues){
-      const deleteValues = () =>{
-        return new Promise((resolve, reject) =>{
-          result = collection.deleteOne({_id: ObjectID(valuesID)});
-          resolve(result);
-        }
-      )};
+      const deleteValues = () => {
+        return new Promise((resolve, reject) => {
+          const result = collection.findOneAndDelete(
+            { _id: ObjectID(valuesID) },
+            { returnOriginal: true }
+          );
+          resolve(result.value);
+        });
+      };
       (async function () {
         const asyncFuntions = [deleteValues()];
         await Promise.all(asyncFuntions).value;
       })();
-      return result;
+      return findValues;
     }else {
       return new Error("Insert correct ID");
     }
