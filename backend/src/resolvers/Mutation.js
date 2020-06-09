@@ -267,7 +267,7 @@ const Mutation = {
   },
 
   addValues: async (parent, args, ctx, info) => {
-    const { street, p, Cd, A, M, G, fr } = args;
+    const { street, p, Cd, A, M, G, fr, a, alfa } = args;
     const { client } = ctx;
 
     const db = client.db("DataBase");
@@ -284,6 +284,8 @@ const Mutation = {
         M,
         G,
         fr,
+        a,
+        alfa,
       });
       return result.ops[0];
     } else {
@@ -331,6 +333,18 @@ const Mutation = {
     if (args.fr) {
       jsonUpdate = {
         fr: args.fr,
+        ...jsonUpdate,
+      };
+    }
+    if (args.a) {
+      jsonUpdate = {
+        a: args.a,
+        ...jsonUpdate,
+      };
+    }
+    if (args.alfa) {
+      jsonUpdate = {
+        alfa: args.alfa,
         ...jsonUpdate,
       };
     }
