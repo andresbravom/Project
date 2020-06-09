@@ -16,7 +16,6 @@ const Query = {
       return new Error("Insert correct ID");
     }
   },
-
   getIntersectionID: async (parent, args, ctx, info) => {
     const { _id } = args;
     const { client } = ctx;
@@ -189,7 +188,7 @@ const Query = {
       null;
     }
   },
-  getEnergy: async (parent, args, ctx, info) => {
+  getO1: async (parent, args, ctx, info) => {
     const { street, values } = args;
     const { client } = ctx;
 

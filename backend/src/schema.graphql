@@ -51,8 +51,7 @@ type Query {
     getSignal: [Signal]
     getCalcule(street: ID): [Segment]
     getValues: [Values]
-    getO1: Float!
-    getEnergy(street: ID!, values: ID!): Float!
+    getO1(street: ID!, values: ID!): Float!
 }
 type Mutation {
     addStreet (name: String!, lenght: Float!, speed: Int!): Street!
