@@ -143,7 +143,7 @@ const Query = {
       .find({ street: ObjectID(street) })
       .toArray();
 
-    let energy = 0; 
+    let energy = 0;
     let total = 0;
     if (result) {
       let calculeGeneral = 0;
@@ -153,21 +153,19 @@ const Query = {
 
       console.log("Jo: " + result.length);
 
-
-      for (let i = 0; i<result.length; i+= 1) {
-          
-          if(i === 0 || i === result.length - 1){
-            energy = 33.72;
-            total = total + energy;
-            console.log("total: " + total+ i);
-          }else{
-            energy = 4.11;
-            total = total + energy;
-            console.log("total: " + total + i);
-          }
+      for (let i = 0; i < result.length; i += 1) {
+        if (i === 0 || i === result.length - 1) {
+          energy = 33.72;
+          total = total + energy;
+          console.log("total: " + total + i);
+        } else {
+          energy = 4.11;
+          total = total + energy;
+          console.log("total: " + total + i);
+        }
       }
       console.log("total Final: " + total);
-      
+
       // const lengthGeneral = signals.length;
       // const lengthSpecific = filterSignal.length;
 
@@ -196,29 +194,88 @@ const Query = {
     const collectionStreet = db.collection("Streets");
     const collectionValues = db.collection("Values");
 
-    const resultStreet = await collectionStreet.findOne({ _id: ObjectID(street) });
-    const resultValues = await collectionValues.findOne({ _id: ObjectID(values) });
+    const resultStreet = await collectionStreet.findOne({
+      _id: ObjectID(street),
+    });
+    const resultValues = await collectionValues.findOne({
+      _id: ObjectID(values),
+    });
 
-    if(resultStreet && resultValues){
-      const a = 3.9;
-
+    if (resultStreet && resultValues) {
+      const a = resultValues.a;
       const p = resultValues.p;
       const Cd = resultValues.Cd;
       const A = resultValues.A;
-      let v = resultStreet.speed * (5/18);
+      let v = resultStreet.speed * (5 / 18);
       v = v.toFixed(2);
-      let t = (0 - v) / - a;
+      let t = (0 - v) / -a;
       t = t.toFixed(1);
       const M = resultValues.M;
       const G = resultValues.G;
       const fr = resultValues.fr;
-    
+
       let energyConsumed =
         (1 / 2) * p * Cd * A * Math.pow(v, 3) * t + M * G * v * t * fr;
-        energyConsumed = energyConsumed * 0.00027777777777778
-        energyConsumed = energyConsumed.toFixed(2);
-        return energyConsumed
-    }else{
+      console.log(energyConsumed);
+      energyConsumed = energyConsumed * 0.00027777777777778;
+
+      energyConsumed = energyConsumed.toFixed(2);
+      return energyConsumed;
+    } else {
+      return new Error("Insert correct ID");
+    }
+  },
+  getOBraking: async (parent, args, ctx, info) => {
+    const { street, values } = args;
+    const { client } = ctx;
+
+    const db = client.db("DataBase");
+    const collectionStreet = db.collection("Streets");
+    const collectionValues = db.collection("Values");
+
+    const resultStreet = await collectionStreet.findOne({
+      _id: ObjectID(street),
+    });
+    const resultValues = await collectionValues.findOne({
+      _id: ObjectID(values),
+    });
+
+    if (resultStreet && resultValues) {
+      const a = resultValues.a;
+      const p = resultValues.p;
+      const Cd = resultValues.Cd;
+      const A = resultValues.A;
+      const G = resultValues.G;
+      const fr = resultValues.fr;
+      let v = resultStreet.speed * (5 / 18);
+      v = v.toFixed(2);
+      let t = (0 - v) / -a;
+      t = t.toFixed(1);
+      const M = resultValues.M;
+
+      const auxEbreak1 = (M / 2) * (Math.pow(v - a * t, 2) - Math.pow(v, 2));
+      // const ebreak1 = auxEbreak1.toFixed(3);
+      
+      const auxEbreak2 =
+        (p * Cd * A * (Math.pow(v - a * t, 4) - Math.pow(v, 4))) / (-8 * a);
+      // const ebreak2 = auxEbreak2.toFixed(3);
+      
+      const auxEbreak3 = (M * G * fr) * (Math.pow(v - a * t, 2) - Math.pow(v, 2)) / (-2 * a);
+      // const ebreak3 = auxEbreak3.toFixed(3);
+
+      let energyConsumed = auxEbreak1 + auxEbreak2 + auxEbreak3;
+
+      console.log(auxEbreak1);
+      console.log(auxEbreak2);
+      console.log(auxEbreak3);
+      
+      
+      energyConsumed = energyConsumed * 0.00027777777777778
+      energyConsumed = energyConsumed.toFixed(2);
+      console.log(energyConsumed);
+
+      return energyConsumed;
+    } else {
       return new Error("Insert correct ID");
     }
   },

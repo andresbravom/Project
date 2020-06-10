@@ -54,6 +54,8 @@ type Query {
     getCalcule(street: ID): [Segment]
     getValues: [Values]
     getO1(street: ID!, values: ID!): Float!
+    getOBraking(street: ID!, values: ID!): Float!
+    getOAcceleration(street: ID!, values: ID!): Float!
 }
 type Mutation {
     addStreet (name: String!, lenght: Float!, speed: Int!): Street!
