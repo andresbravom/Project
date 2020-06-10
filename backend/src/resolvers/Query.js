@@ -3,10 +3,10 @@ import { ObjectID } from "mongodb";
 function O1 (p , Cd, A, M, G, fr, v, t) {
     let energyConsumed =
       (1 / 2) * p * Cd * A * Math.pow(v, 3) * t + M * G * v * t * fr;
-    console.log(energyConsumed);
+    
     energyConsumed = energyConsumed * 0.00027777777777778;
 
-    energyConsumed = energyConsumed.toFixed(2);
+    // energyConsumed = energyConsumed.toFixed(2);
     return energyConsumed;
 }
 function O2 (p , Cd, A, M, G, fr, v, t, a, alfa) {
@@ -36,7 +36,7 @@ function O2 (p , Cd, A, M, G, fr, v, t, a, alfa) {
 
       let energyConsumed = energyAcceleration + alfa * energyBraking;
       energyConsumed = energyConsumed * 0.00027777777777778;
-      energyConsumed = energyConsumed.toFixed(2);
+      // energyConsumed = energyConsumed.toFixed(2);
 
       return energyConsumed;
 }
@@ -280,6 +280,7 @@ const Query = {
     const db = client.db("DataBase");
     const collectionStreet = db.collection("Streets");
     const collectionValues = db.collection("Values");
+    const collectionSegments = db.collection("Segments");
 
     const resultStreet = await collectionStreet.findOne({
       _id: ObjectID(street),
@@ -287,37 +288,43 @@ const Query = {
     const resultValues = await collectionValues.findOne({
       _id: ObjectID(values),
     });
-    let f = 0;
-    let f2 = 0;
+
+    let energyO1 = 0;
+    let energyO2 = 0;
+    let totalEnergy = 0;
+  
     if(resultStreet && resultValues) {
-      // for (let i=0; i<resultStreet.length; i += 1) {
-        // if(i === 0 || i === resultStreet.length - 1){
-          const a = resultValues.a;
-          const p = resultValues.p;
-          const Cd = resultValues.Cd;
-          const A = resultValues.A;
-          const alfa = resultValues.alfa;
-          let v = resultStreet.speed * (5 / 18);
-          v = v.toFixed(2);
-          let t = (0 - v) / - a;
-          t = t.toFixed(1);
-          const M = resultValues.M;
-          const G = resultValues.G;
-          const fr = resultValues.fr;
+      const result = await collectionSegments
+        .find({ street: ObjectID(street) })
+        .toArray();
 
-          //function O1 (a, p , Cd, A, M, G, fr, v, t)
+      const a = resultValues.a;
+      const p = resultValues.p;
+      const Cd = resultValues.Cd;
+      const A = resultValues.A;
+      const alfa = resultValues.alfa;
+      let v = resultStreet.speed * (5 / 18);
+      v = v.toFixed(2);
+      let t = (0 - v) / - a;
+      t = t.toFixed(1);
+      const M = resultValues.M;
+      const G = resultValues.G;
+      const fr = resultValues.fr;
 
-          // f = O1(p , Cd, A, M, G, fr, v, t);
-          // console.log("Funtion: " + f);
-          f2 = O2 (p , Cd, A, M, G, fr, v, t, a, alfa);
-          console.log(f2);
-        // }
-      // }
-      return f2;
+      energyO1 = O2 (p , Cd, A, M, G, fr, v, t, a, alfa);
+      energyO2 = O1(p , Cd, A, M, G, fr, v, t);
+
+      for (let i = 0; i < result.length; i += 1) {
+        if (i === 0 || i === result.length - 1)  {
+          totalEnergy = totalEnergy + energyO1;
+        }else {
+          totalEnergy = totalEnergy + energyO2;
+        }
+      }
+      return totalEnergy;
     }else {
       return new Error("Insert correct ID");
     }
-    
   }
 
   // getCalcule: async (parent, args, ctx, info) => {
