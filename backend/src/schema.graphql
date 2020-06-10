@@ -51,7 +51,7 @@ type Query {
     getIntersection: [Intersection]
     getSegment: [Segment]
     getSignal: [Signal]
-    getCalcule(street: ID): [Segment]
+    getCalcules(street: ID, values: ID!): Float!
     getValues: [Values]
     getO1(street: ID!, values: ID!): Float!
     getOBraking(street: ID!, values: ID!): Float!
