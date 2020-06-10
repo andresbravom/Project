@@ -1,6 +1,6 @@
 import { ObjectID } from "mongodb";
 
-function O1 (a, p , Cd, A, M, G, fr, v, t) {
+function O1 (p , Cd, A, M, G, fr, v, t) {
     let energyConsumed =
       (1 / 2) * p * Cd * A * Math.pow(v, 3) * t + M * G * v * t * fr;
     console.log(energyConsumed);
@@ -8,6 +8,37 @@ function O1 (a, p , Cd, A, M, G, fr, v, t) {
 
     energyConsumed = energyConsumed.toFixed(2);
     return energyConsumed;
+}
+function O2 (p , Cd, A, M, G, fr, v, t, a, alfa) {
+  const ebreak1 = (M / 2) * (Math.pow(v - a * t, 2) - Math.pow(v, 2));
+      const ebreak2 =
+        (p * Cd * A * (Math.pow(v - a * t, 4) - Math.pow(v, 4))) / (-8 * a);
+      const ebreak3 = (M * G * fr) * (Math.pow(v - a * t, 2) - Math.pow(v, 2)) / (-2 * a);
+
+      //Energy in braking
+      let energyBraking = ebreak1 + ebreak2 + ebreak3;
+      // energyBraking = energyBraking * 0.00027777777777778;
+      // energyBraking = energyBraking.toFixed(2);
+
+      //Energy recovered in braking
+      let energyRecoveredInBraking = alfa * energyBraking;
+      energyRecoveredInBraking = energyRecoveredInBraking.toFixed(2);
+      //console.log(energyRecoveredInBraking);
+
+      const eacc1 = (M * (Math.pow(a * t, 2))) / 2;
+      const eacc2 = (p * Cd * A * (Math.pow(a * t, 4))) / (8 * a);
+      const eacc3 = (M * G * fr * (Math.pow(a * t, 2))) / (2 * a);
+
+      //Energy in accelration
+      let energyAcceleration = eacc1 + eacc2 + eacc3;
+      // energyAcceleration = energyAcceleration * 0.00027777777777778;
+      // energyAcceleration = energyAcceleration.toFixed(2);
+
+      let energyConsumed = energyAcceleration + alfa * energyBraking;
+      energyConsumed = energyConsumed * 0.00027777777777778;
+      energyConsumed = energyConsumed.toFixed(2);
+
+      return energyConsumed;
 }
 const Query = {
   getStreetID: async (parent, args, ctx, info) => {
@@ -180,7 +211,7 @@ const Query = {
       return new Error("Insert correct ID");
     }
   },
-  getOBraking: async (parent, args, ctx, info) => {
+  getO2: async (parent, args, ctx, info) => {
     const { street, values } = args;
     const { client } = ctx;
 
@@ -257,6 +288,7 @@ const Query = {
       _id: ObjectID(values),
     });
     let f = 0;
+    let f2 = 0;
     if(resultStreet && resultValues) {
       // for (let i=0; i<resultStreet.length; i += 1) {
         // if(i === 0 || i === resultStreet.length - 1){
@@ -264,9 +296,10 @@ const Query = {
           const p = resultValues.p;
           const Cd = resultValues.Cd;
           const A = resultValues.A;
+          const alfa = resultValues.alfa;
           let v = resultStreet.speed * (5 / 18);
           v = v.toFixed(2);
-          let t = (0 - v) / -a;
+          let t = (0 - v) / - a;
           t = t.toFixed(1);
           const M = resultValues.M;
           const G = resultValues.G;
@@ -274,11 +307,13 @@ const Query = {
 
           //function O1 (a, p , Cd, A, M, G, fr, v, t)
 
-          f = O1(a, p , Cd, A, M, G, fr, v, t);
-          console.log("Funtion: " + f)
+          // f = O1(p , Cd, A, M, G, fr, v, t);
+          // console.log("Funtion: " + f);
+          f2 = O2 (p , Cd, A, M, G, fr, v, t, a, alfa);
+          console.log(f2);
         // }
       // }
-      return f;
+      return f2;
     }else {
       return new Error("Insert correct ID");
     }
