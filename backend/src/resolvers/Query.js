@@ -17,13 +17,10 @@ function O2Acceleration (p , Cd, A, M, G, fr, v, t, a, alfa) {
 
       //Energy in braking
       let energyBraking = ebreak1 + ebreak2 + ebreak3;
-      // energyBraking = energyBraking * 0.00027777777777778;
-      // energyBraking = energyBraking.toFixed(2);
 
       //Energy recovered in braking
       let energyRecoveredInBraking = alfa * energyBraking;
       energyRecoveredInBraking = energyRecoveredInBraking.toFixed(2);
-      //console.log(energyRecoveredInBraking);
 
       const eacc1 = (M * (Math.pow(a * t, 2))) / 2;
       const eacc2 = (p * Cd * A * (Math.pow(a * t, 4))) / (8 * a);
@@ -31,12 +28,9 @@ function O2Acceleration (p , Cd, A, M, G, fr, v, t, a, alfa) {
 
       //Energy in accelration
       let energyAcceleration = eacc1 + eacc2 + eacc3;
-      // energyAcceleration = energyAcceleration * 0.00027777777777778;
-      // energyAcceleration = energyAcceleration.toFixed(2);
 
       let energyConsumed = energyAcceleration + alfa * energyBraking;
       energyConsumed = energyConsumed * 0.00027777777777778;
-      // energyConsumed = energyConsumed.toFixed(2);
 
       return energyConsumed;
 }
@@ -48,8 +42,6 @@ function O2Braking (p , Cd, A, M, G, fr, v, t, a, alfa) {
 
       //Energy in braking
       let energyBraking = ebreak1 + ebreak2 + ebreak3;
-      // energyBraking = energyBraking * 0.00027777777777778;
-      // energyBraking = energyBraking.toFixed(2);
 
       //Energy recovered in braking
       let energyRecoveredInBraking = alfa * energyBraking;
@@ -327,61 +319,66 @@ const Query = {
       return new Error("Insert correct ID");
     }
   },
-  // getCalcules: async (parent, args, ctx, info) => {
-  //   const { street, values } = args;
-  //   const { client } = ctx;
+  getCalcules: async (parent, args, ctx, info) => {
+    const { street, values } = args;
+    const { client } = ctx;
 
-  //   const db = client.db("DataBase");
-  //   const collectionStreet = db.collection("Streets");
-  //   const collectionValues = db.collection("Values");
-  //   const collectionSegments = db.collection("Segments");
+    const db = client.db("DataBase");
+    const collectionStreet = db.collection("Streets");
+    const collectionValues = db.collection("Values");
+    const collectionSegments = db.collection("Segments");
 
-  //   const resultStreet = await collectionStreet.findOne({
-  //     _id: ObjectID(street),
-  //   });
-  //   const resultValues = await collectionValues.findOne({
-  //     _id: ObjectID(values),
-  //   });
+    const resultStreet = await collectionStreet.findOne({
+      _id: ObjectID(street),
+    });
+    const resultValues = await collectionValues.findOne({
+      _id: ObjectID(values),
+    });
 
-  //   let energyO1 = 0;
-  //   let energyO2 = 0;
-  //   let totalEnergy = 0;
+    let energyO1 = 0;
+    let energyO2Acceleration = 0;
+    let energyO2Braking = 0;
+    let totalEnergy = 0;
   
-  //   if(resultStreet && resultValues) {
-  //     const result = await collectionSegments
-  //       .find({ street: ObjectID(street) })
-  //       .toArray();
+    if(resultStreet && resultValues) {
+      const result = await collectionSegments
+        .find({ street: ObjectID(street) })
+        .toArray();
 
-  //     const a = resultValues.a;
-  //     const p = resultValues.p;
-  //     const Cd = resultValues.Cd;
-  //     const A = resultValues.A;
-  //     const alfa = resultValues.alfa;
-  //     let v = resultStreet.speed * (5 / 18);
-  //     v = v.toFixed(2);
-  //     let t = (0 - v) / - a;
-  //     t = t.toFixed(1);
-  //     const M = resultValues.M;
-  //     const G = resultValues.G;
-  //     const fr = resultValues.fr;
+      const a = resultValues.a;
+      const p = resultValues.p;
+      const Cd = resultValues.Cd;
+      const A = resultValues.A;
+      const alfa = resultValues.alfa;
+      let v = resultStreet.speed * (5 / 18);
+      v = v.toFixed(2);
+      let t = (0 - v) / - a;
+      t = t.toFixed(1);
+      const M = resultValues.M;
+      const G = resultValues.G;
+      const fr = resultValues.fr;
 
-  //     energyO1 = O2 (p , Cd, A, M, G, fr, v, t, a, alfa);
-  //     energyO2 = O1(p , Cd, A, M, G, fr, v, t);
+      energyO1 = O1 (p , Cd, A, M, G, fr, v, t);
+      energyO2Acceleration = O2Acceleration (p , Cd, A, M, G, fr, v, t, a, alfa);
+      energyO2Braking = O2Braking (p , Cd, A, M, G, fr, v, t, a, alfa);
 
-  //     for (let i = 0; i < result.length; i += 1) {
-  //       if (i === 0 )  {
-  //         totalEnergy = totalEnergy + energyO1;
-  //       }else if(i === result.length - 1){
-  //         02    
-  //       }else{
-  //         totalEnergy = totalEnergy + energyO2;
-  //       }
-  //     }
-  //     return totalEnergy;
-  //   }else {
-  //     return new Error("Insert correct ID");
-  //   }
-  // }
+      for (let i = 0; i < result.length; i += 1) {
+        if (i === 0 )  {
+          totalEnergy = totalEnergy + energyO2Acceleration;
+          console.log(totalEnergy);
+        }else if(i === result.length - 1){
+          totalEnergy = totalEnergy + energyO2Braking;
+          console.log(totalEnergy);
+        }else{
+          totalEnergy = totalEnergy + energyO1;
+          console.log(totalEnergy);
+        }
+      }
+      return totalEnergy;
+    }else {
+      return new Error("Insert correct ID");
+    }
+  }
 
   // getCalcule: async (parent, args, ctx, info) => {
   //   const { street } = args;
