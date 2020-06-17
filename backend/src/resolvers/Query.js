@@ -327,6 +327,7 @@ const Query = {
     const collectionStreet = db.collection("Streets");
     const collectionValues = db.collection("Values");
     const collectionSegments = db.collection("Segments");
+    const collectionSignals = db.collection("Signals");
 
     const resultStreet = await collectionStreet.findOne({
       _id: ObjectID(street),
@@ -345,9 +346,29 @@ const Query = {
         .find({ street: ObjectID(street) })
         .toArray();
 
+      let filterSignal = await result.find((obj) => obj.signal != 0);
+
+      const lengthArraySignal = filterSignal.signal.length
+      
+
+      for(let i= 1; i<lengthArraySignal; i += 1){
+        const resultSignal = await collectionSignals
+        .findOne({ _id: ObjectID(filterSignal.signal[i]) });
+
+        console.log(resultSignal.location)
+      }
+      
+      // console.log(filterSignal);
+      // console.log(filterSignal.signal.length); 
+
+      const resultSignal = await collectionSignals
+        .findOne({ _id: ObjectID(filterSignal.signal[0]) });
+
+        console.log(resultSignal.location)
+
       const a = resultValues.a;
       const p = resultValues.p;
-      const Cd = resultValues.Cd;
+      const Cd = resultValues.Cd;        
       const A = resultValues.A;
       const alfa = resultValues.alfa;
       let v = resultStreet.speed * (5 / 18);
