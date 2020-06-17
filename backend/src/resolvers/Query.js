@@ -350,6 +350,7 @@ const Query = {
 
       const lengthArraySignal = filterSignal.signal.length
       
+      //QUEDA PENDIENTE VER MAS DE UNA SEÑAL Y PONER LAS DOS CON PROBABILIDAD 1 Y VER SI SUMA LA ENERGIA EN LA CALLE
 
       for(let i= 1; i<lengthArraySignal; i += 1){
         const resultSignal = await collectionSignals
