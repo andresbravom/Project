@@ -196,14 +196,13 @@ const Query = {
     });
 
     if (resultStreet && resultValues) {
+      const v0 = 0;
       const a = resultValues.a;
       const p = resultValues.p;
       const Cd = resultValues.Cd;
       const A = resultValues.A;
-      let v = resultStreet.speed * (5 / 18);
-      v = v.toFixed(2);
-      let t = (0 - v) / -a;
-      t = t.toFixed(1);
+      const v = resultStreet.speed * (5 / 18);
+      const t = (v - v0) / a;
       const M = resultValues.M;
       const G = resultValues.G;
       const fr = resultValues.fr;
@@ -234,6 +233,7 @@ const Query = {
     });
 
     if (resultStreet && resultValues) {
+      const v0 = 0;
       const a = resultValues.a;
       const p = resultValues.p;
       const Cd = resultValues.Cd;
@@ -241,10 +241,8 @@ const Query = {
       const G = resultValues.G;
       const fr = resultValues.fr;
       const alfa = resultValues.alfa;
-      let v = resultStreet.speed * (5 / 18);
-      v = v.toFixed(2);
-      let t = (0 - v) / -a;
-      t = t.toFixed(1);
+      const v = resultStreet.speed * (5 / 18);
+      const t = (v - v0) / a;
       const M = resultValues.M;
 
       const ebreak1 = (M / 2) * (Math.pow(v - a * t, 2) - Math.pow(v, 2));
@@ -286,6 +284,7 @@ const Query = {
     });
 
     if (resultStreet && resultValues) {
+      const v0 = 0;
       const a = resultValues.a;
       const p = resultValues.p;
       const Cd = resultValues.Cd;
@@ -293,10 +292,8 @@ const Query = {
       const G = resultValues.G;
       const fr = resultValues.fr;
       const alfa = resultValues.alfa;
-      let v = resultStreet.speed * (5 / 18);
-      v = v.toFixed(2);
-      let t = (0 - v) / -a;
-      t = t.toFixed(1);
+      const v = resultStreet.speed * (5 / 18);
+      const t = (v - v0) / a;
       const M = resultValues.M;
 
       const ebreak1 = (M / 2) * (Math.pow(v - a * t, 2) - Math.pow(v, 2));
@@ -348,15 +345,14 @@ const Query = {
 
       const lengthArraySignal = filterSignal.signal.length;
 
+      const v0 = 0;
       const a = resultValues.a;
       const p = resultValues.p;
       const Cd = resultValues.Cd;        
       const A = resultValues.A;
       const alfa = resultValues.alfa;
-      let v = resultStreet.speed * (5 / 18);
-      v = v.toFixed(2);
-      let t = (0 - v) / - a;
-      t = t.toFixed(1);
+      const v = resultStreet.speed * (5 / 18);
+      const t = (v - v0) / a;
       const M = resultValues.M;
       const G = resultValues.G;
       const fr = resultValues.fr;
@@ -410,6 +406,38 @@ const Query = {
       }
     }else {
       return new Error("Insert correct ID");
+    }
+  },
+  getO3Acceleration: async (parent, args, ctx, info) => {
+    const { street, values } = args;
+    const { client } = ctx;
+
+    const db = client.db("DataBase");
+    const collectionStreet = db.collection("Streets");
+    const collectionValues = db.collection("Values");
+
+    const resultStreet = await collectionStreet.findOne({
+      _id: ObjectID(street),
+    });
+    const resultValues = await collectionValues.findOne({
+      _id: ObjectID(values),
+    });
+
+    if(resultStreet && resultValues){
+      const a = resultValues.a;
+      const p = resultValues.p;
+      const Cd = resultValues.Cd;
+      const A = resultValues.A;
+      const G = resultValues.G;
+      const fr = resultValues.fr;
+      const alfa = resultValues.alfa;
+      let v = resultStreet.speed * (5 / 18);
+      v = v.toFixed(2);
+      let t = (0 - v) / -a;
+      t = t.toFixed(1);
+      const M = resultValues.M;
+
+      // const etacc1 = (M/2) * ((v + a * ))
     }
   },
 };

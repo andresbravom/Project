@@ -2,25 +2,25 @@ import { ObjectID } from "mongodb";
 
 function lenghtSegments(speed) {
   const a = 3.9;
-  const vi = 0;
-  const v0 = speed * (5 / 18);
-  const t = (vi - v0) / -a;
-  var s = (v0 * t - (1 / 2) * a * (t * t)) * 2;
+  const v0 = 0;
+  const v = speed * (5 / 18);
+  const t = (v - v0) / a;
+  var s = (v * t - (1 / 2) * a * (t * t)) * 2;
 
   return Math.ceil(s);
 }
 
-function O1(p, Cd, A, v, M, g, fr) {
-  const a = 3.9;
-  const vi = 0;
-  const v0 = speed * (5 / 18);
-  const t = (vi - v0) / -a;
+// function O1(p, Cd, A, v, M, g, fr) {
+//   const a = 3.9;
+//   const vi = 0;
+//   const v0 = speed * (5 / 18);
+//   const t = (vi - v0) / -a;
 
-  const energyConsumed =
-    (1 / 2) * p * Cd * A * Math.pow(v, 3) * t * M * g * v * t * fr;
+//   const energyConsumed =
+//     (1 / 2) * p * Cd * A * Math.pow(v, 3) * t * M * g * v * t * fr;
 
-  return energyConsumed;
-}
+//   return energyConsumed;
+// }
 
 const Mutation = {
   addStreet: async (parent, args, ctx, info) => {
