@@ -408,37 +408,36 @@ const Query = {
       return new Error("Insert correct ID");
     }
   },
-  getO3Acceleration: async (parent, args, ctx, info) => {
-    const { street, values } = args;
-    const { client } = ctx;
+  // getO3Acceleration: async (parent, args, ctx, info) => {
+  //   const { street, values } = args;
+  //   const { client } = ctx;
 
-    const db = client.db("DataBase");
-    const collectionStreet = db.collection("Streets");
-    const collectionValues = db.collection("Values");
+  //   const db = client.db("DataBase");
+  //   const collectionStreet = db.collection("Streets");
+  //   const collectionValues = db.collection("Values");
 
-    const resultStreet = await collectionStreet.findOne({
-      _id: ObjectID(street),
-    });
-    const resultValues = await collectionValues.findOne({
-      _id: ObjectID(values),
-    });
+  //   const resultStreet = await collectionStreet.findOne({
+  //     _id: ObjectID(street),
+  //   });
+  //   const resultValues = await collectionValues.findOne({
+  //     _id: ObjectID(values),
+  //   });
 
-    if(resultStreet && resultValues){
-      const a = resultValues.a;
-      const p = resultValues.p;
-      const Cd = resultValues.Cd;
-      const A = resultValues.A;
-      const G = resultValues.G;
-      const fr = resultValues.fr;
-      const alfa = resultValues.alfa;
-      let v = resultStreet.speed * (5 / 18);
-      v = v.toFixed(2);
-      let t = (0 - v) / -a;
-      t = t.toFixed(1);
-      const M = resultValues.M;
-
-      // const etacc1 = (M/2) * ((v + a * ))
-    }
-  },
+  //   if(resultStreet && resultValues){
+  //     const v0 = resultStreet.speed;
+  //     const a = resultValues.a;
+  //     const p = resultValues.p;
+  //     const Cd = resultValues.Cd;
+  //     const A = resultValues.A;
+  //     const G = resultValues.G;
+  //     const fr = resultValues.fr;
+  //     const alfa = resultValues.alfa;
+  //     let v = resultStreet.speed * (5 / 18);
+  //     let t = (v - v0) / -a;
+  //     const M = resultValues.M;
+  //     console.log(t);
+  //     // const etacc1 = (M/2) * ((v + a * ))
+  //   }
+  // },
 };
 export { Query as default };
