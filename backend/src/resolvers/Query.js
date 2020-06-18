@@ -361,7 +361,6 @@ const Query = {
 
       const lengthArraySignal = filterSignal.signal.length;
       
-
       const v0 = 0;
       const a = resultValues.a;
       const p = resultValues.p;
@@ -381,9 +380,6 @@ const Query = {
       const arrayLocationSignals = [];
       const indexSignals = filterSignal.index - 1;
 
-      // const prob = probabilityBraking();
-      // console.log(prob);
-
       if (lengthArraySignal !== 0) {
         for (let i = 0; i < lengthArraySignal; i += 1) {
           const resultSignal = await collectionSignals.findOne({
@@ -391,7 +387,6 @@ const Query = {
           });
           arrayLocationSignals.push(resultSignal);
         }
-        
         for (let i = 0; i < result.length; i += 1) {
           if (i === 0) {
             totalEnergy = totalEnergy + energyO2Acceleration;
@@ -400,11 +395,6 @@ const Query = {
             totalEnergy = totalEnergy + energyO2Braking;
             console.log(totalEnergy);
           } else if (i === indexSignals) {
-           
-            // const ash = arrayLocationSignals.map(obj => probabilityBraking(obj.probability));
-
-            // console.log(arrayLocationSignals);
-
             for(let i=0; i<arrayLocationSignals.length; i += 1){
               const probabilitySignal = probabilityBraking(arrayLocationSignals[i].probability);
               console.log(probabilitySignal);
@@ -418,16 +408,6 @@ const Query = {
                 console.log(totalEnergy);
               }
             }
-            // if(ash){
-            //   console.log("Hola")
-            // }else{
-            //   console.log("adios")
-            // }
-            
-            // totalEnergy =
-            //   totalEnergy +
-            //   (energyO2Braking + energyO2Acceleration)
-            // console.log(totalEnergy);
           } else {
             totalEnergy = totalEnergy + energyO1;
             console.log(totalEnergy);
