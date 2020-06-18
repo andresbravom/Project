@@ -35,7 +35,6 @@ const Mutation = {
       lenght,
       speed,
     });
-
     return result.ops[0];
   },
 
@@ -513,14 +512,15 @@ const Mutation = {
     const findStreet = await collectionStreet.findOne({
       _id: ObjectID(streetID),
     });
-    if (findStreet){
-      
-      const deleteSegment = () =>{
-        return new Promise((resolve, reject) =>{
-          const result = collectionSegment.deleteMany({street: ObjectID(streetID)});
+    if (findStreet) {
+      const deleteSegment = () => {
+        return new Promise((resolve, reject) => {
+          const result = collectionSegment.deleteMany({
+            street: ObjectID(streetID),
+          });
           resolve(result);
-        }
-      )};
+        });
+      };
       const deleteValues = () => {
         return new Promise((resolve, reject) => {
           const result = collectionValues.findOneAndDelete(
@@ -538,13 +538,13 @@ const Mutation = {
           );
           resolve(result);
         });
-      }; 
+      };
       (async function () {
         const asyncFuntions = [deleteStreet(), deleteSegment(), deleteValues()];
         await Promise.all(asyncFuntions).value;
       })();
       return findStreet;
-    }else {
+    } else {
       return new Error("Insert correct ID");
     }
   },
@@ -560,19 +560,19 @@ const Mutation = {
     const findStreet = await collectionStreet.findOne({
       _id: ObjectID(streetID),
     });
-    if(findStreet){
-      const deleteSegment = () =>{
-        return new Promise((resolve, reject) =>{
-          result = collectionSegment.deleteMany({street: ObjectID(streetID)});
+    if (findStreet) {
+      const deleteSegment = () => {
+        return new Promise((resolve, reject) => {
+          result = collectionSegment.deleteMany({ street: ObjectID(streetID) });
           resolve(result);
-        }
-      )};
+        });
+      };
       (async function () {
         const asyncFuntions = [deleteSegment()];
         await Promise.all(asyncFuntions).value;
       })();
       return result;
-    }else {
+    } else {
       return new Error("Insert correct ID");
     }
   },
@@ -586,7 +586,7 @@ const Mutation = {
     const findValues = await collection.findOne({
       _id: ObjectID(valuesID),
     });
-    if(findValues){
+    if (findValues) {
       const deleteValues = () => {
         return new Promise((resolve, reject) => {
           const result = collection.findOneAndDelete(
@@ -601,7 +601,7 @@ const Mutation = {
         await Promise.all(asyncFuntions).value;
       })();
       return findValues;
-    }else {
+    } else {
       return new Error("Insert correct ID");
     }
   },
@@ -615,7 +615,7 @@ const Mutation = {
     const findSignal = await collection.findOne({
       _id: ObjectID(signalID),
     });
-    if(findSignal){
+    if (findSignal) {
       const deleteSignals = () => {
         return new Promise((resolve, reject) => {
           const result = collection.findOneAndDelete(
@@ -630,9 +630,9 @@ const Mutation = {
         await Promise.all(asyncFuntions).value;
       })();
       return findSignal;
-    }else {
+    } else {
       return new Error("Insert correct ID");
     }
-  },         
+  },
 };
 export { Mutation as default };
