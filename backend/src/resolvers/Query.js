@@ -51,15 +51,15 @@ function O2Braking(p, Cd, A, M, G, fr, v, t, a, alfa) {
   return energyRecoveredInBraking;
 }
 
-function probabilityBraking(probability){
+function probabilityBraking(probability) {
   let stop = false;
 
   const number = Math.random();
 
-  if(number < probability){
+  if (number < probability) {
     stop = true;
     return stop;
-  }else{
+  } else {
     return stop;
   }
 }
@@ -360,7 +360,7 @@ const Query = {
       let filterSignal = await result.find((obj) => obj.signal != 0);
 
       const lengthArraySignal = filterSignal.signal.length;
-      
+
       const v0 = 0;
       const a = resultValues.a;
       const p = resultValues.p;
@@ -395,15 +395,16 @@ const Query = {
             totalEnergy = totalEnergy + energyO2Braking;
             console.log(totalEnergy);
           } else if (i === indexSignals) {
-            for(let i=0; i<arrayLocationSignals.length; i += 1){
-              const probabilitySignal = probabilityBraking(arrayLocationSignals[i].probability);
+            for (let i = 0; i < arrayLocationSignals.length; i += 1) {
+              const probabilitySignal = probabilityBraking(
+                arrayLocationSignals[i].probability
+              );
               console.log(probabilitySignal);
-              if(probabilitySignal === true){
+              if (probabilitySignal === true) {
                 totalEnergy =
-                  totalEnergy +
-                  (energyO2Braking + energyO2Acceleration)
-                  console.log(totalEnergy);
-              }else{
+                  totalEnergy + (energyO2Braking + energyO2Acceleration);
+                console.log(totalEnergy);
+              } else {
                 totalEnergy = totalEnergy + energyO1;
                 console.log(totalEnergy);
               }
