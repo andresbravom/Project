@@ -348,23 +348,6 @@ const Query = {
       let filterSignal = await result.find((obj) => obj.signal != 0);
 
       const lengthArraySignal = filterSignal.signal.length;
-      
-      //QUEDA PENDIENTE VER MAS DE UNA SEÑAL Y PONER LAS DOS CON PROBABILIDAD 1 Y VER SI SUMA LA ENERGIA EN LA CALLE
-      console.log(lengthArraySignal);
-      for(let i= 1; i<lengthArraySignal; i += 1){
-        const resultSignal = await collectionSignals
-        .findOne({ _id: ObjectID(filterSignal.signal[i]) });
-
-        console.log(resultSignal.location);
-      }
-      
-      // console.log(filterSignal);
-      // console.log(filterSignal.signal.length); 
-
-      const resultSignal = await collectionSignals
-        .findOne({ _id: ObjectID(filterSignal.signal[0]) });
-
-        console.log(resultSignal.location);
 
       const a = resultValues.a;
       const p = resultValues.p;
@@ -383,6 +366,47 @@ const Query = {
       energyO2Acceleration = O2Acceleration (p , Cd, A, M, G, fr, v, t, a, alfa);
       energyO2Braking = O2Braking (p , Cd, A, M, G, fr, v, t, a, alfa);
 
+      const arrayLocationSignals = [];
+      const indexSignals = filterSignal.index - 1;
+
+      console.log("index: " + indexSignals);
+
+      if (lengthArraySignal !== 0) {
+        for(let i=0; i<lengthArraySignal; i += 1){
+          const resultSignal = await collectionSignals
+          .findOne({ _id: ObjectID(filterSignal.signal[i]) });
+          arrayLocationSignals.push(resultSignal);
+        }
+
+        // console.log(arrayLocationSignals);
+        // console.log("index: " + filterSignal.index);
+
+        console.log("GGGGGGGG :" + arrayLocationSignals.length);
+
+        for (let i = 0; i < result.length; i += 1) {
+          if (i === 0 )  {
+            totalEnergy = totalEnergy + energyO2Acceleration;
+            console.log(totalEnergy);
+          }else if(i === result.length - 1){
+            totalEnergy = totalEnergy + energyO2Braking;
+            console.log(totalEnergy);
+          }else if(i === indexSignals) {
+            totalEnergy = totalEnergy + ((energyO2Braking + energyO2Acceleration) * arrayLocationSignals.length);
+            console.log(totalEnergy);
+          }else{
+            totalEnergy = totalEnergy + energyO1;
+            console.log(totalEnergy);
+          }
+        }
+        return totalEnergy;
+      }else{
+        // console.log(lengthArraySignal);
+      console.log(arrayLocationSignals.length);
+
+      arrayLocationSignals.map(obj => 
+        console.log(obj.probability)
+      );
+
       for (let i = 0; i < result.length; i += 1) {
         if (i === 0 )  {
           totalEnergy = totalEnergy + energyO2Acceleration;
@@ -396,10 +420,13 @@ const Query = {
         }
       }
       return totalEnergy;
+
+      }
+      
     }else {
       return new Error("Insert correct ID");
     }
-  }
+  },
 
   // getCalcule: async (parent, args, ctx, info) => {
   //   const { street } = args;
