@@ -6,7 +6,6 @@ function O1 (p , Cd, A, M, G, fr, v, t) {
     
     energyConsumed = energyConsumed * 0.00027777777777778;
 
-    // energyConsumed = energyConsumed.toFixed(2);
     return energyConsumed;
 }
 function O2Acceleration (p , Cd, A, M, G, fr, v, t, a, alfa) {
@@ -318,7 +317,7 @@ const Query = {
       return new Error("Insert correct ID");
     }
   },
-  getCalcules: async (parent, args, ctx, info) => {
+  getEnergySubRoute: async (parent, args, ctx, info) => {
     const { street, values } = args;
     const { client } = ctx;
 
@@ -369,20 +368,12 @@ const Query = {
       const arrayLocationSignals = [];
       const indexSignals = filterSignal.index - 1;
 
-      console.log("index: " + indexSignals);
-
       if (lengthArraySignal !== 0) {
-        for(let i=0; i<lengthArraySignal; i += 1){
+        for(let i=0; i<lengthArraySignal; i += 1) {
           const resultSignal = await collectionSignals
           .findOne({ _id: ObjectID(filterSignal.signal[i]) });
           arrayLocationSignals.push(resultSignal);
         }
-
-        // console.log(arrayLocationSignals);
-        // console.log("index: " + filterSignal.index);
-
-        console.log("GGGGGGGG :" + arrayLocationSignals.length);
-
         for (let i = 0; i < result.length; i += 1) {
           if (i === 0 )  {
             totalEnergy = totalEnergy + energyO2Acceleration;
@@ -400,13 +391,9 @@ const Query = {
         }
         return totalEnergy;
       }else{
-        // console.log(lengthArraySignal);
-      console.log(arrayLocationSignals.length);
-
       arrayLocationSignals.map(obj => 
         console.log(obj.probability)
       );
-
       for (let i = 0; i < result.length; i += 1) {
         if (i === 0 )  {
           totalEnergy = totalEnergy + energyO2Acceleration;
@@ -420,67 +407,10 @@ const Query = {
         }
       }
       return totalEnergy;
-
       }
-      
     }else {
       return new Error("Insert correct ID");
     }
   },
-
-  // getCalcule: async (parent, args, ctx, info) => {
-  //   const { street } = args;
-  //   const { client } = ctx;
-
-  //   const db = client.db("DataBase");
-  //   const collection = db.collection("Segments");
-
-  //   const result = await collection
-  //     .find({ street: ObjectID(street) })
-  //     .toArray();
-
-  //   let energy = 0;
-  //   let total = 0;
-  //   if (result) {
-  //     let calculeGeneral = 0;
-  //     let calculeSpecific = 0;
-  //     const signals = result.map((obj) => obj);
-  //     const filterSignal = result.filter((obj) => obj.signal != 0);
-
-  //     console.log("Jo: " + result.length);
-
-  //     for (let i = 0; i < result.length; i += 1) {
-  //       if (i === 0 || i === result.length - 1) {
-  //         energy = 33.72;
-  //         total = total + energy;
-  //         console.log("total: " + total + i);
-  //       } else {
-  //         energy = 4.11;
-  //         total = total + energy;
-  //         console.log("total: " + total + i);
-  //       }
-  //     }
-  //     console.log("total Final: " + total);
-
-      // const lengthGeneral = signals.length;
-      // const lengthSpecific = filterSignal.length;
-
-      // calculeGeneral = (lengthGeneral - lengthSpecific) * 2;
-      // calculeSpecific = lengthSpecific * 1;
-
-      // const numberSegmentsConstantValue = result.length - lengthSpecific;
-
-      // console.log("Por: " + numberSegmentsConstantValue);
-
-      // const r = calculeGeneral + calculeSpecific;
-
-      // console.log(lengthGeneral);
-      // console.log(r);
-
-  //     return total;
-  //   } else {
-  //     null;
-  //   }
-  // },
 };
 export { Query as default };

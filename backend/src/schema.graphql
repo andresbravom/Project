@@ -51,11 +51,13 @@ type Query {
     getIntersection: [Intersection]
     getSegment: [Segment]
     getSignal: [Signal]
-    getCalcules(street: ID, values: ID!): Float!
+    getEnergySubRoute(street: ID, values: ID!): Float!
     getValues: [Values]
     getO1(street: ID!, values: ID!): Float!
     getO2Acceleration(street: ID!, values: ID!): Float!
     getO2Braking(street: ID!, values: ID!): Float!
+    getO3Acceleration(street: ID!, values: ID!): Float!
+    getO3Braking(street: ID!, values: ID!): Float!
 }
 type Mutation {
     addStreet (name: String!, lenght: Float!, speed: Int!): Street!
