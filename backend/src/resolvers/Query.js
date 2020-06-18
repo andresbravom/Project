@@ -214,7 +214,6 @@ const Query = {
       console.log(energyConsumed);
       energyConsumed = energyConsumed * 0.00027777777777778;
 
-      energyConsumed = energyConsumed.toFixed(2);
       return energyConsumed;
     } else {
       return new Error("Insert correct ID");
@@ -348,15 +347,15 @@ const Query = {
 
       let filterSignal = await result.find((obj) => obj.signal != 0);
 
-      const lengthArraySignal = filterSignal.signal.length
+      const lengthArraySignal = filterSignal.signal.length;
       
       //QUEDA PENDIENTE VER MAS DE UNA SEÑAL Y PONER LAS DOS CON PROBABILIDAD 1 Y VER SI SUMA LA ENERGIA EN LA CALLE
-
+      console.log(lengthArraySignal);
       for(let i= 1; i<lengthArraySignal; i += 1){
         const resultSignal = await collectionSignals
         .findOne({ _id: ObjectID(filterSignal.signal[i]) });
 
-        console.log(resultSignal.location)
+        console.log(resultSignal.location);
       }
       
       // console.log(filterSignal);
@@ -365,7 +364,7 @@ const Query = {
       const resultSignal = await collectionSignals
         .findOne({ _id: ObjectID(filterSignal.signal[0]) });
 
-        console.log(resultSignal.location)
+        console.log(resultSignal.location);
 
       const a = resultValues.a;
       const p = resultValues.p;
