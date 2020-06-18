@@ -1,52 +1,67 @@
 import { ObjectID } from "mongodb";
 
-function O1 (p , Cd, A, M, G, fr, v, t) {
-    let energyConsumed =
-      (1 / 2) * p * Cd * A * Math.pow(v, 3) * t + M * G * v * t * fr;
-    
-    energyConsumed = energyConsumed * 0.00027777777777778;
+function O1(p, Cd, A, M, G, fr, v, t) {
+  let energyConsumed =
+    (1 / 2) * p * Cd * A * Math.pow(v, 3) * t + M * G * v * t * fr;
 
-    return energyConsumed;
+  energyConsumed = energyConsumed * 0.00027777777777778;
+
+  return energyConsumed;
 }
-function O2Acceleration (p , Cd, A, M, G, fr, v, t, a, alfa) {
+function O2Acceleration(p, Cd, A, M, G, fr, v, t, a, alfa) {
   const ebreak1 = (M / 2) * (Math.pow(v - a * t, 2) - Math.pow(v, 2));
-      const ebreak2 =
-        (p * Cd * A * (Math.pow(v - a * t, 4) - Math.pow(v, 4))) / (-8 * a);
-      const ebreak3 = (M * G * fr) * (Math.pow(v - a * t, 2) - Math.pow(v, 2)) / (-2 * a);
+  const ebreak2 =
+    (p * Cd * A * (Math.pow(v - a * t, 4) - Math.pow(v, 4))) / (-8 * a);
+  const ebreak3 =
+    (M * G * fr * (Math.pow(v - a * t, 2) - Math.pow(v, 2))) / (-2 * a);
 
-      //Energy in braking
-      let energyBraking = ebreak1 + ebreak2 + ebreak3;
+  //Energy in braking
+  let energyBraking = ebreak1 + ebreak2 + ebreak3;
 
-      //Energy recovered in braking
-      let energyRecoveredInBraking = alfa * energyBraking;
-      energyRecoveredInBraking = energyRecoveredInBraking.toFixed(2);
+  //Energy recovered in braking
+  let energyRecoveredInBraking = alfa * energyBraking;
+  energyRecoveredInBraking = energyRecoveredInBraking.toFixed(2);
 
-      const eacc1 = (M * (Math.pow(a * t, 2))) / 2;
-      const eacc2 = (p * Cd * A * (Math.pow(a * t, 4))) / (8 * a);
-      const eacc3 = (M * G * fr * (Math.pow(a * t, 2))) / (2 * a);
+  const eacc1 = (M * Math.pow(a * t, 2)) / 2;
+  const eacc2 = (p * Cd * A * Math.pow(a * t, 4)) / (8 * a);
+  const eacc3 = (M * G * fr * Math.pow(a * t, 2)) / (2 * a);
 
-      //Energy in accelration
-      let energyAcceleration = eacc1 + eacc2 + eacc3;
+  //Energy in accelration
+  let energyAcceleration = eacc1 + eacc2 + eacc3;
 
-      let energyConsumed = energyAcceleration + alfa * energyBraking;
-      energyConsumed = energyConsumed * 0.00027777777777778;
+  let energyConsumed = energyAcceleration + alfa * energyBraking;
+  energyConsumed = energyConsumed * 0.00027777777777778;
 
-      return energyConsumed;
+  return energyConsumed;
 }
-function O2Braking (p , Cd, A, M, G, fr, v, t, a, alfa) {
+function O2Braking(p, Cd, A, M, G, fr, v, t, a, alfa) {
   const ebreak1 = (M / 2) * (Math.pow(v - a * t, 2) - Math.pow(v, 2));
-      const ebreak2 =
-        (p * Cd * A * (Math.pow(v - a * t, 4) - Math.pow(v, 4))) / (-8 * a);
-      const ebreak3 = (M * G * fr) * (Math.pow(v - a * t, 2) - Math.pow(v, 2)) / (-2 * a);
+  const ebreak2 =
+    (p * Cd * A * (Math.pow(v - a * t, 4) - Math.pow(v, 4))) / (-8 * a);
+  const ebreak3 =
+    (M * G * fr * (Math.pow(v - a * t, 2) - Math.pow(v, 2))) / (-2 * a);
 
-      //Energy in braking
-      let energyBraking = ebreak1 + ebreak2 + ebreak3;
+  //Energy in braking
+  let energyBraking = ebreak1 + ebreak2 + ebreak3;
 
-      //Energy recovered in braking
-      let energyRecoveredInBraking = alfa * energyBraking;
-      energyRecoveredInBraking = energyRecoveredInBraking * 0.00027777777777778;
+  //Energy recovered in braking
+  let energyRecoveredInBraking = alfa * energyBraking;
+  energyRecoveredInBraking = energyRecoveredInBraking * 0.00027777777777778;
 
-      return energyRecoveredInBraking;
+  return energyRecoveredInBraking;
+}
+
+function probabilityBraking(probability){
+  let stop = false;
+
+  const number = Math.random();
+
+  if(number < probability){
+    stop = true;
+    return stop;
+  }else{
+    return stop;
+  }
 }
 const Query = {
   getStreetID: async (parent, args, ctx, info) => {
@@ -180,7 +195,6 @@ const Query = {
     }
   },
   getO1: async (parent, args, ctx, info) => {
-
     const { street, values } = args;
     const { client } = ctx;
 
@@ -248,14 +262,15 @@ const Query = {
       const ebreak1 = (M / 2) * (Math.pow(v - a * t, 2) - Math.pow(v, 2));
       const ebreak2 =
         (p * Cd * A * (Math.pow(v - a * t, 4) - Math.pow(v, 4))) / (-8 * a);
-      const ebreak3 = (M * G * fr) * (Math.pow(v - a * t, 2) - Math.pow(v, 2)) / (-2 * a);
+      const ebreak3 =
+        (M * G * fr * (Math.pow(v - a * t, 2) - Math.pow(v, 2))) / (-2 * a);
 
       //Energy in braking
       let energyBraking = ebreak1 + ebreak2 + ebreak3;
 
-      const eacc1 = (M * (Math.pow(a * t, 2))) / 2;
-      const eacc2 = (p * Cd * A * (Math.pow(a * t, 4))) / (8 * a);
-      const eacc3 = (M * G * fr * (Math.pow(a * t, 2))) / (2 * a);
+      const eacc1 = (M * Math.pow(a * t, 2)) / 2;
+      const eacc2 = (p * Cd * A * Math.pow(a * t, 4)) / (8 * a);
+      const eacc3 = (M * G * fr * Math.pow(a * t, 2)) / (2 * a);
 
       //Energy in accelration
       let energyAcceleration = eacc1 + eacc2 + eacc3;
@@ -299,7 +314,8 @@ const Query = {
       const ebreak1 = (M / 2) * (Math.pow(v - a * t, 2) - Math.pow(v, 2));
       const ebreak2 =
         (p * Cd * A * (Math.pow(v - a * t, 4) - Math.pow(v, 4))) / (-8 * a);
-      const ebreak3 = (M * G * fr) * (Math.pow(v - a * t, 2) - Math.pow(v, 2)) / (-2 * a);
+      const ebreak3 =
+        (M * G * fr * (Math.pow(v - a * t, 2) - Math.pow(v, 2))) / (-2 * a);
 
       //Energy in braking
       let energyBraking = ebreak1 + ebreak2 + ebreak3;
@@ -335,8 +351,8 @@ const Query = {
     let energyO2Acceleration = 0;
     let energyO2Braking = 0;
     let totalEnergy = 0;
-  
-    if(resultStreet && resultValues) {
+
+    if (resultStreet && resultValues) {
       const result = await collectionSegments
         .find({ street: ObjectID(street) })
         .toArray();
@@ -344,11 +360,12 @@ const Query = {
       let filterSignal = await result.find((obj) => obj.signal != 0);
 
       const lengthArraySignal = filterSignal.signal.length;
+      
 
       const v0 = 0;
       const a = resultValues.a;
       const p = resultValues.p;
-      const Cd = resultValues.Cd;        
+      const Cd = resultValues.Cd;
       const A = resultValues.A;
       const alfa = resultValues.alfa;
       const v = resultStreet.speed * (5 / 18);
@@ -357,54 +374,83 @@ const Query = {
       const G = resultValues.G;
       const fr = resultValues.fr;
 
-      energyO1 = O1 (p , Cd, A, M, G, fr, v, t);
-      energyO2Acceleration = O2Acceleration (p , Cd, A, M, G, fr, v, t, a, alfa);
-      energyO2Braking = O2Braking (p , Cd, A, M, G, fr, v, t, a, alfa);
+      energyO1 = O1(p, Cd, A, M, G, fr, v, t);
+      energyO2Acceleration = O2Acceleration(p, Cd, A, M, G, fr, v, t, a, alfa);
+      energyO2Braking = O2Braking(p, Cd, A, M, G, fr, v, t, a, alfa);
 
       const arrayLocationSignals = [];
       const indexSignals = filterSignal.index - 1;
 
+      // const prob = probabilityBraking();
+      // console.log(prob);
+
       if (lengthArraySignal !== 0) {
-        for(let i=0; i<lengthArraySignal; i += 1) {
-          const resultSignal = await collectionSignals
-          .findOne({ _id: ObjectID(filterSignal.signal[i]) });
+        for (let i = 0; i < lengthArraySignal; i += 1) {
+          const resultSignal = await collectionSignals.findOne({
+            _id: ObjectID(filterSignal.signal[i]),
+          });
           arrayLocationSignals.push(resultSignal);
         }
+        
         for (let i = 0; i < result.length; i += 1) {
-          if (i === 0 )  {
+          if (i === 0) {
             totalEnergy = totalEnergy + energyO2Acceleration;
             console.log(totalEnergy);
-          }else if(i === result.length - 1){
+          } else if (i === result.length - 1) {
             totalEnergy = totalEnergy + energyO2Braking;
             console.log(totalEnergy);
-          }else if(i === indexSignals) {
-            totalEnergy = totalEnergy + ((energyO2Braking + energyO2Acceleration) * arrayLocationSignals.length);
-            console.log(totalEnergy);
-          }else{
+          } else if (i === indexSignals) {
+           
+            // const ash = arrayLocationSignals.map(obj => probabilityBraking(obj.probability));
+
+            // console.log(arrayLocationSignals);
+
+            for(let i=0; i<arrayLocationSignals.length; i += 1){
+              const probabilitySignal = probabilityBraking(arrayLocationSignals[i].probability);
+              console.log(probabilitySignal);
+              if(probabilitySignal === true){
+                totalEnergy =
+                  totalEnergy +
+                  (energyO2Braking + energyO2Acceleration)
+                  console.log(totalEnergy);
+              }else{
+                totalEnergy = totalEnergy + energyO1;
+                console.log(totalEnergy);
+              }
+            }
+            // if(ash){
+            //   console.log("Hola")
+            // }else{
+            //   console.log("adios")
+            // }
+            
+            // totalEnergy =
+            //   totalEnergy +
+            //   (energyO2Braking + energyO2Acceleration)
+            // console.log(totalEnergy);
+          } else {
             totalEnergy = totalEnergy + energyO1;
             console.log(totalEnergy);
           }
         }
         return totalEnergy;
-      }else{
-      arrayLocationSignals.map(obj => 
-        console.log(obj.probability)
-      );
-      for (let i = 0; i < result.length; i += 1) {
-        if (i === 0 )  {
-          totalEnergy = totalEnergy + energyO2Acceleration;
-          console.log(totalEnergy);
-        }else if(i === result.length - 1){
-          totalEnergy = totalEnergy + energyO2Braking;
-          console.log(totalEnergy);
-        }else{
-          totalEnergy = totalEnergy + energyO1;
-          console.log(totalEnergy);
+      } else {
+        arrayLocationSignals.map((obj) => console.log(obj.probability));
+        for (let i = 0; i < result.length; i += 1) {
+          if (i === 0) {
+            totalEnergy = totalEnergy + energyO2Acceleration;
+            console.log(totalEnergy);
+          } else if (i === result.length - 1) {
+            totalEnergy = totalEnergy + energyO2Braking;
+            console.log(totalEnergy);
+          } else {
+            totalEnergy = totalEnergy + energyO1;
+            console.log(totalEnergy);
+          }
         }
+        return totalEnergy;
       }
-      return totalEnergy;
-      }
-    }else {
+    } else {
       return new Error("Insert correct ID");
     }
   },
