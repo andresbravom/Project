@@ -55,7 +55,7 @@ function probabilityBraking(probability) {
   let stop = false;
 
   const number = Math.random();
-
+  console.log("number: " + number);
   if (number < probability) {
     stop = true;
     return stop;
