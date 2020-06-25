@@ -34,7 +34,7 @@ const Mutation = {
     return result.ops[0];
   },
   addSubroute: async (parent, args, ctx, info) => {
-    const  { route, name, lenght, speed, probability} = args;
+    const  { route, name, lenght, speed } = args;
     const { client } = ctx;
 
     const db = client.db("DataBase");
@@ -44,30 +44,19 @@ const Mutation = {
     const resultRoute = await collectionRoutes.findOne({
       _id: ObjectID(route),
     });
-
+    
     if (resultRoute) {
       const result = await collectionSubroutes.insertOne({
         route: ObjectID(route),
         name,
         lenght,
         speed,
-        probability,
       });
       return result.ops[0];
     } else {
-      return new Error("This street already has assigned values");
-    }
+      return new Error("Insert correct ID");
+    }  
   },
-
-
-
-
-
-
-
-
-
-
   addStreet: async (parent, args, ctx, info) => {
     const { name, lenght, speed } = args;
     const { client } = ctx;
