@@ -79,7 +79,20 @@ const Query = {
       return new Error("Insert correct ID");
     }
   },
+  getRoute: async (parent, args, ctx, info) => {
+    const { client } = ctx;
 
+    const db = client.db("DataBase");
+    const collection = db.collection("Routes");
+
+    const result = await collection.find({}).toArray();
+
+    if (result) {
+      return result;
+    } else {
+      return new Error("There are no Streets");
+    }
+  },
 
 
 
