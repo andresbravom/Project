@@ -23,6 +23,27 @@ function lenghtSegments(speed) {
 // }
 
 const Mutation = {
+  addRoute: async (parent, args, ctx, info) => {
+    const { name } = args;
+    const { client } = ctx;
+
+    const db = client.db("DataBase");
+    const collection = db.collection("Routes");
+
+    const result = await collection.insertOne({ name });
+    return result.ops[0];
+  },
+
+
+
+
+
+
+
+
+
+
+
   addStreet: async (parent, args, ctx, info) => {
     const { name, lenght, speed } = args;
     const { client } = ctx;

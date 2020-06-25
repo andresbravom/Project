@@ -79,21 +79,21 @@ const Query = {
       return new Error("Insert correct ID");
     }
   },
-  getIntersectionID: async (parent, args, ctx, info) => {
-    const { _id } = args;
-    const { client } = ctx;
+  // getIntersectionID: async (parent, args, ctx, info) => {
+  //   const { _id } = args;
+  //   const { client } = ctx;
 
-    const db = client.db("DataBase");
-    const collection = db.collection("Intersections");
+  //   const db = client.db("DataBase");
+  //   const collection = db.collection("Intersections");
 
-    const result = await collection.find({ _id: ObjectID(_id) }).toArray();
+  //   const result = await collection.find({ _id: ObjectID(_id) }).toArray();
 
-    if (result) {
-      return result;
-    } else {
-      return new Error("Insert correct ID");
-    }
-  },
+  //   if (result) {
+  //     return result;
+  //   } else {
+  //     return new Error("Insert correct ID");
+  //   }
+  // },
   getSegmentID: async (parent, args, ctx, info) => {
     const { _id } = args;
     const { client } = ctx;
@@ -138,20 +138,20 @@ const Query = {
       return new Error("There are no Streets");
     }
   },
-  getIntersection: async (parent, args, ctx, info) => {
-    const { client } = ctx;
+  // getIntersection: async (parent, args, ctx, info) => {
+  //   const { client } = ctx;
 
-    const db = client.db("DataBase");
-    const collection = db.collection("Intersections");
+  //   const db = client.db("DataBase");
+  //   const collection = db.collection("Intersections");
 
-    const result = await collection.find({}).toArray();
+  //   const result = await collection.find({}).toArray();
 
-    if (result) {
-      return result;
-    } else {
-      return new Error("There are no Values");
-    }
-  },
+  //   if (result) {
+  //     return result;
+  //   } else {
+  //     return new Error("There are no Values");
+  //   }
+  // },
   getSegment: async (parent, args, ctx, info) => {
     const { client } = ctx;
 

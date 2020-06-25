@@ -6,14 +6,33 @@ type Street {
     segment: [Segment]!
     values: [Values]!
 }
-type Intersection {
-    _id: ID
-    lenght: Int!
-    rightState: Boolean!
-    leftState: Boolean!
-    frontState: Boolean!
-    street: [Street]!
+type Route {
+    _id: ID!
+    name: String!
+    subroutes: [Subroutes]!
 }
+type Subroutes {
+    _id: ID!
+    lenght: Float!
+    speed: Int!
+    segments: [Segments]!
+    route: Route!
+    probability: Float!
+}
+type Segments {
+    _id: ID!
+    lenghtSegment: Float!
+    subroute: Subroutes!
+    route: Route!
+}
+# type Intersection {
+#     _id: ID
+#     lenght: Int!
+#     rightState: Boolean!
+#     leftState: Boolean!
+#     frontState: Boolean!
+#     street: [Street]!
+# }
 type Segment {
     _id:ID
     index: Int!
@@ -43,12 +62,24 @@ type Values {
     alfa: Float!
 }
 type Query {
+    getRouteID(_id: ID!): Route!
+    getSubrouteID(_id: ID!): [Subroutes]!
+    getSegmentsID(_id: ID!): Segments!
+    getRoute: [Route]!
+    getSubroute: [Subroutes]!
+    getSegments: [Segments]!
+
+
+
+
+
+
     getStreetID(_id: ID): Street
-    getIntersectionID(_id: ID): [Intersection]
+    # getIntersectionID(_id: ID): [Intersection]
     getSegmentID(_id: ID): [Segment]
     getSignalID(_id: ID): [Signal]
     getStreet: [Street]
-    getIntersection: [Intersection]
+    # getIntersection: [Intersection]
     getSegment: [Segment]
     getSignal: [Signal]
     getEnergySubRoute(street: ID, values: ID!): Float!
@@ -60,8 +91,15 @@ type Query {
     getO3Braking(street: ID!, values: ID!): Float!
 }
 type Mutation {
+    addRoute(name: String!): Route!
+
+
+
+
+
+
     addStreet (name: String!, lenght: Float!, speed: Int!): Street!
-    addIntersection (lenght: Float!, rightState: Boolean, leftState: Boolean, frontState: Boolean, street: [ID]!): Intersection!
+    # addIntersection (lenght: Float!, rightState: Boolean, leftState: Boolean, frontState: Boolean, street: [ID]!): Intersection!
     addSegment (street: ID!, signal: [ID]): Segment!
     addSignal (name: String!, location: Float!, type: String!, probability: Float!, description: String): Signal!
     addValues (street: ID!, p: Float!, Cd: Float!, A: Float!, M: Float!, G: Float!, fr: Float!, a: Float!, alfa: Float!): Values!
