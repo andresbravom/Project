@@ -17,7 +17,7 @@ type Subroute {
     lenght: Float!
     speed: Int!
     probability: Float!
-    segments: [Segments]!
+    # segments: [Segments]!
     route: Route!
 }
 type Segments {
@@ -65,10 +65,12 @@ type Values {
 type Query {
     getRouteID(_id: ID!): Route!
     getRoute: [Route]!
-    # getSubrouteID(_id: ID!): [Subroutes]!
+    getSubrouteID(_id: ID!): Subroute!
+    getSubroute: [Subroute]!
+
     # getSegmentsID(_id: ID!): Segments!
     
-    # getSubroute: [Subroutes]!
+   
     # getSegments: [Segments]!
 
 

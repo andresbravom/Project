@@ -1,14 +1,14 @@
 import { ObjectID } from "mongodb";
 
 const Subroute = {
-  segments: async (parent, args, ctx, info) => {
-    const subrouteID = ObjectID(parent._id);
+  route: async (parent, args, ctx, info) => {
+    const RouteID = ObjectID(parent._id);
     const { client } = ctx;
 
     const db = client.db("DataBase");
-    const collection = db.collection("Subroutes");
+    const collection = db.collection("Routes");
 
-    const result = await collection.find({ subroute: subrouteID }).toArray();
+    const result = await collection.findOne({ route: RouteID });
     return result;
   },
 //   values: async (parent, args, ctx, info) => {

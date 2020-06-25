@@ -93,8 +93,35 @@ const Query = {
       return new Error("There are no Streets");
     }
   },
+  getSubrouteID: async (parent, args, ctx, info) => {
+    const { _id } = args;
+    const { client } = ctx;
 
+    const db = client.db("DataBase");
+    const collection = db.collection("Subroutes");
 
+    const result = await collection.findOne({ _id: ObjectID(_id)});
+
+    if(result) {
+      return result;
+    }else{
+      return new Error("Insert correct ID");
+    }
+  },
+  getSubroute: async (parent, args, ctx, info) => {
+    const { client } = ctx;
+
+    const db = client.db("DataBase");
+    const collection = db.collection("Subroutes");
+
+    const result = await collection.find({}).toArray();
+
+    if (result) {
+      return result;
+    } else {
+      return new Error("There are no Streets");
+    }
+  },
 
 
 
