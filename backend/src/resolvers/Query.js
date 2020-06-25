@@ -64,6 +64,30 @@ function probabilityBraking(probability) {
   }
 }
 const Query = {
+  getRouteID: async (parent, args, ctx, info) => {
+    const { _id } = args;
+    const { client } = ctx;
+
+    const db = client.db("DataBase");
+    const collection = db.collection("Routes");
+
+    const result = await collection.findOne({ _id: ObjectID(_id)});
+
+    if(result) {
+      return result;
+    }else{
+      return new Error("Insert correct ID");
+    }
+  },
+
+
+
+
+
+
+
+
+
   getStreetID: async (parent, args, ctx, info) => {
     const { _id } = args;
     const { client } = ctx;

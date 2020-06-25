@@ -9,20 +9,21 @@ type Street {
 type Route {
     _id: ID!
     name: String!
-    subroutes: [Subroutes]!
+    subroutes: [Subroute]!
 }
-type Subroutes {
+type Subroute {
     _id: ID!
+    name: String!
     lenght: Float!
     speed: Int!
+    probability: Float!
     segments: [Segments]!
     route: Route!
-    probability: Float!
 }
 type Segments {
     _id: ID!
     lenghtSegment: Float!
-    subroute: Subroutes!
+    subroute: Subroute  !
     route: Route!
 }
 # type Intersection {
@@ -63,11 +64,11 @@ type Values {
 }
 type Query {
     getRouteID(_id: ID!): Route!
-    getSubrouteID(_id: ID!): [Subroutes]!
-    getSegmentsID(_id: ID!): Segments!
-    getRoute: [Route]!
-    getSubroute: [Subroutes]!
-    getSegments: [Segments]!
+    # getSubrouteID(_id: ID!): [Subroutes]!
+    # getSegmentsID(_id: ID!): Segments!
+    # getRoute: [Route]!
+    # getSubroute: [Subroutes]!
+    # getSegments: [Segments]!
 
 
 
@@ -92,7 +93,8 @@ type Query {
 }
 type Mutation {
     addRoute(name: String!): Route!
-
+    addSubroute(route: ID, name: String!, lenght: Float!, speed: Int, probability: Float!): Subroute!
+    
 
 
 

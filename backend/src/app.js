@@ -3,8 +3,8 @@ import { MongoClient, ObjectID } from "mongodb";
 import "babel-polyfill";
 
 import Street from "./resolvers/Street";
-import Route from "./resolvers/Routes";
-import Subroutes from "./resolvers/Subroutes";
+import Route from "./resolvers/Route";
+import Subroute from "./resolvers/Subroute";
 import Segment from "./resolvers/Segment";
 import Signal from "./resolvers/Signal";
 import Values from "./resolvers/Values";
@@ -41,7 +41,7 @@ const connectToDb = async function (usr, pwd, url) {
 const runGraphQLServer = function (context) {
   const resolvers = {
     Route,
-    Subroutes,
+    Subroute,
     Street,
     Segment,
     Signal,

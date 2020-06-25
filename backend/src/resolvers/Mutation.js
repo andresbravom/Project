@@ -33,7 +33,31 @@ const Mutation = {
     const result = await collection.insertOne({ name });
     return result.ops[0];
   },
+  addSubroute: async (parent, args, ctx, info) => {
+    const  { route, name, lenght, speed, probability} = args;
+    const { client } = ctx;
 
+    const db = client.db("DataBase");
+    const collectionSubroutes = db.collection("Subroutes");
+    const collectionRoutes = db.collection("Routes");
+
+    const resultRoute = await collectionRoutes.findOne({
+      _id: ObjectID(route),
+    });
+
+    if (resultRoute) {
+      const result = await collectionSubroutes.insertOne({
+        route: ObjectID(route),
+        name,
+        lenght,
+        speed,
+        probability,
+      });
+      return result.ops[0];
+    } else {
+      return new Error("This street already has assigned values");
+    }
+  },
 
 
 
