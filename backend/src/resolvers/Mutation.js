@@ -34,7 +34,7 @@ const Mutation = {
     return result.ops[0];
   },
   addSubroute: async (parent, args, ctx, info) => {
-    const  { route, name, lenght, speed } = args;
+    const { route, name, lenght, speed } = args;
     const { client } = ctx;
 
     const db = client.db("DataBase");
@@ -44,7 +44,7 @@ const Mutation = {
     const resultRoute = await collectionRoutes.findOne({
       _id: ObjectID(route),
     });
-    
+
     if (resultRoute) {
       const result = await collectionSubroutes.insertOne({
         route: ObjectID(route),
@@ -55,8 +55,87 @@ const Mutation = {
       return result.ops[0];
     } else {
       return new Error("Insert correct ID");
-    }  
+    }
   },
+  addSegments: async (parent, args, ctx, info) => {
+    const { subroute } = args;
+    const { client } = ctx;
+
+    const db = client.db("DataBase");
+    const collectionSubroutes = db.collection("Subroutes");
+    const collectionSegments = db.collection("SegmentsSubroutes");
+
+    const resultStreet = await collectionSubroutes.findOne({
+      _id: ObjectID(subroute),
+    });
+
+    if (resultStreet) {
+      const speedSubroute = resultStreet.speed;
+      const lenghtSegment = lenghtSegments(speedSubroute);
+      let index = 0;
+      let array = [];
+
+      //Subroute size less than segment size
+      if (resultStreet.lenght < lenghtSegment) {
+        const resultSegment = await collectionSegments.insertOne({
+          subroute: ObjectID(subroute),
+          lenghtSegment: resultStreet.lenght,
+          index: index + 1,
+          probability: 0,
+        });
+        return resultSegment.ops[0];
+      } else {
+        for (let i = 0; i < resultStreet.lenght; i += lenghtSegment) {
+          index = index + 1;
+          if (i + lenghtSegment > resultStreet.lenght) {
+            const newLenght = resultStreet.lenght - i;
+            let lenghtSegment = newLenght;
+            array = [
+              ...array,
+              new Promise((resolve, reject) => {
+                const obj = collectionSegments.insertOne({
+                  subroute: ObjectID(subroute),
+                  lenghtSegment,
+                  index,
+                  probability: 0,
+                });
+                resolve(obj);
+              }),
+            ];
+          } else {
+            array = [
+              ...array,
+              new Promise((resolve, reject) => {
+                const obj = collectionSegments.insertOne({
+                  subroute: ObjectID(subroute),
+                  lenghtSegment: lenghtSegment,
+                  index: index,
+                  probability: 0,
+                });
+                resolve(obj);
+              }),
+            ];
+          }
+        }
+        (async function () {
+          await Promise.all(array);
+        })();
+        return resultStreet;
+      }
+    } else {
+      return new Error("Insert correct ID");
+    }
+  },
+
+
+
+
+
+
+
+
+
+
   addStreet: async (parent, args, ctx, info) => {
     const { name, lenght, speed } = args;
     const { client } = ctx;

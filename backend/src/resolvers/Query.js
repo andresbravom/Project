@@ -122,6 +122,28 @@ const Query = {
       return new Error("There are no Streets");
     }
   },
+  getSegmentsID: async (parent, args, ctx, info) => {
+    const { _id } = args;
+    const { client } = ctx;
+
+    const db = client.db("DataBase");
+    const collection = db.collection("SegmentsSubroutes");
+
+    const result = await collection.findOne({ _id: ObjectID(_id)});
+
+    if(result) {
+      return result;
+    }else{
+      return new Error("Insert correct ID");
+    }
+  },
+
+
+
+
+
+
+
 
 
 
