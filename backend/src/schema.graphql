@@ -95,7 +95,7 @@ type Mutation {
     addRoute(name: String!): Route!
     addSubroute(route: ID, name: String!, lenght: Float!, speed: Int): Subroute!
     addSegments(subroute: ID): Segments!
-
+    addProbability(subroute: ID): Segments!
 
 
 

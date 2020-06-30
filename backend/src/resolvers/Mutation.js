@@ -126,7 +126,35 @@ const Mutation = {
       return new Error("Insert correct ID");
     }
   },
+  addProbability: async(parent, args, ctx, info) => {
+    const { subroute } = args;
+    const { client } = ctx;
 
+    const db  = client.db("DataBase");
+    const collectionSubroutes = db.collection("Subroutes");
+    const collectionSegments = db.collection("SegmentsSubroutes");
+
+    const resultSubroute = await collectionSubroutes.findOne({
+      _id: ObjectID(subroute),
+    });
+
+    if(resultSubroute) {
+      const resultProbaility = await collectionSegments.find({subroute: ObjectID(subroute)}).toArray();
+      // let filterProbabilities = await resultProbaility.find((obj) => obj.probability === 0);
+      // const lenghtArray = resultProbaility.lenght;
+
+      const lengthArray = resultProbaility.map(obj => (obj.probability));
+    
+      console.log(lengthArray.length)
+      console.log(resultProbaility.length);
+   
+      // const arrayProbabilities 
+      console.log("yes");
+      return resultSubroute
+    }else {
+      return new Error("Insert correct ID");
+    }
+  },
 
 
 
