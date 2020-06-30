@@ -143,10 +143,17 @@ const Mutation = {
       // let filterProbabilities = await resultProbaility.find((obj) => obj.probability === 0);
       // const lenghtArray = resultProbaility.lenght;
 
-      const lengthArray = resultProbaility.map(obj => (obj.probability));
+      const arrayProbabilities = resultProbaility.map(obj => (obj._id));
     
-      console.log(lengthArray.length)
-      console.log(resultProbaility.length);
+      console.log(resultProbaility);
+      console.log(arrayProbabilities);
+      console.log(arrayProbabilities.length);
+
+      const p = [0.2, 0.4, 0.6];
+  
+
+     
+      
    
       // const arrayProbabilities 
       console.log("yes");
