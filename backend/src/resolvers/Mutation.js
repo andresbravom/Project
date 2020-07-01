@@ -127,7 +127,7 @@ const Mutation = {
     }
   },
   addProbability: async(parent, args, ctx, info) => {
-    const { subroute } = args;
+    const { subroute, probability } = args;
     const { client } = ctx;
 
     const db  = client.db("DataBase");
@@ -150,13 +150,13 @@ const Mutation = {
       console.log(arrayProbabilities.length);
 
       const p = [0.2, 0.4, 0.6];
-  
-
-     
       
-   
-      // const arrayProbabilities 
-      console.log("yes");
+      for(let i=0; i<arrayProbabilities.length; i += 1){
+        const result = await collectionSegments.findOneAndUpdate(
+          { _id: ObjectID(arrayProbabilities[i]) },
+          { $set: {probability: probability[i]} },
+        );
+      }
       return resultSubroute
     }else {
       return new Error("Insert correct ID");
