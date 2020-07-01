@@ -69,7 +69,7 @@ type Query {
     getSubroute: [Subroute]!
     getSegmentsID(_id: ID!): Segments!
     getSegments: [Segments]!
-    getSegmentsSubroute: [Segments]!
+    getSegmentsSubroute(subroute: ID!): [Segments]!
 
 
 
@@ -94,9 +94,9 @@ type Query {
 }
 type Mutation {
     addRoute(name: String!): Route!
-    addSubroute(route: ID, name: String!, lenght: Float!, speed: Int): Subroute!
-    addSegments(subroute: ID): Segments!
-    addProbability(subroute: ID): Segments!
+    addSubroute(route: ID!, name: String!, lenght: Float!, speed: Int!): Subroute!
+    addSegments(subroute: ID!): Segments!
+    addProbability(subroute: ID!): Segments!
 
 
 

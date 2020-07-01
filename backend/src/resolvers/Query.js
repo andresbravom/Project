@@ -151,9 +151,26 @@ const Query = {
       return new Error("There are no Segments");
     }
   },
+  getSegmentsSubroute: async (parent, args, ctx, info) => {
+    const { subroute } = args;
+    const { client } = ctx;
 
+    const db = client.db("DataBase");
+    const collectionSubroutes = db.collection("Subroutes");
+    const collectionSegments = db.collection("SegmentsSubroutes");
 
+    const resultSubroute = await collectionSubroutes.findOne({
+      _id: ObjectID(subroute),
+    });
 
+    if(resultSubroute) {
+      const resultSegments = await collectionSegments.find({subroute: ObjectID(subroute)}).toArray();
+
+      return resultSegments;
+    }else {
+      return new Error("Insert correct ID");
+    }
+  },
 
 
 
