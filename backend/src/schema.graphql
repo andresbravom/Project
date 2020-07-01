@@ -26,6 +26,17 @@ type Segments {
     index: Int!
     probability: Float!
 }
+type VehicleValues { 
+    _id: ID!
+    p: Float!
+    Cd: Float!
+    A: Float!
+    M: Float!
+    G: Float!
+    fr: Float!
+    a: Float!
+    alpha: Float!
+}
 # type Intersection {
 #     _id: ID
 #     lenght: Int!
@@ -97,7 +108,7 @@ type Mutation {
     addSubroute(route: ID!, name: String!, lenght: Float!, speed: Int!): Subroute!
     addSegments(subroute: ID!): Segments!
     addProbability(subroute: ID!, probability: [Float!]): Segments!
-
+    addVehicleValues (p: Float!, Cd: Float!, A: Float!, M: Float!, G: Float!, fr: Float!, a: Float!, alpha: Float!): VehicleValues!
 
 
 

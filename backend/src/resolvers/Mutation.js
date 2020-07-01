@@ -140,16 +140,8 @@ const Mutation = {
 
     if(resultSubroute) {
       const resultProbaility = await collectionSegments.find({subroute: ObjectID(subroute)}).toArray();
-      // let filterProbabilities = await resultProbaility.find((obj) => obj.probability === 0);
-      // const lenghtArray = resultProbaility.lenght;
 
       const arrayProbabilities = resultProbaility.map(obj => (obj._id));
-    
-      console.log(resultProbaility);
-      console.log(arrayProbabilities);
-      console.log(arrayProbabilities.length);
-
-      const p = [0.2, 0.4, 0.6];
       
       for(let i=0; i<arrayProbabilities.length; i += 1){
         const result = await collectionSegments.findOneAndUpdate(
@@ -162,7 +154,25 @@ const Mutation = {
       return new Error("Insert correct ID");
     }
   },
+  addVehicleValues: async (parent, args, ctx, info) => {
+    const { p, Cd, A, M, G, fr, a, alpha } = args;
+    const { client } = ctx;
 
+    const db = client.db("DataBase");
+    const collection = db.collection("VehicleValues");
+
+    const result = await collection.insertOne({
+      p,
+      Cd,
+      A,
+      M,
+      G,
+      fr,
+      a,
+      alpha,
+    });
+    return result.ops[0];
+  },
 
 
 

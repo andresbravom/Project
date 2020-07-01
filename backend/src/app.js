@@ -2,11 +2,12 @@ import { GraphQLServer, PubSub } from "graphql-yoga";
 import { MongoClient, ObjectID } from "mongodb";
 import "babel-polyfill";
 
-import Street from "./resolvers/Street";
 import Route from "./resolvers/Route";
 import Subroute from "./resolvers/Subroute";
 import Segments from "./resolvers/Segments";
+import VehicleValues from "./resolvers/VehicleValues";
 
+import Street from "./resolvers/Street";
 import Segment from "./resolvers/Segment";
 import Signal from "./resolvers/Signal";
 import Values from "./resolvers/Values";
@@ -45,6 +46,7 @@ const runGraphQLServer = function (context) {
     Route,
     Subroute,
     Segments,
+    VehicleValues,
     Street,
     Segment,
     Signal,
