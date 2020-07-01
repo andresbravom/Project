@@ -81,6 +81,7 @@ type Query {
     getSegmentsID(_id: ID!): Segments!
     getSegments: [Segments]!
     getSegmentsSubroute(subroute: ID!): [Segments]!
+    getVehicleValues(_id: ID!): VehicleValues!
 
 
 

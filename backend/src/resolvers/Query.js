@@ -171,6 +171,12 @@ const Query = {
       return new Error("Insert correct ID");
     }
   },
+  // getVehicleValuesID: async (parent, args, ctx, info) => {
+  //   const { _id } = args;
+    
+  //   const db = cleint.db("DataBase");
+
+  // }
 
 
 
