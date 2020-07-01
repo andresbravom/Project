@@ -69,6 +69,7 @@ type Query {
     getSubroute: [Subroute]!
     getSegmentsID(_id: ID!): Segments!
     getSegments: [Segments]!
+    getSegmentsSubroute: [Segments]!
 
 
 

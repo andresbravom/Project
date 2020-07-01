@@ -90,7 +90,7 @@ const Query = {
     if (result) {
       return result;
     } else {
-      return new Error("There are no Streets");
+      return new Error("There are no Routes");
     }
   },
   getSubrouteID: async (parent, args, ctx, info) => {
@@ -119,7 +119,7 @@ const Query = {
     if (result) {
       return result;
     } else {
-      return new Error("There are no Streets");
+      return new Error("There are no Subroutes");
     }
   },
   getSegmentsID: async (parent, args, ctx, info) => {
@@ -137,7 +137,20 @@ const Query = {
       return new Error("Insert correct ID");
     }
   },
+  getSegments: async (parent, args, ctx, info) => {
+    const { client } = ctx;
 
+    const db = client.db("DataBase");
+    const collection = db.collection("SegmentsSubroutes");
+
+    const result = await collection.find({}).toArray();
+
+    if(result) {
+      return result;
+    }else {
+      return new Error("There are no Segments");
+    }
+  },
 
 
 
