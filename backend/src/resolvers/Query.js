@@ -186,6 +186,31 @@ const Query = {
       return new Error("Insert correct ID");
     }
   },
+  getVehicleValues: async (parent, args, ctx, info) => {
+    const { client } = ctx;
+    
+    const db = client.db("DataBase");
+    const collection = db.collection("VehicleValues");
+
+    const result = await collection.find({}).toArray();
+
+    if(result) {
+      return result;
+    }else {
+      return new Error("Insert correct ID");
+    }
+  },
+
+
+
+
+
+  
+
+
+
+
+
 
 
 
