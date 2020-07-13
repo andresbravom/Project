@@ -25,6 +25,8 @@ type Segments {
     lenghtSegment: Float!
     index: Int!
     probability: Float!
+    O: String!
+    OValues: Float!
 }
 type VehicleValues { 
     _id: ID!
@@ -111,6 +113,7 @@ type Mutation {
     addSegments(subroute: ID!): Segments!
     addProbability(subroute: ID!, probability: [Float!]): Segments!
     addVehicleValues (p: Float!, Cd: Float!, A: Float!, M: Float!, G: Float!, fr: Float!, a: Float!, alpha: Float!): VehicleValues!
+    add_O_Values (route: ID!): Segments!
 
 
 

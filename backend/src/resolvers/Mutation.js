@@ -82,6 +82,8 @@ const Mutation = {
           lenghtSegment: resultStreet.lenght,
           index: index + 1,
           probability: 0,
+          O: "O",
+          OValues: 0.0,
         });
         return resultSegment.ops[0];
       } else {
@@ -98,6 +100,8 @@ const Mutation = {
                   lenghtSegment,
                   index,
                   probability: 0,
+                  O: "O",
+                  OValues: 0.0,
                 });
                 resolve(obj);
               }),
@@ -111,6 +115,8 @@ const Mutation = {
                   lenghtSegment: lenghtSegment,
                   index: index,
                   probability: 0,
+                  O: "O",
+                  OValues: 0.0,
                 });
                 resolve(obj);
               }),
@@ -173,6 +179,29 @@ const Mutation = {
     });
     return result.ops[0];
   },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -200,6 +200,14 @@ const Query = {
       return new Error("Insert correct ID");
     }
   },
+  // getO1_O2: async (parent, args, ctx, info) => {
+  //   const { route } = args;
+  //   const { client } = ctx;
+
+  //   const db = client.db("DataBase");
+  //   const collection
+  // },
+
 
 
 
