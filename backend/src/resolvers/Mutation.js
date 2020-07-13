@@ -179,6 +179,64 @@ const Mutation = {
     });
     return result.ops[0];
   },
+  addOValues: async (parent, args, ctx, info) => {
+    const { route } = args;
+    const { client } = ctx;
+
+    const db = client.db("DataBase");
+    const collectionRoute = db.collection("Routes");
+    const collectionSubroutes = db.collection("Subroutes");
+    const collectionSegments = db.collection("SegmentsSubroutes");
+
+    const resultRoute = await collectionRoute.findOne({
+      _id: ObjectID(route),
+    });
+
+    if(resultRoute) {
+      const resultSubroutes = await collectionSubroutes.find({route: ObjectID(route)}).toArray();
+      // const arraySubroutes = resultSubroutes.map(obj => (obj._id));
+
+      const arraySubroutes = resultSubroutes.map(obj => (obj._id));
+      
+
+      let arraySegments;
+
+      for(let i=0; i<arraySubroutes.length; i += 1){
+        
+        const resultSegments = await collectionSegments.find({subroute: ObjectID(arraySubroutes[i])}).toArray();
+        arraySegments = resultSegments.map(obj => (obj.probability));
+        const arraySegmentsID = resultSegments.map(obj => (obj._id));
+        
+        console.log("ArraySegments: " + arraySegments);
+        console.log("ArraySegmentsID: " + arraySegmentsID);
+        console.log("ArraySubroutes: " + arraySubroutes);
+
+        for(let j=0; j< arraySegmentsID.length; j+= 1){
+          if(arraySegments[j] !== 0) {
+            const result = collectionSegments.findOneAndUpdate(
+              { _id: ObjectID(arraySegmentsID[j]) },
+              { $set: {O: "O2"} },
+              
+            );
+            console.log(arraySegmentsID[j] )
+          }else{
+            const result = collectionSegments.findOneAndUpdate(
+              { _id: ObjectID(arraySegmentsID[j]) },
+              { $set: {O: "O1"} },
+            );
+            console.log(arraySegmentsID[j] )
+          }
+
+        }
+
+        
+        // const arraySegments = resultSegments.map(obj => console.log(obj._id));
+      }
+      return resultRoute
+    }else {
+      return new Error("Insert correct ID");
+    }
+  },
 
 
 
