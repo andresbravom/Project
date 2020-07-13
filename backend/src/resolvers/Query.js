@@ -171,12 +171,21 @@ const Query = {
       return new Error("Insert correct ID");
     }
   },
-  // getVehicleValuesID: async (parent, args, ctx, info) => {
-  //   const { _id } = args;
+  getVehicleValuesID: async (parent, args, ctx, info) => {
+    const { _id } = args;
+    const { client } = ctx;
     
-  //   const db = cleint.db("DataBase");
+    const db = client.db("DataBase");
+    const collection = db.collection("VehicleValues");
 
-  // }
+    const result = await collection.findOne({ _id: ObjectID(_id)});
+
+    if(result) {
+      return result;
+    }else {
+      return new Error("Insert correct ID");
+    }
+  },
 
 
 
