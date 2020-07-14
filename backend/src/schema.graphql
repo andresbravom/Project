@@ -1,11 +1,11 @@
-type Street {
-    _id: ID!
-    name: String!
-    lenght: Float!
-    speed: Int!
-    segment: [Segment]!
-    values: [Values]!
-}
+# type Street {
+#     _id: ID!
+#     name: String!
+#     lenght: Float!
+#     speed: Int!
+#     segment: [Segment]!
+#     values: [Values]!
+# }
 type Route {
     _id: ID!
     name: String!
@@ -39,42 +39,34 @@ type VehicleValues {
     a: Float!
     alpha: Float!
 }
-# type Intersection {
-#     _id: ID
-#     lenght: Int!
-#     rightState: Boolean!
-#     leftState: Boolean!
-#     frontState: Boolean!
-#     street: [Street]!
+# type Segment {
+#     _id:ID
+#     index: Int!
+#     lenghtSegment: Float!
+#     street: Street!
+#     signal: [Signal]
 # }
-type Segment {
-    _id:ID
-    index: Int!
-    lenghtSegment: Float!
-    street: Street!
-    signal: [Signal]
-}
-type Signal {
-    _id: ID!
-    name: String!
-    location: Float!
-    type: String!
-    probability: Float!
-    description: String!
-    segment: [Segment!]
-}
-type Values { 
-    _id: ID!
-    street: Street!
-    p: Float!
-    Cd: Float!
-    A: Float!
-    M: Float!
-    G: Float!
-    fr: Float!
-    a: Float!
-    alfa: Float!
-}
+# type Signal {
+#     _id: ID!
+#     name: String!
+#     location: Float!
+#     type: String!
+#     probability: Float!
+#     description: String!
+#     segment: [Segment!]
+# }
+# type Values { 
+#     _id: ID!
+#     street: Street!
+#     p: Float!
+#     Cd: Float!
+#     A: Float!
+#     M: Float!
+#     G: Float!
+#     fr: Float!
+#     a: Float!
+#     alfa: Float!
+# }
 type Query {
     getRouteName(name: String!): Route!
     getRoute: [Route]!
@@ -85,27 +77,26 @@ type Query {
     getSegmentsSubroute(subroute: ID!): [Segments]!
     getVehicleValuesID(_id: ID!): VehicleValues!
     getVehicleValues: [VehicleValues]!
-    getO1_O2(route: ID!): [Segment]!
 
 
 
 
 
-    getStreetID(_id: ID): Street
-    # getIntersectionID(_id: ID): [Intersection]
-    getSegmentID(_id: ID): [Segment]
-    getSignalID(_id: ID): [Signal]
-    getStreet: [Street]
-    # getIntersection: [Intersection]
-    getSegment: [Segment]
-    getSignal: [Signal]
-    getEnergySubRoute(street: ID, values: ID!): Float!
-    getValues: [Values]
-    getO1(street: ID!, values: ID!): Float!
-    getO2Acceleration(street: ID!, values: ID!): Float!
-    getO2Braking(street: ID!, values: ID!): Float!
-    getO3Acceleration(street: ID!, values: ID!): Float!
-    getO3Braking(street: ID!, values: ID!): Float!
+    # getStreetID(_id: ID): Street
+    # # getIntersectionID(_id: ID): [Intersection]
+    # getSegmentID(_id: ID): [Segment]
+    # getSignalID(_id: ID): [Signal]
+    # getStreet: [Street]
+    # # getIntersection: [Intersection]
+    # getSegment: [Segment]
+    # getSignal: [Signal]
+    # getEnergySubRoute(street: ID, values: ID!): Float!
+    # getValues: [Values]
+    # getO1(street: ID!, values: ID!): Float!
+    # getO2Acceleration(street: ID!, values: ID!): Float!
+    # getO2Braking(street: ID!, values: ID!): Float!
+    # getO3Acceleration(street: ID!, values: ID!): Float!
+    # getO3Braking(street: ID!, values: ID!): Float!
 }
 type Mutation {
     addRoute(name: String!): Route!
@@ -122,17 +113,17 @@ type Mutation {
 
 
 
-    addStreet (name: String!, lenght: Float!, speed: Int!): Street!
-    # addIntersection (lenght: Float!, rightState: Boolean, leftState: Boolean, frontState: Boolean, street: [ID]!): Intersection!
-    addSegment (street: ID!, signal: [ID]): Segment!
-    addSignal (name: String!, location: Float!, type: String!, probability: Float!, description: String): Signal!
-    addValues (street: ID!, p: Float!, Cd: Float!, A: Float!, M: Float!, G: Float!, fr: Float!, a: Float!, alfa: Float!): Values!
-    updateValues (_id: ID!, p: Float, Cd: Float, A: Float, M: Float, G: Float, fr: Float): Values!
-    updateStreet (_id: ID!, name: String, lenght: Float, speed: Int): Street!
-    # updateSegment (id: ID!, lenght: Float, speed: Int, startCoordinate: [Float], middleCoordinate: [Float], endCoordinate: [Float], intersection: [Float], street: ID!, signal: [ID!]): Segment!
-    updateSignal (_id: ID!, name: String, location: Float, type: String, probability: Float, description: String): Signal!
-    removeStreet (_id: ID!): Street!
-    removeSegments (street: ID!): Segment!
-    removeValues (_id: ID!): Values!
-    removeSignal (_id: ID): Signal!
+    # addStreet (name: String!, lenght: Float!, speed: Int!): Street!
+    # # addIntersection (lenght: Float!, rightState: Boolean, leftState: Boolean, frontState: Boolean, street: [ID]!): Intersection!
+    # addSegment (street: ID!, signal: [ID]): Segment!
+    # addSignal (name: String!, location: Float!, type: String!, probability: Float!, description: String): Signal!
+    # addValues (street: ID!, p: Float!, Cd: Float!, A: Float!, M: Float!, G: Float!, fr: Float!, a: Float!, alfa: Float!): Values!
+    # updateValues (_id: ID!, p: Float, Cd: Float, A: Float, M: Float, G: Float, fr: Float): Values!
+    # updateStreet (_id: ID!, name: String, lenght: Float, speed: Int): Street!
+    # # updateSegment (id: ID!, lenght: Float, speed: Int, startCoordinate: [Float], middleCoordinate: [Float], endCoordinate: [Float], intersection: [Float], street: ID!, signal: [ID!]): Segment!
+    # updateSignal (_id: ID!, name: String, location: Float, type: String, probability: Float, description: String): Signal!
+    # removeStreet (_id: ID!): Street!
+    # removeSegments (street: ID!): Segment!
+    # removeValues (_id: ID!): Values!
+    # removeSignal (_id: ID): Signal!
 }

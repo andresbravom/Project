@@ -7,10 +7,10 @@ import Subroute from "./resolvers/Subroute";
 import Segments from "./resolvers/Segments";
 import VehicleValues from "./resolvers/VehicleValues";
 
-import Street from "./resolvers/Street";
-import Segment from "./resolvers/Segment";
-import Signal from "./resolvers/Signal";
-import Values from "./resolvers/Values";
+// import Street from "./resolvers/Street";
+// import Segment from "./resolvers/Segment";
+// import Signal from "./resolvers/Signal";
+// import Values from "./resolvers/Values";
 import Query from "./resolvers/Query";
 import Mutation from "./resolvers/Mutation";
 
@@ -47,10 +47,10 @@ const runGraphQLServer = function (context) {
     Subroute,
     Segments,
     VehicleValues,
-    Street,
-    Segment,
-    Signal,
-    Values,
+    // Street,
+    // Segment,
+    // Signal,
+    // Values,
     Query,
     Mutation,
   };

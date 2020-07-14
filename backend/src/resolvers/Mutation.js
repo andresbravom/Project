@@ -309,370 +309,352 @@ const Mutation = {
 
 
 
-  addStreet: async (parent, args, ctx, info) => {
-    const { name, lenght, speed } = args;
-    const { client } = ctx;
-
-    const db = client.db("DataBase");
-    const collection = db.collection("Streets");
-
-    const result = await collection.insertOne({
-      name,
-      lenght,
-      speed,
-    });
-    return result.ops[0];
-  },
-
-  // addIntersection: async (parent, args, ctx, info) => {
-  //   const { lenght, rightState, leftState, frontState, street } = args;
+  // addStreet: async (parent, args, ctx, info) => {
+  //   const { name, lenght, speed } = args;
   //   const { client } = ctx;
 
   //   const db = client.db("DataBase");
-  //   const collection = db.collection("Intersections");
+  //   const collection = db.collection("Streets");
 
   //   const result = await collection.insertOne({
+  //     name,
   //     lenght,
-  //     rightState,
-  //     leftState,
-  //     frontState,
-  //     street: ObjectID(street),
+  //     speed,
+  //   });
+  //   return result.ops[0];
+  // },
+  // addSegment: async (parent, args, ctx, info) => {
+  //   const { street, signal } = args;
+  //   const { client } = ctx;
+
+  //   const db = client.db("DataBase");
+  //   const collectionStreet = db.collection("Streets");
+  //   const collectionSegment = db.collection("Segments");
+  //   const collectionSignal = db.collection("Signals");
+
+  //   const resultStreet = await collectionStreet.findOne({
+  //     _id: ObjectID(street),
+  //   });
+
+  //   let signalArray = null;
+  //   let resultSignal = null;
+  //   let auxArray = null;
+  //   let lenghtAuxArray = null;
+
+  //   if (signal !== undefined) {
+  //     console.log(1);
+  //     signalArray = signal.map((obj) => ObjectID(obj));
+  //     resultSignal = await collectionSignal.findOne({
+  //       _id: { $in: signalArray },
+  //     });
+  //     auxArray = signal.map((obj) => obj.location);
+  //     lenghtAuxArray = auxArray.length;
+  //   }
+
+  //   if (resultStreet) {
+  //     console.log(2);
+  //     let array = [];
+  //     let index = 0;
+  //     const speed = resultStreet.speed;
+  //     let lenghtSegment = lenghtSegments(speed);
+
+  //     if (resultStreet.lenght < lenghtSegment) {
+  //       console.log(3);
+  //       const result = await collectionSegment.insertOne({
+  //         index: index + 1,
+  //         lenghtSegment,
+  //         street: ObjectID(street),
+  //         signal: signal.map((obj) => ObjectID(obj)),
+  //       });
+  //       return result.ops[0];
+  //     } else if (signal === undefined) {
+  //       console.log("4");
+  //       for (let i = 0; i < resultStreet.lenght; i += lenghtSegment) {
+  //         index = index + 1;
+  //         if (i + lenghtSegment > resultStreet.lenght) {
+  //           const newLenght = resultStreet.lenght - i;
+  //           let lenghtSegment = newLenght;
+  //           array = [
+  //             ...array,
+  //             new Promise((resolve, reject) => {
+  //               const obj = collectionSegment.insertOne({
+  //                 index,
+  //                 lenghtSegment,
+  //                 street: ObjectID(street),
+  //                 signal: [0],
+  //               });
+  //               resolve(obj);
+  //             }),
+  //           ];
+  //         } else {
+  //           console.log(20);
+  //           array = [
+  //             ...array,
+  //             new Promise((resolve, reject) => {
+  //               const obj = collectionSegment.insertOne({
+  //                 index,
+  //                 lenghtSegment,
+  //                 street: ObjectID(street),
+  //                 signal: [0],
+  //               });
+  //               resolve(obj);
+  //             }),
+  //           ];
+  //         }
+  //       }
+  //       (async function () {
+  //         await Promise.all(array);
+  //       })();
+  //       return resultStreet;
+  //     } else {
+  //       let lenghtSegment1 = lenghtSegments(speed);
+  //       let counter = 0;
+  //       for (let i = 0; i <= resultStreet.lenght; i += lenghtSegment) {
+  //         console.log("5 " + i + index);
+  //         index = index + 1;
+  //         let lenghtSegment = lenghtSegment1;
+  //         if (i + lenghtSegment > resultStreet.lenght) {
+  //           console.log("6 " + i);
+  //           if (
+  //             i + lenghtSegment >= resultSignal.location &&
+  //             resultSignal.location >= i
+  //           ) {
+  //             console.log(7);
+  //             const newLenght = lenghtAuxArray * 16;
+  //             let lenghtSegment = newLenght;
+  //             array = [
+  //               ...array,
+  //               new Promise((resolve, reject) => {
+  //                 const obj = collectionSegment.insertOne({
+  //                   index,
+  //                   lenghtSegment,
+  //                   street: ObjectID(street),
+  //                   signal: signal.map((obj) => ObjectID(obj)),
+  //                 });
+  //                 resolve(obj);
+  //               }),
+  //             ];
+  //           } else {
+  //             console.log("8 " + i);
+  //             const newLenght = resultStreet.lenght - i;
+  //             let lenghtSegment = newLenght;
+
+  //             array = [
+  //               ...array,
+  //               new Promise((resolve, reject) => {
+  //                 const obj = collectionSegment.insertOne({
+  //                   index,
+  //                   lenghtSegment,
+  //                   street: ObjectID(street),
+  //                   signal: [0],
+  //                 });
+  //                 resolve(obj);
+  //               }),
+  //             ];
+  //           }
+  //         } else {
+  //           console.log(9);
+  //           if (
+  //             i + lenghtSegment > resultSignal.location &&
+  //             resultSignal.location >= i &&
+  //             counter === 0
+  //           ) {
+  //             console.log(10);
+  //             if (i === 0) {
+  //               console.log(11);
+  //               const a = i + lenghtSegment;
+  //               const b = lenghtAuxArray * 16;
+  //               const c = a + b;
+  //               const d = c - lenghtSegment;
+  //               i = d - lenghtSegment;
+  //               lenghtSegment = d;
+  //               counter = 1;
+  //             } else {
+  //               console.log(12);
+  //               const a = i + lenghtSegment;
+  //               const b = lenghtAuxArray * 16;
+  //               const c = a + b;
+  //               const d = c - lenghtSegment;
+  //               i = d - lenghtSegment;
+  //               lenghtSegment = b;
+  //               counter = 1;
+  //             }
+  //             array = [
+  //               ...array,
+  //               new Promise((resolve, reject) => {
+  //                 const obj = collectionSegment.insertOne({
+  //                   index,
+  //                   lenghtSegment,
+  //                   street: ObjectID(street),
+  //                   signal: signal.map((obj) => ObjectID(obj)),
+  //                 });
+  //                 resolve(obj);
+  //               }),
+  //             ];
+  //           } else {
+  //             console.log(13);
+  //             array = [
+  //               ...array,
+  //               new Promise((resolve, reject) => {
+  //                 const obj = collectionSegment.insertOne({
+  //                   index,
+  //                   lenghtSegment,
+  //                   street: ObjectID(street),
+  //                   signal: [0],
+  //                 });
+  //                 resolve(obj);
+  //               }),
+  //             ];
+  //           }
+  //         }
+  //       }
+  //       (async function () {
+  //         await Promise.all(array);
+  //       })();
+  //       return resultStreet;
+  //     }
+  //   }
+  // },
+
+  // addSignal: async (parent, args, ctx, info) => {
+  //   const { name, location, type, probability, description } = args;
+  //   const { client } = ctx;
+
+  //   const db = client.db("DataBase");
+  //   const collection = db.collection("Signals");
+
+  //   const result = await collection.insertOne({
+  //     name,
+  //     location,
+  //     type,
+  //     probability,
+  //     description,
   //   });
   //   return result.ops[0];
   // },
 
-  addSegment: async (parent, args, ctx, info) => {
-    const { street, signal } = args;
-    const { client } = ctx;
+  // addValues: async (parent, args, ctx, info) => {
+  //   const { street, p, Cd, A, M, G, fr, a, alfa } = args;
+  //   const { client } = ctx;
 
-    const db = client.db("DataBase");
-    const collectionStreet = db.collection("Streets");
-    const collectionSegment = db.collection("Segments");
-    const collectionSignal = db.collection("Signals");
+  //   const db = client.db("DataBase");
+  //   const collection = db.collection("Values");
 
-    const resultStreet = await collectionStreet.findOne({
-      _id: ObjectID(street),
-    });
+  //   const idStreet = await collection.findOne({ street: ObjectID(street) });
 
-    let signalArray = null;
-    let resultSignal = null;
-    let auxArray = null;
-    let lenghtAuxArray = null;
+  //   if (!idStreet) {
+  //     const result = await collection.insertOne({
+  //       street: ObjectID(street),
+  //       p,
+  //       Cd,
+  //       A,
+  //       M,
+  //       G,
+  //       fr,
+  //       a,
+  //       alfa,
+  //     });
+  //     return result.ops[0];
+  //   } else {
+  //     return new Error("This street already has assigned values");
+  //   }
+  // },
+  // updateValues: async (parent, args, ctx, info) => {
+  //   const resultID = args._id;
+  //   const { client } = ctx;
 
-    if (signal !== undefined) {
-      console.log(1);
-      signalArray = signal.map((obj) => ObjectID(obj));
-      resultSignal = await collectionSignal.findOne({
-        _id: { $in: signalArray },
-      });
-      auxArray = signal.map((obj) => obj.location);
-      lenghtAuxArray = auxArray.length;
-    }
+  //   const db = client.db("DataBase");
+  //   const collection = db.collection("Values");
 
-    if (resultStreet) {
-      console.log(2);
-      let array = [];
-      let index = 0;
-      const speed = resultStreet.speed;
-      let lenghtSegment = lenghtSegments(speed);
+  //   let jsonUpdate;
+  //   if (args.p) {
+  //     jsonUpdate = {
+  //       p: args.p,
+  //       ...jsonUpdate,
+  //     };
+  //   }
+  //   if (args.Cd) {
+  //     jsonUpdate = {
+  //       Cd: args.Cd,
+  //       ...jsonUpdate,
+  //     };
+  //   }
+  //   if (args.A) {
+  //     jsonUpdate = {
+  //       A: args.A,
+  //       ...jsonUpdate,
+  //     };
+  //   }
+  //   if (args.M) {
+  //     jsonUpdate = {
+  //       M: args.M,
+  //       ...jsonUpdate,
+  //     };
+  //   }
+  //   if (args.G) {
+  //     jsonUpdate = {
+  //       G: args.G,
+  //       ...jsonUpdate,
+  //     };
+  //   }
+  //   if (args.fr) {
+  //     jsonUpdate = {
+  //       fr: args.fr,
+  //       ...jsonUpdate,
+  //     };
+  //   }
+  //   if (args.a) {
+  //     jsonUpdate = {
+  //       a: args.a,
+  //       ...jsonUpdate,
+  //     };
+  //   }
+  //   if (args.alfa) {
+  //     jsonUpdate = {
+  //       alfa: args.alfa,
+  //       ...jsonUpdate,
+  //     };
+  //   }
+  //   const result = await collection.findOneAndUpdate(
+  //     { _id: ObjectID(resultID) },
+  //     { $set: jsonUpdate },
+  //     { returnOriginal: false }
+  //   );
+  //   return result.value;
+  // },
+  // updateStreet: async (parent, args, ctx, info) => {
+  //   const resultID = args._id;
+  //   const { client } = ctx;
 
-      if (resultStreet.lenght < lenghtSegment) {
-        console.log(3);
-        const result = await collectionSegment.insertOne({
-          index: index + 1,
-          lenghtSegment,
-          street: ObjectID(street),
-          signal: signal.map((obj) => ObjectID(obj)),
-        });
-        return result.ops[0];
-      } else if (signal === undefined) {
-        console.log("4");
-        for (let i = 0; i < resultStreet.lenght; i += lenghtSegment) {
-          index = index + 1;
-          if (i + lenghtSegment > resultStreet.lenght) {
-            const newLenght = resultStreet.lenght - i;
-            let lenghtSegment = newLenght;
-            array = [
-              ...array,
-              new Promise((resolve, reject) => {
-                const obj = collectionSegment.insertOne({
-                  index,
-                  lenghtSegment,
-                  street: ObjectID(street),
-                  signal: [0],
-                });
-                resolve(obj);
-              }),
-            ];
-          } else {
-            console.log(20);
-            array = [
-              ...array,
-              new Promise((resolve, reject) => {
-                const obj = collectionSegment.insertOne({
-                  index,
-                  lenghtSegment,
-                  street: ObjectID(street),
-                  signal: [0],
-                });
-                resolve(obj);
-              }),
-            ];
-          }
-        }
-        (async function () {
-          await Promise.all(array);
-        })();
-        return resultStreet;
-      } else {
-        let lenghtSegment1 = lenghtSegments(speed);
-        let counter = 0;
-        for (let i = 0; i <= resultStreet.lenght; i += lenghtSegment) {
-          console.log("5 " + i + index);
-          index = index + 1;
-          let lenghtSegment = lenghtSegment1;
-          if (i + lenghtSegment > resultStreet.lenght) {
-            console.log("6 " + i);
-            if (
-              i + lenghtSegment >= resultSignal.location &&
-              resultSignal.location >= i
-            ) {
-              console.log(7);
-              const newLenght = lenghtAuxArray * 16;
-              let lenghtSegment = newLenght;
-              array = [
-                ...array,
-                new Promise((resolve, reject) => {
-                  const obj = collectionSegment.insertOne({
-                    index,
-                    lenghtSegment,
-                    street: ObjectID(street),
-                    signal: signal.map((obj) => ObjectID(obj)),
-                  });
-                  resolve(obj);
-                }),
-              ];
-            } else {
-              console.log("8 " + i);
-              const newLenght = resultStreet.lenght - i;
-              let lenghtSegment = newLenght;
+  //   const db = client.db("DataBase");
+  //   const collection = db.collection("Streets");
 
-              array = [
-                ...array,
-                new Promise((resolve, reject) => {
-                  const obj = collectionSegment.insertOne({
-                    index,
-                    lenghtSegment,
-                    street: ObjectID(street),
-                    signal: [0],
-                  });
-                  resolve(obj);
-                }),
-              ];
-            }
-          } else {
-            console.log(9);
-            if (
-              i + lenghtSegment > resultSignal.location &&
-              resultSignal.location >= i &&
-              counter === 0
-            ) {
-              console.log(10);
-              if (i === 0) {
-                console.log(11);
-                const a = i + lenghtSegment;
-                const b = lenghtAuxArray * 16;
-                const c = a + b;
-                const d = c - lenghtSegment;
-                i = d - lenghtSegment;
-                lenghtSegment = d;
-                counter = 1;
-              } else {
-                console.log(12);
-                const a = i + lenghtSegment;
-                const b = lenghtAuxArray * 16;
-                const c = a + b;
-                const d = c - lenghtSegment;
-                i = d - lenghtSegment;
-                lenghtSegment = b;
-                counter = 1;
-              }
-              array = [
-                ...array,
-                new Promise((resolve, reject) => {
-                  const obj = collectionSegment.insertOne({
-                    index,
-                    lenghtSegment,
-                    street: ObjectID(street),
-                    signal: signal.map((obj) => ObjectID(obj)),
-                  });
-                  resolve(obj);
-                }),
-              ];
-            } else {
-              console.log(13);
-              array = [
-                ...array,
-                new Promise((resolve, reject) => {
-                  const obj = collectionSegment.insertOne({
-                    index,
-                    lenghtSegment,
-                    street: ObjectID(street),
-                    signal: [0],
-                  });
-                  resolve(obj);
-                }),
-              ];
-            }
-          }
-        }
-        (async function () {
-          await Promise.all(array);
-        })();
-        return resultStreet;
-      }
-    }
-  },
-
-  addSignal: async (parent, args, ctx, info) => {
-    const { name, location, type, probability, description } = args;
-    const { client } = ctx;
-
-    const db = client.db("DataBase");
-    const collection = db.collection("Signals");
-
-    const result = await collection.insertOne({
-      name,
-      location,
-      type,
-      probability,
-      description,
-    });
-    return result.ops[0];
-  },
-
-  addValues: async (parent, args, ctx, info) => {
-    const { street, p, Cd, A, M, G, fr, a, alfa } = args;
-    const { client } = ctx;
-
-    const db = client.db("DataBase");
-    const collection = db.collection("Values");
-
-    const idStreet = await collection.findOne({ street: ObjectID(street) });
-
-    if (!idStreet) {
-      const result = await collection.insertOne({
-        street: ObjectID(street),
-        p,
-        Cd,
-        A,
-        M,
-        G,
-        fr,
-        a,
-        alfa,
-      });
-      return result.ops[0];
-    } else {
-      return new Error("This street already has assigned values");
-    }
-  },
-  updateValues: async (parent, args, ctx, info) => {
-    const resultID = args._id;
-    const { client } = ctx;
-
-    const db = client.db("DataBase");
-    const collection = db.collection("Values");
-
-    let jsonUpdate;
-    if (args.p) {
-      jsonUpdate = {
-        p: args.p,
-        ...jsonUpdate,
-      };
-    }
-    if (args.Cd) {
-      jsonUpdate = {
-        Cd: args.Cd,
-        ...jsonUpdate,
-      };
-    }
-    if (args.A) {
-      jsonUpdate = {
-        A: args.A,
-        ...jsonUpdate,
-      };
-    }
-    if (args.M) {
-      jsonUpdate = {
-        M: args.M,
-        ...jsonUpdate,
-      };
-    }
-    if (args.G) {
-      jsonUpdate = {
-        G: args.G,
-        ...jsonUpdate,
-      };
-    }
-    if (args.fr) {
-      jsonUpdate = {
-        fr: args.fr,
-        ...jsonUpdate,
-      };
-    }
-    if (args.a) {
-      jsonUpdate = {
-        a: args.a,
-        ...jsonUpdate,
-      };
-    }
-    if (args.alfa) {
-      jsonUpdate = {
-        alfa: args.alfa,
-        ...jsonUpdate,
-      };
-    }
-    const result = await collection.findOneAndUpdate(
-      { _id: ObjectID(resultID) },
-      { $set: jsonUpdate },
-      { returnOriginal: false }
-    );
-    return result.value;
-  },
-  updateStreet: async (parent, args, ctx, info) => {
-    const resultID = args._id;
-    const { client } = ctx;
-
-    const db = client.db("DataBase");
-    const collection = db.collection("Streets");
-
-    let jsonUpdate;
-    if (args.name) {
-      jsonUpdate = {
-        name: args.name,
-        ...jsonUpdate,
-      };
-    }
-    if (args.lenght) {
-      jsonUpdate = {
-        lenght: args.lenght,
-        ...jsonUpdate,
-      };
-    }
-    if (args.speed) {
-      jsonUpdate = {
-        speed: args.speed,
-        ...jsonUpdate,
-      };
-    }
-    const result = await collection.findOneAndUpdate(
-      { _id: ObjectID(resultID) },
-      { $set: jsonUpdate },
-      { returnOriginal: false }
-    );
-    return result.value;
-  },
+  //   let jsonUpdate;
+  //   if (args.name) {
+  //     jsonUpdate = {
+  //       name: args.name,
+  //       ...jsonUpdate,
+  //     };
+  //   }
+  //   if (args.lenght) {
+  //     jsonUpdate = {
+  //       lenght: args.lenght,
+  //       ...jsonUpdate,
+  //     };
+  //   }
+  //   if (args.speed) {
+  //     jsonUpdate = {
+  //       speed: args.speed,
+  //       ...jsonUpdate,
+  //     };
+  //   }
+  //   const result = await collection.findOneAndUpdate(
+  //     { _id: ObjectID(resultID) },
+  //     { $set: jsonUpdate },
+  //     { returnOriginal: false }
+  //   );
+  //   return result.value;
+  // },
 
   // updateSegment: async (parent, args, ctx, info) => {
   //   const resultID = args.id;
@@ -739,186 +721,186 @@ const Mutation = {
   //   return result.value;
   // },
 
-  updateSignal: async (parent, args, ctx, info) => {
-    const resultID = args._id;
-    const { client } = ctx;
+  // updateSignal: async (parent, args, ctx, info) => {
+  //   const resultID = args._id;
+  //   const { client } = ctx;
 
-    const db = client.db("DataBase");
-    const collection = db.collection("Signals");
+  //   const db = client.db("DataBase");
+  //   const collection = db.collection("Signals");
 
-    let jsonUpdate;
-    if (args.name) {
-      jsonUpdate = {
-        name: args.name,
-        ...jsonUpdate,
-      };
-    }
-    if (args.location) {
-      jsonUpdate = {
-        location: args.location,
-        ...jsonUpdate,
-      };
-    }
-    if (args.type) {
-      jsonUpdate = {
-        type: args.type,
-        ...jsonUpdate,
-      };
-    }
-    if (args.probability) {
-      jsonUpdate = {
-        probability: args.probability,
-        ...jsonUpdate,
-      };
-    }
-    if (args.description) {
-      jsonUpdate = {
-        description: args.description,
-        ...jsonUpdate,
-      };
-    }
-    const result = await collection.findOneAndUpdate(
-      { _id: ObjectID(resultID) },
-      { $set: jsonUpdate },
-      { returnOriginal: false }
-    );
-    return result.value;
-  },
+  //   let jsonUpdate;
+  //   if (args.name) {
+  //     jsonUpdate = {
+  //       name: args.name,
+  //       ...jsonUpdate,
+  //     };
+  //   }
+  //   if (args.location) {
+  //     jsonUpdate = {
+  //       location: args.location,
+  //       ...jsonUpdate,
+  //     };
+  //   }
+  //   if (args.type) {
+  //     jsonUpdate = {
+  //       type: args.type,
+  //       ...jsonUpdate,
+  //     };
+  //   }
+  //   if (args.probability) {
+  //     jsonUpdate = {
+  //       probability: args.probability,
+  //       ...jsonUpdate,
+  //     };
+  //   }
+  //   if (args.description) {
+  //     jsonUpdate = {
+  //       description: args.description,
+  //       ...jsonUpdate,
+  //     };
+  //   }
+  //   const result = await collection.findOneAndUpdate(
+  //     { _id: ObjectID(resultID) },
+  //     { $set: jsonUpdate },
+  //     { returnOriginal: false }
+  //   );
+  //   return result.value;
+  // },
 
-  removeStreet: async (parent, args, ctx, info) => {
-    const streetID = args._id;
-    const { client } = ctx;
+  // removeStreet: async (parent, args, ctx, info) => {
+  //   const streetID = args._id;
+  //   const { client } = ctx;
 
-    const db = client.db("DataBase");
-    const collectionStreet = db.collection("Streets");
-    const collectionSegment = db.collection("Segments");
-    const collectionValues = db.collection("Values");
+  //   const db = client.db("DataBase");
+  //   const collectionStreet = db.collection("Streets");
+  //   const collectionSegment = db.collection("Segments");
+  //   const collectionValues = db.collection("Values");
 
-    let result;
-    const findStreet = await collectionStreet.findOne({
-      _id: ObjectID(streetID),
-    });
-    if (findStreet) {
-      const deleteSegment = () => {
-        return new Promise((resolve, reject) => {
-          const result = collectionSegment.deleteMany({
-            street: ObjectID(streetID),
-          });
-          resolve(result);
-        });
-      };
-      const deleteValues = () => {
-        return new Promise((resolve, reject) => {
-          const result = collectionValues.findOneAndDelete(
-            { street: ObjectID(streetID) },
-            { returnOriginal: true }
-          );
-          resolve(result.value);
-        });
-      };
-      const deleteStreet = () => {
-        return new Promise((resolve, reject) => {
-          result = collectionStreet.findOneAndDelete(
-            { _id: ObjectID(streetID) },
-            { returnOriginal: true }
-          );
-          resolve(result);
-        });
-      };
-      (async function () {
-        const asyncFuntions = [deleteStreet(), deleteSegment(), deleteValues()];
-        await Promise.all(asyncFuntions).value;
-      })();
-      return findStreet;
-    } else {
-      return new Error("Insert correct ID");
-    }
-  },
-  removeSegments: async (parent, args, ctx, info) => {
-    const streetID = args.street;
-    const { client } = ctx;
+  //   let result;
+  //   const findStreet = await collectionStreet.findOne({
+  //     _id: ObjectID(streetID),
+  //   });
+  //   if (findStreet) {
+  //     const deleteSegment = () => {
+  //       return new Promise((resolve, reject) => {
+  //         const result = collectionSegment.deleteMany({
+  //           street: ObjectID(streetID),
+  //         });
+  //         resolve(result);
+  //       });
+  //     };
+  //     const deleteValues = () => {
+  //       return new Promise((resolve, reject) => {
+  //         const result = collectionValues.findOneAndDelete(
+  //           { street: ObjectID(streetID) },
+  //           { returnOriginal: true }
+  //         );
+  //         resolve(result.value);
+  //       });
+  //     };
+  //     const deleteStreet = () => {
+  //       return new Promise((resolve, reject) => {
+  //         result = collectionStreet.findOneAndDelete(
+  //           { _id: ObjectID(streetID) },
+  //           { returnOriginal: true }
+  //         );
+  //         resolve(result);
+  //       });
+  //     };
+  //     (async function () {
+  //       const asyncFuntions = [deleteStreet(), deleteSegment(), deleteValues()];
+  //       await Promise.all(asyncFuntions).value;
+  //     })();
+  //     return findStreet;
+  //   } else {
+  //     return new Error("Insert correct ID");
+  //   }
+  // },
+  // removeSegments: async (parent, args, ctx, info) => {
+  //   const streetID = args.street;
+  //   const { client } = ctx;
 
-    const db = client.db("DataBase");
-    const collectionStreet = db.collection("Streets");
-    const collectionSegment = db.collection("Segments");
+  //   const db = client.db("DataBase");
+  //   const collectionStreet = db.collection("Streets");
+  //   const collectionSegment = db.collection("Segments");
 
-    let result;
-    const findStreet = await collectionStreet.findOne({
-      _id: ObjectID(streetID),
-    });
-    if (findStreet) {
-      const deleteSegment = () => {
-        return new Promise((resolve, reject) => {
-          result = collectionSegment.deleteMany({ street: ObjectID(streetID) });
-          resolve(result);
-        });
-      };
-      (async function () {
-        const asyncFuntions = [deleteSegment()];
-        await Promise.all(asyncFuntions).value;
-      })();
-      return result;
-    } else {
-      return new Error("Insert correct ID");
-    }
-  },
-  removeValues: async (parent, args, ctx, info) => {
-    const valuesID = args._id;
-    const { client } = ctx;
+  //   let result;
+  //   const findStreet = await collectionStreet.findOne({
+  //     _id: ObjectID(streetID),
+  //   });
+  //   if (findStreet) {
+  //     const deleteSegment = () => {
+  //       return new Promise((resolve, reject) => {
+  //         result = collectionSegment.deleteMany({ street: ObjectID(streetID) });
+  //         resolve(result);
+  //       });
+  //     };
+  //     (async function () {
+  //       const asyncFuntions = [deleteSegment()];
+  //       await Promise.all(asyncFuntions).value;
+  //     })();
+  //     return result;
+  //   } else {
+  //     return new Error("Insert correct ID");
+  //   }
+  // },
+  // removeValues: async (parent, args, ctx, info) => {
+  //   const valuesID = args._id;
+  //   const { client } = ctx;
 
-    const db = client.db("DataBase");
-    const collection = db.collection("Values");
+  //   const db = client.db("DataBase");
+  //   const collection = db.collection("Values");
 
-    const findValues = await collection.findOne({
-      _id: ObjectID(valuesID),
-    });
-    if (findValues) {
-      const deleteValues = () => {
-        return new Promise((resolve, reject) => {
-          const result = collection.findOneAndDelete(
-            { _id: ObjectID(valuesID) },
-            { returnOriginal: true }
-          );
-          resolve(result.value);
-        });
-      };
-      (async function () {
-        const asyncFuntions = [deleteValues()];
-        await Promise.all(asyncFuntions).value;
-      })();
-      return findValues;
-    } else {
-      return new Error("Insert correct ID");
-    }
-  },
-  removeSignal: async (parent, args, ctx, info) => {
-    const signalID = args._id;
-    const { client } = ctx;
+  //   const findValues = await collection.findOne({
+  //     _id: ObjectID(valuesID),
+  //   });
+  //   if (findValues) {
+  //     const deleteValues = () => {
+  //       return new Promise((resolve, reject) => {
+  //         const result = collection.findOneAndDelete(
+  //           { _id: ObjectID(valuesID) },
+  //           { returnOriginal: true }
+  //         );
+  //         resolve(result.value);
+  //       });
+  //     };
+  //     (async function () {
+  //       const asyncFuntions = [deleteValues()];
+  //       await Promise.all(asyncFuntions).value;
+  //     })();
+  //     return findValues;
+  //   } else {
+  //     return new Error("Insert correct ID");
+  //   }
+  // },
+  // removeSignal: async (parent, args, ctx, info) => {
+  //   const signalID = args._id;
+  //   const { client } = ctx;
 
-    const db = client.db("DataBase");
-    const collection = db.collection("Signals");
+  //   const db = client.db("DataBase");
+  //   const collection = db.collection("Signals");
 
-    const findSignal = await collection.findOne({
-      _id: ObjectID(signalID),
-    });
-    if (findSignal) {
-      const deleteSignals = () => {
-        return new Promise((resolve, reject) => {
-          const result = collection.findOneAndDelete(
-            { _id: ObjectID(signalID) },
-            { returnOriginal: true }
-          );
-          resolve(result.value);
-        });
-      };
-      (async function () {
-        const asyncFuntions = [deleteSignals()];
-        await Promise.all(asyncFuntions).value;
-      })();
-      return findSignal;
-    } else {
-      return new Error("Insert correct ID");
-    }
-  },
+  //   const findSignal = await collection.findOne({
+  //     _id: ObjectID(signalID),
+  //   });
+  //   if (findSignal) {
+  //     const deleteSignals = () => {
+  //       return new Promise((resolve, reject) => {
+  //         const result = collection.findOneAndDelete(
+  //           { _id: ObjectID(signalID) },
+  //           { returnOriginal: true }
+  //         );
+  //         resolve(result.value);
+  //       });
+  //     };
+  //     (async function () {
+  //       const asyncFuntions = [deleteSignals()];
+  //       await Promise.all(asyncFuntions).value;
+  //     })();
+  //     return findSignal;
+  //   } else {
+  //     return new Error("Insert correct ID");
+  //   }
+  // },
 };
 export { Mutation as default };
