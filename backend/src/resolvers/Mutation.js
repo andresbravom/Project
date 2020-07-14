@@ -205,6 +205,7 @@ const Mutation = {
     const M = resultVehicleValues.M;
     const G = resultVehicleValues.G;
     const fr = resultVehicleValues.fr;
+    const alpha = resultVehicleValues.alpha;
 
     if (resultRoute && resultVehicleValues) {
       console.log(resultVehicleValues);
@@ -225,14 +226,42 @@ const Mutation = {
         const v = arrayVelocities[i] * (5 / 18);
         const t = (v - v0) / a;
 
+        //O1
         let O1 = (1 / 2) * p * Cd * A * Math.pow(v, 3) * t + M * G * v * t * fr;
         O1 = O1 * 0.00027777777777778;
+        //O2
+        //ENERGY BRAKING
+        const ebreak1 = (M / 2) * (Math.pow(v - a * t, 2) - Math.pow(v, 2));
+        const ebreak2 =
+          (p * Cd * A * (Math.pow(v - a * t, 4) - Math.pow(v, 4))) / (-8 * a);
+        const ebreak3 =
+          (M * G * fr * (Math.pow(v - a * t, 2) - Math.pow(v, 2))) / (-2 * a);
+
+        let O2BrakingAux = ebreak1 + ebreak2 + ebreak3;
+        let O2Braking = O2BrakingAux * alpha;
+        O2Braking = O2Braking * 0.00027777777777778;
+
+        //ENERGY ACCELERATION
+        const eacc1 = (M * Math.pow(a * t, 2)) / 2;
+        const eacc2 = (p * Cd * A * Math.pow(a * t, 4)) / (8 * a);
+        const eacc3 = (M * G * fr * Math.pow(a * t, 2)) / (2 * a);
+
+        let O2Acceleration = eacc1 + eacc2 + eacc3;
+
+        O2Acceleration = O2Acceleration + alpha  * O2BrakingAux;
+        O2Acceleration = O2Acceleration * 0.00027777777777778;
+
+        const O2 = O2Braking + O2Acceleration
+
+        // console.log("Braking: " + O2Braking);
+        // console.log("Acceleration: " + O2Acceleration)
+        // console.log("O2: " + O2);
 
         for (let j = 0; j < arraySegmentsID.length; j += 1) {
           if (arraySegments[j] !== 0) {
             const result = collectionSegments.findOneAndUpdate(
               { _id: ObjectID(arraySegmentsID[j]) },
-              { $set: { O: "O2" } }, 
+              { $set: { O: "O2" }, $set: { OValues: O2} }, 
             );
           } else {
             const result = collectionSegments.findOneAndUpdate(
@@ -278,7 +307,7 @@ const Mutation = {
 
 
 
-  
+
 
   addStreet: async (parent, args, ctx, info) => {
     const { name, lenght, speed } = args;
