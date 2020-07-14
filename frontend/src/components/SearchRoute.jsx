@@ -23,27 +23,9 @@ const SearchRoute = () => {
     if (networkStatus === 4) return <div>Refetching...</div>
     if (loading) return <div>Loading...</div>
     if (error ) return <div>Error</div>
-
-    // if(context.nameRoute.get !== null){
-    //     console.log("Hola");
-    // }else {
-    //     console.log("adios")
-    // }
     
     return(
         <div className="SearchRoute">
-            {/* <input
-                id="inputField"
-                className="FormFields InputField"
-                type="text"
-                placeholder="Insert Route Name">
-            </input>
-            <div
-            className="Button"
-            onClick={() => context.nameRoute.set(document.getElementById("inputField").value)}>
-                Search
-            </div> */}
-
             <div>
                 {data ? 
                 <div> 
@@ -54,7 +36,6 @@ const SearchRoute = () => {
                         _id Route: {data.getRouteName._id}
                     </div>  
                 </div>
-                
                 : null}
             </div>
         </div>
