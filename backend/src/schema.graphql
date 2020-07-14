@@ -76,7 +76,7 @@ type Values {
     alfa: Float!
 }
 type Query {
-    getRouteID(_id: ID!): Route!
+    getRouteName(name: String!): Route!
     getRoute: [Route]!
     getSubrouteID(_id: ID!): Subroute!
     getSubroute: [Subroute]!
