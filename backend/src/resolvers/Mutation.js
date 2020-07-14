@@ -132,30 +132,32 @@ const Mutation = {
       return new Error("Insert correct ID");
     }
   },
-  addProbability: async(parent, args, ctx, info) => {
+  addProbability: async (parent, args, ctx, info) => {
     const { subroute, probability } = args;
     const { client } = ctx;
 
-    const db  = client.db("DataBase");
+    const db = client.db("DataBase");
     const collectionSubroutes = db.collection("Subroutes");
     const collectionSegments = db.collection("SegmentsSubroutes");
 
     const resultSubroute = await collectionSubroutes.findOne({
       _id: ObjectID(subroute),
     });
-    const resultProbability = await collectionSegments.find({subroute: ObjectID(subroute)}).toArray();
+    const resultProbability = await collectionSegments
+      .find({ subroute: ObjectID(subroute) })
+      .toArray();
 
-    if(resultSubroute) {
-      const arrayProbabilities = resultProbability.map(obj => (obj._id));
-      
-      for(let i=0; i<arrayProbabilities.length; i += 1){
+    if (resultSubroute) {
+      const arrayProbabilities = resultProbability.map((obj) => obj._id);
+
+      for (let i = 0; i < arrayProbabilities.length; i += 1) {
         const result = await collectionSegments.findOneAndUpdate(
           { _id: ObjectID(arrayProbabilities[i]) },
-          { $set: {probability: probability[i]} },
+          { $set: { probability: probability[i] } }
         );
       }
       return resultSubroute;
-    }else {
+    } else {
       return new Error("Insert correct ID");
     }
   },
@@ -192,7 +194,7 @@ const Mutation = {
       _id: ObjectID(route),
     });
     const resultVehicleValues = await collectionVehiclesValues.findOne({
-      _id: ObjectID(vehicleValues)
+      _id: ObjectID(vehicleValues),
     });
 
     const v0 = 0;
@@ -206,79 +208,52 @@ const Mutation = {
     const G = resultVehicleValues.G;
     const fr = resultVehicleValues.fr;
 
-    if(resultRoute && resultVehicleValues) {
+    if (resultRoute && resultVehicleValues) {
       console.log(resultVehicleValues);
-      const resultSubroutes = await collectionSubroutes.find({route: ObjectID(route)}).toArray();
+      const resultSubroutes = await collectionSubroutes
+        .find({ route: ObjectID(route) })
+        .toArray();
 
-      const arraySubroutes = resultSubroutes.map(obj => (obj._id));
-      const arrayVelocities = resultSubroutes.map(obj => (obj.speed));
+      const arraySubroutes = resultSubroutes.map((obj) => obj._id);
+      const arrayVelocities = resultSubroutes.map((obj) => obj.speed);
 
-      for(let i=0; i<arraySubroutes.length; i += 1){
-        
-        const resultSegments = await collectionSegments.find({subroute: ObjectID(arraySubroutes[i])}).toArray();
-        const arraySegments = resultSegments.map(obj => (obj.probability));
-        const arraySegmentsID = resultSegments.map(obj => (obj._id));
+      for (let i = 0; i < arraySubroutes.length; i += 1) {
+        const resultSegments = await collectionSegments
+          .find({ subroute: ObjectID(arraySubroutes[i]) })
+          .toArray();
+        const arraySegments = resultSegments.map((obj) => obj.probability);
+        const arraySegmentsID = resultSegments.map((obj) => obj._id);
 
-        const v = arrayVelocities[i];
-
+        const v = arrayVelocities[i] * (5 / 18);
         const t = (v - v0) / a;
 
-        console.log(t);
-        
-       
-        // let O1 = 
-        // (1 / 2) * p * Cd * A * Math.pow(v, 3) * t + M * G * v * t * fr;
+        let O1 = (1 / 2) * p * Cd * A * Math.pow(v, 3) * t + M * G * v * t * fr;
+     
+        O1 = O1 * 0.00027777777777778;
 
+        console.log("Arriba: " + O1);
 
-        for(let j=0; j< arraySegmentsID.length; j+= 1){
-          if(arraySegments[j] !== 0) {
+        for (let j = 0; j < arraySegmentsID.length; j += 1) {
+          if (arraySegments[j] !== 0) {
+            console.log("Abajo: " + O1);
             const result = collectionSegments.findOneAndUpdate(
               { _id: ObjectID(arraySegmentsID[j]) },
-              { $set: {O: "O2"} },
+              { $set: { O: "O2" } },
+              
             );
-          }else{
+          } else {
             const result = collectionSegments.findOneAndUpdate(
               { _id: ObjectID(arraySegmentsID[j]) },
-              { $set: {O: "O1"} },
+              { $set: { O: "O1" }, $set: { OValues: O1 } },
             );
           }
         }
       }
       return resultRoute;
-    }else {
+    } else {
       return new Error("Insert correct ID");
     }
   },
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   addStreet: async (parent, args, ctx, info) => {
     const { name, lenght, speed } = args;
