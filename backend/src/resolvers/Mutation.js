@@ -202,8 +202,6 @@ const Mutation = {
     const p = resultVehicleValues.p;
     const Cd = resultVehicleValues.Cd;
     const A = resultVehicleValues.A;
-    // const v = resultStreet.speed * (5 / 18);
-    // const t = (v - v0) / a;
     const M = resultVehicleValues.M;
     const G = resultVehicleValues.G;
     const fr = resultVehicleValues.fr;
@@ -228,18 +226,13 @@ const Mutation = {
         const t = (v - v0) / a;
 
         let O1 = (1 / 2) * p * Cd * A * Math.pow(v, 3) * t + M * G * v * t * fr;
-     
         O1 = O1 * 0.00027777777777778;
-
-        console.log("Arriba: " + O1);
 
         for (let j = 0; j < arraySegmentsID.length; j += 1) {
           if (arraySegments[j] !== 0) {
-            console.log("Abajo: " + O1);
             const result = collectionSegments.findOneAndUpdate(
               { _id: ObjectID(arraySegmentsID[j]) },
-              { $set: { O: "O2" } },
-              
+              { $set: { O: "O2" } }, 
             );
           } else {
             const result = collectionSegments.findOneAndUpdate(
@@ -254,6 +247,38 @@ const Mutation = {
       return new Error("Insert correct ID");
     }
   },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
 
   addStreet: async (parent, args, ctx, info) => {
     const { name, lenght, speed } = args;

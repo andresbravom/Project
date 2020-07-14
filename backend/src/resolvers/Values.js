@@ -16,7 +16,7 @@ const Values = {
 
 export { Values as default };
 
-// getO1: async (parent, args, ctx, info) => {
+// getO2Acceleration: async (parent, args, ctx, info) => {
 //   const { street, values } = args;
 //   const { client } = ctx;
 
@@ -37,15 +37,30 @@ export { Values as default };
 //     const p = resultValues.p;
 //     const Cd = resultValues.Cd;
 //     const A = resultValues.A;
+//     const G = resultValues.G;
+//     const fr = resultValues.fr;
+//     const alfa = resultValues.alfa;
 //     const v = resultStreet.speed * (5 / 18);
 //     const t = (v - v0) / a;
 //     const M = resultValues.M;
-//     const G = resultValues.G;
-//     const fr = resultValues.fr;
 
-//     let energyConsumed =
-//       (1 / 2) * p * Cd * A * Math.pow(v, 3) * t + M * G * v * t * fr;
-//     console.log(energyConsumed);
+//     const ebreak1 = (M / 2) * (Math.pow(v - a * t, 2) - Math.pow(v, 2));
+//     const ebreak2 =
+//       (p * Cd * A * (Math.pow(v - a * t, 4) - Math.pow(v, 4))) / (-8 * a);
+//     const ebreak3 =
+//       (M * G * fr * (Math.pow(v - a * t, 2) - Math.pow(v, 2))) / (-2 * a);
+
+//     //Energy in braking
+//     let energyBraking = ebreak1 + ebreak2 + ebreak3;
+
+//     const eacc1 = (M * Math.pow(a * t, 2)) / 2;
+//     const eacc2 = (p * Cd * A * Math.pow(a * t, 4)) / (8 * a);
+//     const eacc3 = (M * G * fr * Math.pow(a * t, 2)) / (2 * a);
+
+//     //Energy in accelration
+//     let energyAcceleration = eacc1 + eacc2 + eacc3;
+
+//     let energyConsumed = energyAcceleration + alfa * energyBraking;
 //     energyConsumed = energyConsumed * 0.00027777777777778;
 
 //     return energyConsumed;
@@ -53,35 +68,50 @@ export { Values as default };
 //     return new Error("Insert correct ID");
 //   }
 // },
-
-
-
-
-// addProbability: async(parent, args, ctx, info) => {
-//   const { subroute, probability } = args;
+// getO2Braking: async (parent, args, ctx, info) => {
+//   const { street, values } = args;
 //   const { client } = ctx;
 
-//   const db  = client.db("DataBase");
-//   const collectionSubroutes = db.collection("Subroutes");
-//   const collectionSegments = db.collection("SegmentsSubroutes");
+//   const db = client.db("DataBase");
+//   const collectionStreet = db.collection("Streets");
+//   const collectionValues = db.collection("Values");
 
-//   const resultSubroute = await collectionSubroutes.findOne({
-//     _id: ObjectID(subroute),
+//   const resultStreet = await collectionStreet.findOne({
+//     _id: ObjectID(street),
+//   });
+//   const resultValues = await collectionValues.findOne({
+//     _id: ObjectID(values),
 //   });
 
-//   if(resultSubroute) {
-//     const resultProbaility = await collectionSegments.find({subroute: ObjectID(subroute)}).toArray();
+//   if (resultStreet && resultValues) {
+//     const v0 = 0;
+//     const a = resultValues.a;
+//     const p = resultValues.p;
+//     const Cd = resultValues.Cd;
+//     const A = resultValues.A;
+//     const G = resultValues.G;
+//     const fr = resultValues.fr;
+//     const alfa = resultValues.alfa;
+//     const v = resultStreet.speed * (5 / 18);
+//     const t = (v - v0) / a;
+//     const M = resultValues.M;
 
-//     const arrayProbabilities = resultProbaility.map(obj => (obj._id));
-    
-//     for(let i=0; i<arrayProbabilities.length; i += 1){
-//       const result = await collectionSegments.findOneAndUpdate(
-//         { _id: ObjectID(arrayProbabilities[i]) },
-//         { $set: {probability: probability[i]} },
-//       );
-//     }
-//     return resultSubroute
-//   }else {
+//     const ebreak1 = (M / 2) * (Math.pow(v - a * t, 2) - Math.pow(v, 2));
+//     const ebreak2 =
+//       (p * Cd * A * (Math.pow(v - a * t, 4) - Math.pow(v, 4))) / (-8 * a);
+//     const ebreak3 =
+//       (M * G * fr * (Math.pow(v - a * t, 2) - Math.pow(v, 2))) / (-2 * a);
+
+//     //Energy in braking
+//     let energyBraking = ebreak1 + ebreak2 + ebreak3;
+
+//     //Energy recovered in braking
+//     energyBraking = energyBraking * alfa;
+
+//     energyBraking = energyBraking * 0.00027777777777778;
+
+//     return energyBraking;
+//   } else {
 //     return new Error("Insert correct ID");
 //   }
 // },
