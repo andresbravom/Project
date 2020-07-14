@@ -8,11 +8,11 @@ import Header from "./components/Header";
 import Body from "./components/Body";
 import AddRoute from "./components/AddRoute";
 import SearchRoute from "./components/SearchRoute";
-
+import SearchBar from "./components/SearchBar";
 
 
 const httpLink = new HttpLink ({
-  uri: "http://127.0.0.1:4002/",
+  uri: "http://127.0.0.1:4000/",
 });
 
 const client = new ApolloClient ({
@@ -22,9 +22,11 @@ const client = new ApolloClient ({
 
 function App() {
   const [button, setButton] = useState(1);
+  const [nameRoute, setNameRoute] = useState(null);
 
   const contextData = {
     button: {get: button, set: setButton},
+    nameRoute: {get: nameRoute, set: setNameRoute},
   }
   let content = null;
 
@@ -50,12 +52,24 @@ function App() {
      </AppContext.Provider>
     )
   }
-  //SEARCH ROUTE
+  //SEARCH BAR
   if(button === 3) {
     content = (
       <AppContext.Provider value={contextData}>
        <ApolloProvider client={client}>
          <Header/>
+         <SearchBar/>
+       </ApolloProvider>
+     </AppContext.Provider>
+    )
+  }
+  //SEARCH ROUTE
+  if(button === 4) {
+    content = (
+      <AppContext.Provider value={contextData}>
+       <ApolloProvider client={client}>
+         <Header/>
+         <SearchBar/>
          <SearchRoute/>
        </ApolloProvider>
      </AppContext.Provider>
