@@ -6,6 +6,10 @@ import './App.css';
 
 import Header from "./components/Header";
 import Body from "./components/Body";
+import AddRoute from "./components/AddRoute";
+import SearchRoute from "./components/SearchRoute";
+
+
 
 const httpLink = new HttpLink ({
   uri: "http://127.0.0.1:4002/",
@@ -41,6 +45,7 @@ function App() {
       <AppContext.Provider value={contextData}>
        <ApolloProvider client={client}>
          <Header/>
+         <AddRoute/>
        </ApolloProvider>
      </AppContext.Provider>
     )
@@ -51,6 +56,7 @@ function App() {
       <AppContext.Provider value={contextData}>
        <ApolloProvider client={client}>
          <Header/>
+         <SearchRoute/>
        </ApolloProvider>
      </AppContext.Provider>
     )
