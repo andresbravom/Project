@@ -14,6 +14,14 @@ const QUERY = gql`
         name
         lenght
         speed
+        segments {
+          _id
+          index
+          lenghtSegment
+          probability
+          O
+          OValues
+        }
       }
     }
   }
@@ -57,6 +65,29 @@ const SearchRoute = () => {
                   <div>
                     <h4>Speed:</h4> {obj.speed} k/h
                   </div>
+
+                  {obj.segments.map((obj1) => (
+                    <div>
+                      <div>
+                        <h4>Index:</h4> {obj1.index}
+                      </div>
+                      <div>
+                        <h4>_id:</h4> {obj1._id}
+                      </div>
+                      <div>
+                        <h4>Lenght Segment:</h4> {obj1.lenghtSegment} m
+                      </div>
+                      <div>
+                        <h4>Probability:</h4> {obj1.probability}
+                      </div>
+                      <div>
+                        <h4>O Type:</h4> {obj1.O}
+                      </div>
+                      <div>
+                        <h4>O Values:</h4> {obj1.OValues} W/h
+                      </div>
+                    </div>
+                  ))}
                 </div>
               ))}
             </div>
