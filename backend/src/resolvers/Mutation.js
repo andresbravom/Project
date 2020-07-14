@@ -179,28 +179,56 @@ const Mutation = {
     return result.ops[0];
   },
   addOValues: async (parent, args, ctx, info) => {
-    const { route } = args;
+    const { route, vehicleValues } = args;
     const { client } = ctx;
 
     const db = client.db("DataBase");
     const collectionRoute = db.collection("Routes");
     const collectionSubroutes = db.collection("Subroutes");
     const collectionSegments = db.collection("SegmentsSubroutes");
+    const collectionVehiclesValues = db.collection("VehicleValues");
 
     const resultRoute = await collectionRoute.findOne({
       _id: ObjectID(route),
     });
+    const resultVehicleValues = await collectionVehiclesValues.findOne({
+      _id: ObjectID(vehicleValues)
+    });
 
-    if(resultRoute) {
+    const v0 = 0;
+    const a = resultVehicleValues.a;
+    const p = resultVehicleValues.p;
+    const Cd = resultVehicleValues.Cd;
+    const A = resultVehicleValues.A;
+    // const v = resultStreet.speed * (5 / 18);
+    // const t = (v - v0) / a;
+    const M = resultVehicleValues.M;
+    const G = resultVehicleValues.G;
+    const fr = resultVehicleValues.fr;
+
+    if(resultRoute && resultVehicleValues) {
+      console.log(resultVehicleValues);
       const resultSubroutes = await collectionSubroutes.find({route: ObjectID(route)}).toArray();
 
       const arraySubroutes = resultSubroutes.map(obj => (obj._id));
+      const arrayVelocities = resultSubroutes.map(obj => (obj.speed));
 
       for(let i=0; i<arraySubroutes.length; i += 1){
         
         const resultSegments = await collectionSegments.find({subroute: ObjectID(arraySubroutes[i])}).toArray();
         const arraySegments = resultSegments.map(obj => (obj.probability));
         const arraySegmentsID = resultSegments.map(obj => (obj._id));
+
+        const v = arrayVelocities[i];
+
+        const t = (v - v0) / a;
+
+        console.log(t);
+        
+       
+        // let O1 = 
+        // (1 / 2) * p * Cd * A * Math.pow(v, 3) * t + M * G * v * t * fr;
+
 
         for(let j=0; j< arraySegmentsID.length; j+= 1){
           if(arraySegments[j] !== 0) {

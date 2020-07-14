@@ -113,7 +113,7 @@ type Mutation {
     addSegments(subroute: ID!): Segments!
     addProbability(subroute: ID!, probability: [Float!]): Subroute!
     addVehicleValues (p: Float!, Cd: Float!, A: Float!, M: Float!, G: Float!, fr: Float!, a: Float!, alpha: Float!): VehicleValues!
-    addOValues (route: ID!): Route!
+    addOValues (route: ID!, vehicleValues: ID!): Route!
 
 
 
