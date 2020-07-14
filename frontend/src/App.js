@@ -5,6 +5,7 @@ import { ApolloProvider } from "@apollo/client";
 import './App.css';
 
 import Header from "./components/Header";
+import Body from "./components/Body";
 
 const httpLink = new HttpLink ({
   uri: "http://127.0.0.1:4002/",
@@ -23,7 +24,19 @@ function App() {
   }
   let content = null;
 
+  //PAGE PRINCIPAL
   if(button === 1) {
+    content = (
+      <AppContext.Provider value={contextData}>
+       <ApolloProvider client={client}>
+         <Header/>
+         <Body/>
+       </ApolloProvider>
+     </AppContext.Provider>
+    )
+  }
+  //ADD ROUTE
+  if(button === 2) {
     content = (
       <AppContext.Provider value={contextData}>
        <ApolloProvider client={client}>
@@ -32,7 +45,17 @@ function App() {
      </AppContext.Provider>
     )
   }
-
+  //SEARCH ROUTE
+  if(button === 3) {
+    content = (
+      <AppContext.Provider value={contextData}>
+       <ApolloProvider client={client}>
+         <Header/>
+       </ApolloProvider>
+     </AppContext.Provider>
+    )
+  }
+  console.log(button)
   return (
     <div className="App">
      {content}

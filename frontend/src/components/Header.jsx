@@ -1,5 +1,4 @@
 import React, { useState, useContext, useEffect } from "react";
-import AppContext from "../AppContext";
 import logo from "../logo-universidad-nebrija.jpg";
 
 import "./Styles.css";
