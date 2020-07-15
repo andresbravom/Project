@@ -10,7 +10,7 @@ const SearchBar = () => {
     <div className="SearchBar">
       <input
         id="inputField"
-        className="FormFields InputField"
+        className="Input"
         type="text"
         placeholder="Insert Route Name"
       ></input>
