@@ -36,6 +36,10 @@
     box-shadow: 2px 2px 2px rgb(0, 3, 14);
     text-align: center;
 }
+.Button:hover {
+    background-color: #c3edea;
+    cursor: pointer;
+}
 .SearchBar {
     display: flex;
     flex-direction: column;
@@ -80,7 +84,7 @@ h4 {
     background-color: #f7fbfc;
     text-align: center;
     align-items: center;
-    width: 70%;
+    width: 85%;
     flex-wrap: wrap;
 }
 .Items {
