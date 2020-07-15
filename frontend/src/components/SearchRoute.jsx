@@ -43,14 +43,20 @@ const SearchRoute = () => {
       <div>
         {data ? (
           <div>
-            <div>
-              <h3>Name Route:</h3> {data.getRouteName.name}
+            <div >
+              <div className="Title">Route</div>
+                <div >
+                  <h4>Name:</h4>{data.getRouteName.name}
+                </div> 
+                <div >
+                  <h4>_id Route:</h4> {data.getRouteName._id}
+                </div>
             </div>
-            <div>
+            {/* <div>
               <h3>_id Route:</h3> {data.getRouteName._id}
-            </div>
+            </div> */}
             <div>
-              <h3>Subroutes:</h3>{" "}
+              <div className="Title">Subroutes</div>{" "}
               {data.getRouteName.subroutes.map((obj) => (
                 <div>
                   <div>
@@ -65,7 +71,7 @@ const SearchRoute = () => {
                   <div>
                     <h4>Speed:</h4> {obj.speed} k/h
                   </div>
-
+                  <div className="Title">Segments</div>{" "}
                   {obj.segments.map((obj1) => (
                     <div>
                       <div>
