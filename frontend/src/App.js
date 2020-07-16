@@ -6,7 +6,7 @@ import './App.css';
 
 import Header from "./components/Header";
 import Menu from "./components/Menu";
-import BodyRoute from "./components/BodyRoute";
+import Body from "./components/Body";
 import AddRoute from "./components/AddRoute";
 import SearchRoute from "./components/SearchRoute";
 import SearchBar from "./components/SearchBar";
@@ -48,7 +48,7 @@ function App() {
       <AppContext.Provider value={contextData}>
        <ApolloProvider client={client}>
          <Header/>
-         <BodyRoute/>
+         <Body/>
        </ApolloProvider>
      </AppContext.Provider>
     )

@@ -3,10 +3,14 @@ import AppContext from "../AppContext";
 
 import "./Styles.css";
 
-const BodyRoute = () => {
+const Body = () => {
   const context = useContext(AppContext);
-  return (
-    <div className="Body">
+
+  let content;
+
+  if(context.button.get === 2){
+    content = (
+      <div className="Body">
       <div className="Title">Menu</div>
       <hr className="hrBar"></hr>
       <div className="Button" onClick={() => context.button.set(3)}>
@@ -16,6 +20,12 @@ const BodyRoute = () => {
         Search Route
       </div>
     </div>
+    )
+  }
+  return (
+    <div className="Body">
+      {content}
+    </div>
   );
 };
-export { BodyRoute as default };
+export { Body as default };
