@@ -35,7 +35,7 @@ const Body = () => {
       <div className="Body">
       <div className="Title">Options</div>
       <hr className="hrBar"></hr>
-      <div className="Button" onClick={() => context.button.set(3)}>
+      <div className="Button" onClick={() => context.button.set(9)}>
         Add Suboute
       </div>
       <div className="Button" onClick={() => context.button.set(8)}>

@@ -11,6 +11,7 @@ import AddRoute from "./components/AddRoute";
 import SearchRoute from "./components/SearchRoute";
 import SearchBar from "./components/SearchBar";
 import SearchSubroute from "./components/SearchSubroute";
+import AddSubroute from "./components/AddSubroute";
 
 const httpLink = new HttpLink ({
   uri: "http://127.0.0.1:4000/",
@@ -119,6 +120,17 @@ function App() {
        <ApolloProvider client={client}>
          <Header/>
          <Body/>
+       </ApolloProvider>
+     </AppContext.Provider>
+    )
+  }
+  //ADD SUBROUTE
+  if(button === 9) {
+    content = (
+      <AppContext.Provider value={contextData}>
+       <ApolloProvider client={client}>
+         <Header/>
+         <AddSubroute/>
        </ApolloProvider>
      </AppContext.Provider>
     )
