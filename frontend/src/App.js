@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import AppContext from "./AppContext";
 import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
 import { ApolloProvider } from "@apollo/client";
-import './App.css';
+import "./App.css";
 
 import Header from "./components/Header";
 import Menu from "./components/Menu";
@@ -13,13 +13,13 @@ import SearchBar from "./components/SearchBar";
 import SearchSubroute from "./components/SearchSubroute";
 import AddSubroute from "./components/AddSubroute";
 
-const httpLink = new HttpLink ({
+const httpLink = new HttpLink({
   uri: "http://127.0.0.1:4000/",
 });
 
-const client = new ApolloClient ({
+const client = new ApolloClient({
   cache: new InMemoryCache(),
-  link : httpLink,
+  link: httpLink,
 });
 
 function App() {
@@ -28,118 +28,114 @@ function App() {
   const [nameSubroute, setNameSubroute] = useState(null);
 
   const contextData = {
-    button: {get: button, set: setButton},
-    nameRoute: {get: nameRoute, set: setNameRoute},
-    nameSubroute: {get: nameSubroute, set: setNameSubroute},
-  }
+    button: { get: button, set: setButton },
+    nameRoute: { get: nameRoute, set: setNameRoute },
+    nameSubroute: { get: nameSubroute, set: setNameSubroute },
+  };
   let content = null;
 
   //PAGE PRINCIPAL
-  if(button === 1) {
+  if (button === 1) {
     content = (
       <AppContext.Provider value={contextData}>
-       <ApolloProvider client={client}>
-         <Header/>
-         <Menu/>
-       </ApolloProvider>
-     </AppContext.Provider>
-    )
+        <ApolloProvider client={client}>
+          <Header />
+          <Menu />
+        </ApolloProvider>
+      </AppContext.Provider>
+    );
   }
   //BODY ROUTE
-  if(button === 2) {
+  if (button === 2) {
     content = (
       <AppContext.Provider value={contextData}>
-       <ApolloProvider client={client}>
-         <Header/>
-         <Body/>
-       </ApolloProvider>
-     </AppContext.Provider>
-    )
+        <ApolloProvider client={client}>
+          <Header />
+          <Body />
+        </ApolloProvider>
+      </AppContext.Provider>
+    );
   }
   //ADD ROUTE
-  if(button === 3) {
+  if (button === 3) {
     content = (
       <AppContext.Provider value={contextData}>
-       <ApolloProvider client={client}>
-         <Header/>
-         <AddRoute/>
-       </ApolloProvider>
-     </AppContext.Provider>
-    )
+        <ApolloProvider client={client}>
+          <Header />
+          <AddRoute />
+        </ApolloProvider>
+      </AppContext.Provider>
+    );
   }
   //SEARCH BAR ROUTE
-  if(button === 4) {
+  if (button === 4) {
     content = (
       <AppContext.Provider value={contextData}>
-       <ApolloProvider client={client}>
-         <Header/>
-         <SearchBar/>
-       </ApolloProvider>
-     </AppContext.Provider>
-    )
+        <ApolloProvider client={client}>
+          <Header />
+          <SearchBar />
+        </ApolloProvider>
+      </AppContext.Provider>
+    );
   }
-   //SEARCH BAR SUBROUTE
-   if(button === 8) {
+  //SEARCH BAR SUBROUTE
+  if (button === 8) {
     content = (
       <AppContext.Provider value={contextData}>
-       <ApolloProvider client={client}>
-         <Header/>
-         <SearchBar/>
-       </ApolloProvider>
-     </AppContext.Provider>
-    )
+        <ApolloProvider client={client}>
+          <Header />
+          <SearchBar />
+        </ApolloProvider>
+      </AppContext.Provider>
+    );
   }
   // SEARCH ROUTE
-  if(button === 5) {
+  if (button === 5) {
     content = (
       <AppContext.Provider value={contextData}>
-       <ApolloProvider client={client}>
-         <Header/>
-         <SearchBar/>
-         <SearchRoute/>
-       </ApolloProvider>
-     </AppContext.Provider>
-    )
+        <ApolloProvider client={client}>
+          <Header />
+          <SearchBar />
+          <SearchRoute />
+        </ApolloProvider>
+      </AppContext.Provider>
+    );
   }
   // SEARCH SUBROUTE
-  if(button === 6) {
+  if (button === 6) {
     content = (
       <AppContext.Provider value={contextData}>
-       <ApolloProvider client={client}>
-         <Header/>
-         <SearchBar/>
-         <SearchSubroute/>
-       </ApolloProvider>
-     </AppContext.Provider>
-    )
+        <ApolloProvider client={client}>
+          <Header />
+          <SearchBar />
+          <SearchSubroute />
+        </ApolloProvider>
+      </AppContext.Provider>
+    );
   }
-   //BODY SUBROUTE
-   if(button === 7) {
+  //BODY SUBROUTE
+  if (button === 7) {
     content = (
       <AppContext.Provider value={contextData}>
-       <ApolloProvider client={client}>
-         <Header/>
-         <Body/>
-       </ApolloProvider>
-     </AppContext.Provider>
-    )
+        <ApolloProvider client={client}>
+          <Header />
+          <Body />
+        </ApolloProvider>
+      </AppContext.Provider>
+    );
   }
   //ADD SUBROUTE
-  if(button === 9) {
+  if (button === 9) {
     content = (
       <AppContext.Provider value={contextData}>
-       <ApolloProvider client={client}>
-         <Header/>
-         <AddSubroute/>
-       </ApolloProvider>
-     </AppContext.Provider>
-    )
+        <ApolloProvider client={client}>
+          <Header />
+          <AddSubroute />
+        </ApolloProvider>
+      </AppContext.Provider>
+    );
   }
-  console.log(nameRoute)
-  return (
-    <div className="App">
-     {content}
-    </div>
-  );
+  console.log(nameRoute);
+  return <div className="App">{content}</div>;
 }
 export default App;

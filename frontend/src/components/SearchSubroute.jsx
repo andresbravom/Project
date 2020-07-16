@@ -55,29 +55,29 @@ const SearchSubroute = () => {
               </div>
             </div>
             <div className="Segment">
-                <div className="Title">Segments</div>{" "}
-                {data.getSubrouteName.segments.map((obj) => (
-                    <div>
-                    <div>
-                      <h4>Index:</h4> {obj.index}
-                    </div>
-                    <div>
-                      <h4>_id:</h4> {obj._id}
-                    </div>
-                    <div>
-                      <h4>Lenght Segment:</h4> {obj.lenghtSegment} m
-                    </div>
-                    <div>
-                      <h4>Probability:</h4> {obj.probability}
-                    </div>
-                    <div>
-                      <h4>O Type:</h4> {obj.O}
-                    </div>
-                    <div>
-                      <h4>O Values:</h4> {obj.OValues} W/h
-                    </div>
+              <div className="Title">Segments</div>{" "}
+              {data.getSubrouteName.segments.map((obj) => (
+                <div>
+                  <div>
+                    <h4>Index:</h4> {obj.index}
                   </div>
-                ))}
+                  <div>
+                    <h4>_id:</h4> {obj._id}
+                  </div>
+                  <div>
+                    <h4>Lenght Segment:</h4> {obj.lenghtSegment} m
+                  </div>
+                  <div>
+                    <h4>Probability:</h4> {obj.probability}
+                  </div>
+                  <div>
+                    <h4>O Type:</h4> {obj.O}
+                  </div>
+                  <div>
+                    <h4>O Values:</h4> {obj.OValues} W/h
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         ) : null}

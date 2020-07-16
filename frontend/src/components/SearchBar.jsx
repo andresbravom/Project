@@ -51,7 +51,9 @@ const SearchBar = () => {
         <div
           className="Button"
           onClick={() => {
-            context.nameSubroute.set(document.getElementById("inputField").value);
+            context.nameSubroute.set(
+              document.getElementById("inputField").value
+            );
             context.button.set(6);
           }}
         >

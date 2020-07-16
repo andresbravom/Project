@@ -22,7 +22,7 @@
   width: 65%;
 }
 .hr {
-  background-color:#900c3f;
+  background-color: #900c3f;
   border-style: none;
   height: 3px;
   width: 85%;
@@ -172,9 +172,7 @@ h4 {
   padding: 5px 5px;
   border-radius: 5px;
   width: 35%;
-
 }
-
 .Botton {
   border: 1px solid #000000;
   min-width: 100px;
@@ -198,7 +196,7 @@ h4 {
 .Status {
   display: flex;
   justify-content: center;
-  width: 600px;
+  width: 100%;
   padding-top: 5px;
   padding-bottom: 10px;
   color: rgb(80, 78, 78);

@@ -43,7 +43,6 @@ const AddSubroute = () => {
               name: inputName.value,
               lenght: parseFloat(inputLenght.value),
               speed: parseInt(inputSpeed.value),
-              
             },
           });
           inputRoute.value = null;

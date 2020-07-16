@@ -45,12 +45,13 @@ const SearchRoute = () => {
           <div className="Items">
             <div className="Route">
               <div className="Title">Route</div>
-                <div>
-                  <h4>Name:</h4>{data.getRouteName.name}
-                </div> 
-                <div >
-                  <h4>_id Route:</h4> {data.getRouteName._id}
-                </div>
+              <div>
+                <h4>Name:</h4>
+                {data.getRouteName.name}
+              </div>
+              <div>
+                <h4>_id Route:</h4> {data.getRouteName._id}
+              </div>
             </div>
             <div className="Subroutes">
               <div className="Title">Subroutes</div>{" "}
@@ -69,29 +70,29 @@ const SearchRoute = () => {
                     <h4>Speed:</h4> {obj.speed} k/h
                   </div>
                   <div className="Segments">
-                  <div className="Title">Segments</div>{" "}
-                  {obj.segments.map((obj1) => (
-                    <div>
+                    <div className="Title">Segments</div>{" "}
+                    {obj.segments.map((obj1) => (
                       <div>
-                        <h4>Index:</h4> {obj1.index}
+                        <div>
+                          <h4>Index:</h4> {obj1.index}
+                        </div>
+                        <div>
+                          <h4>_id:</h4> {obj1._id}
+                        </div>
+                        <div>
+                          <h4>Lenght Segment:</h4> {obj1.lenghtSegment} m
+                        </div>
+                        <div>
+                          <h4>Probability:</h4> {obj1.probability}
+                        </div>
+                        <div>
+                          <h4>O Type:</h4> {obj1.O}
+                        </div>
+                        <div>
+                          <h4>O Values:</h4> {obj1.OValues} W/h
+                        </div>
                       </div>
-                      <div>
-                        <h4>_id:</h4> {obj1._id}
-                      </div>
-                      <div>
-                        <h4>Lenght Segment:</h4> {obj1.lenghtSegment} m
-                      </div>
-                      <div>
-                        <h4>Probability:</h4> {obj1.probability}
-                      </div>
-                      <div>
-                        <h4>O Type:</h4> {obj1.O}
-                      </div>
-                      <div>
-                        <h4>O Values:</h4> {obj1.OValues} W/h
-                      </div>
-                    </div>
-                  ))}
+                    ))}
                   </div>
                 </div>
               ))}
