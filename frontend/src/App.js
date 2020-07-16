@@ -66,8 +66,19 @@ function App() {
      </AppContext.Provider>
     )
   }
-  //SEARCH BAR
+  //SEARCH BAR ROUTE
   if(button === 4) {
+    content = (
+      <AppContext.Provider value={contextData}>
+       <ApolloProvider client={client}>
+         <Header/>
+         <SearchBar/>
+       </ApolloProvider>
+     </AppContext.Provider>
+    )
+  }
+   //SEARCH BAR SUBROUTE
+   if(button === 8) {
     content = (
       <AppContext.Provider value={contextData}>
        <ApolloProvider client={client}>

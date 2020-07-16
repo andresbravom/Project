@@ -38,7 +38,7 @@ const SearchBar = () => {
         </div>
       </div>
     );
-  } else if (context.button.get === 6) {
+  } else if (context.button.get === 8 || context.button.get === 6) {
     content = (
       <div className="SearchBar">
         <div className="Title">Insert Data</div>

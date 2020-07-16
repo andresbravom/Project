@@ -38,7 +38,7 @@ const Body = () => {
       <div className="Button" onClick={() => context.button.set(3)}>
         Add Suboute
       </div>
-      <div className="Button" onClick={() => context.button.set(6)}>
+      <div className="Button" onClick={() => context.button.set(8)}>
         Search Subroute
       </div>
       <div
