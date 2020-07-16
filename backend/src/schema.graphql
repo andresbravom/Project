@@ -70,7 +70,7 @@ type VehicleValues {
 type Query {
     getRouteName(name: String!): Route!
     getRoute: [Route]!
-    getSubrouteID(_id: ID!): Subroute!
+    getSubrouteName(name: String!): Subroute!
     getSubroute: [Subroute]!
     getSegmentsID(_id: ID!): Segments!
     getSegments: [Segments]!

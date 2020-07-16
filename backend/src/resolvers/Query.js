@@ -93,14 +93,14 @@ const Query = {
       return new Error("There are no Routes");
     }
   },
-  getSubrouteID: async (parent, args, ctx, info) => {
-    const { _id } = args;
+  getSubrouteName: async (parent, args, ctx, info) => {
+    const { name } = args;
     const { client } = ctx;
 
     const db = client.db("DataBase");
     const collection = db.collection("Subroutes");
 
-    const result = await collection.findOne({ _id: ObjectID(_id)});
+    const result = await collection.findOne({ name: name });
 
     if(result) {
       return result;
