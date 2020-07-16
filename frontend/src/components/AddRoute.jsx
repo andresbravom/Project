@@ -28,8 +28,7 @@ const AddRoute = () => {
           e.preventDefault();
           addRoute({ variables: { name: inputNameRoute.value } });
           inputNameRoute.value = null;
-        }}
-      >
+        }}>
         <div className="Fields">
           <div className="Field">
             <div className="Title">Insert Data</div>

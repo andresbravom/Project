@@ -70,6 +70,6 @@ const SearchBar = () => {
     );
   }
 
-  return <div className="SearchBar">{content}</div>;
+  return <div>{content}</div>;
 };
 export { SearchBar as default };
