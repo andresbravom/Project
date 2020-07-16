@@ -10,7 +10,7 @@ import BodyRoute from "./components/BodyRoute";
 import AddRoute from "./components/AddRoute";
 import SearchRoute from "./components/SearchRoute";
 import SearchBar from "./components/SearchBar";
-
+import SearchSubroute from "./components/SearchSubroute";
 
 const httpLink = new HttpLink ({
   uri: "http://127.0.0.1:4000/",
@@ -83,6 +83,18 @@ function App() {
          <Header/>
          <SearchBar/>
          <SearchRoute/>
+       </ApolloProvider>
+     </AppContext.Provider>
+    )
+  }
+  // SEARCH SUBROUTE
+  if(button === 6) {
+    content = (
+      <AppContext.Provider value={contextData}>
+       <ApolloProvider client={client}>
+         <Header/>
+         <SearchBar/>
+         <SearchSubroute/>
        </ApolloProvider>
      </AppContext.Provider>
     )

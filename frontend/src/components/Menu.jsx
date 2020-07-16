@@ -12,7 +12,7 @@ const Menu = () => {
       <div className="Button" onClick={() => context.button.set(2)}>
         Route
       </div>
-      <div className="Button" onClick={() => context.button.set(3)}>
+      <div className="Button" onClick={() => context.button.set(5)}>
         Subroute
       </div>
     </div>
