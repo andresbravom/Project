@@ -19,7 +19,7 @@ const SearchBar = () => {
         className="Button"
         onClick={() => {
           context.nameRoute.set(document.getElementById("inputField").value);
-          context.button.set(4);
+          context.button.set(5);
         }}
       >
         Search
@@ -28,6 +28,7 @@ const SearchBar = () => {
         className="ButtonBar"
         onClick={() => {
           context.button.set(1);
+          context.nameRoute.set(null);
         }}
       >
         Back

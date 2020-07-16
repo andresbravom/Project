@@ -5,7 +5,8 @@ import { ApolloProvider } from "@apollo/client";
 import './App.css';
 
 import Header from "./components/Header";
-import Body from "./components/Body";
+import Menu from "./components/Menu";
+import BodyRoute from "./components/BodyRoute";
 import AddRoute from "./components/AddRoute";
 import SearchRoute from "./components/SearchRoute";
 import SearchBar from "./components/SearchBar";
@@ -36,13 +37,24 @@ function App() {
       <AppContext.Provider value={contextData}>
        <ApolloProvider client={client}>
          <Header/>
-         <Body/>
+         <Menu/>
+       </ApolloProvider>
+     </AppContext.Provider>
+    )
+  }
+  //BODY ROUTE
+  if(button === 2) {
+    content = (
+      <AppContext.Provider value={contextData}>
+       <ApolloProvider client={client}>
+         <Header/>
+         <BodyRoute/>
        </ApolloProvider>
      </AppContext.Provider>
     )
   }
   //ADD ROUTE
-  if(button === 2) {
+  if(button === 3) {
     content = (
       <AppContext.Provider value={contextData}>
        <ApolloProvider client={client}>
@@ -53,7 +65,7 @@ function App() {
     )
   }
   //SEARCH BAR
-  if(button === 3) {
+  if(button === 4) {
     content = (
       <AppContext.Provider value={contextData}>
        <ApolloProvider client={client}>
@@ -63,8 +75,8 @@ function App() {
      </AppContext.Provider>
     )
   }
-  //SEARCH ROUTE
-  if(button === 4) {
+  // SEARCH ROUTE
+  if(button === 5) {
     content = (
       <AppContext.Provider value={contextData}>
        <ApolloProvider client={client}>
@@ -75,7 +87,7 @@ function App() {
      </AppContext.Provider>
     )
   }
-  console.log(button)
+  console.log(nameRoute)
   return (
     <div className="App">
      {content}

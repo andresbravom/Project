@@ -22,7 +22,7 @@
   width: 65%;
 }
 .hr {
-  background-color: #18b0b0;
+  background-color:#900c3f;
   border-style: none;
   height: 3px;
   width: 85%;
@@ -47,7 +47,7 @@
   flex-wrap: wrap;
 }
 .hrBar {
-  background-color: #900c3f;
+  background-color: #000000;
   border-style: none;
   height: 3px;
   width: 70%;

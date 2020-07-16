@@ -3,19 +3,19 @@ import AppContext from "../AppContext";
 
 import "./Styles.css";
 
-const Body = () => {
+const Menu = () => {
   const context = useContext(AppContext);
   return (
     <div className="Body">
-      <div className="Title">Options</div>
+      <div className="Title">Menu</div>
       <hr className="hrBar"></hr>
       <div className="Button" onClick={() => context.button.set(2)}>
-        Add Route
+        Route
       </div>
       <div className="Button" onClick={() => context.button.set(3)}>
-        Search Route
+        Subroute
       </div>
     </div>
   );
 };
-export { Body as default };
+export { Menu as default };

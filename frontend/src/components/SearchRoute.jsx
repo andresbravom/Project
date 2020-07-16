@@ -93,7 +93,6 @@ const SearchRoute = () => {
                     </div>
                   ))}
                   </div>
-                  
                 </div>
               ))}
             </div>
