@@ -35,7 +35,9 @@ const AddRoute = () => {
             <div className="Text">
               Route Name
             </div>
-            <input required className="Input"
+            <input required 
+              className="Input"
+              placeholder="Insert name route"
               ref={node => {
                 inputNameRoute = node;
               }}
