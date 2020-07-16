@@ -24,10 +24,12 @@ const client = new ApolloClient ({
 function App() {
   const [button, setButton] = useState(1);
   const [nameRoute, setNameRoute] = useState(null);
+  const [nameSubroute, setNameSubroute] = useState(null);
 
   const contextData = {
     button: {get: button, set: setButton},
     nameRoute: {get: nameRoute, set: setNameRoute},
+    nameSubroute: {get: nameSubroute, set: setNameSubroute},
   }
   let content = null;
 

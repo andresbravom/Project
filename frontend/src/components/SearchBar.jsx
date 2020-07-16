@@ -46,13 +46,13 @@ const SearchBar = () => {
           id="inputField"
           className="Input"
           type="text"
-          placeholder="Insert Route Name"
+          placeholder="Insert SubRoute Name"
         ></input>
         <div
           className="Button"
           onClick={() => {
-            context.nameRoute.set(document.getElementById("inputField").value);
-            context.button.set(5);
+            context.nameSubroute.set(document.getElementById("inputField").value);
+            context.button.set(6);
           }}
         >
           Search

@@ -45,7 +45,7 @@ const SearchRoute = () => {
           <div className="Items">
             <div className="Route">
               <div className="Title">Route</div>
-                <div >
+                <div>
                   <h4>Name:</h4>{data.getRouteName.name}
                 </div> 
                 <div >
