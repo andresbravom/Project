@@ -99,6 +99,17 @@ function App() {
      </AppContext.Provider>
     )
   }
+   //BODY SUBROUTE
+   if(button === 7) {
+    content = (
+      <AppContext.Provider value={contextData}>
+       <ApolloProvider client={client}>
+         <Header/>
+         <Body/>
+       </ApolloProvider>
+     </AppContext.Provider>
+    )
+  }
   console.log(nameRoute)
   return (
     <div className="App">
