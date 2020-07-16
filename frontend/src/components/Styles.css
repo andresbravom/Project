@@ -46,6 +46,12 @@
   align-items: center;
   flex-wrap: wrap;
 }
+.hrBar {
+  background-color: #900c3f;
+  border-style: none;
+  height: 3px;
+  width: 70%;
+}
 .ButtonBar {
   background-color: #f1fcfc;
   border: 1px solid #000000;

@@ -8,6 +8,7 @@ const SearchBar = () => {
 
   return (
     <div className="SearchBar">
+      <div className="Title">Insert Data</div>
       <input
         id="inputField"
         className="Input"

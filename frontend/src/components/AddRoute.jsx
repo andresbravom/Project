@@ -22,40 +22,45 @@ const AddRoute = () => {
 
   return (
     <div className="AddRoute">
-        <form className="Module"
-      
-      onSubmit={e => {
-        e.preventDefault();
-        addRoute({ variables: { name: inputNameRoute.value }});
-        inputNameRoute.value = null;
-      }}
-    >
-      <div className="Fields">
+      <form
+        className="Module"
+        onSubmit={(e) => {
+          e.preventDefault();
+          addRoute({ variables: { name: inputNameRoute.value } });
+          inputNameRoute.value = null;
+        }}
+      >
+        <div className="Fields">
           <div className="Field">
-            <div className="Text">
-              Route Name
-            </div>
-            <input required 
+            <div className="Title">Insert Data</div>
+            <input
+              required
               className="Input"
               placeholder="Insert name route"
-              ref={node => {
+              ref={(node) => {
                 inputNameRoute = node;
               }}
             />
           </div>
         </div>
-      { data ? (data.addRoute ? <div className="Status">Route created succesfully</div> : (click ? <div className="Status">Ops something went wrong</div> : null)) : null}
-          <button className="Botton" type="submit" onClick={() => setClick(true)}>
-            Add Route
+        {data ? (
+          data.addRoute ? (
+            <div className="Status">Route created succesfully</div>
+          ) : click ? (
+            <div className="Status">Ops something went wrong</div>
+          ) : null
+        ) : null}
+        <button className="Botton" type="submit" onClick={() => setClick(true)}>
+          Add Route
         </button>
         <div
-        className="ButtonBar"
-        onClick={() => {
-          context.button.set(1);
-        }}
-      >
-        Back
-      </div>
+          className="ButtonBar"
+          onClick={() => {
+            context.button.set(1);
+          }}
+        >
+          Back
+        </div>
       </form>
     </div>
   );
