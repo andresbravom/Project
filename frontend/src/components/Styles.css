@@ -53,7 +53,7 @@
   width: 70%;
 }
 .ButtonBar {
-  background-color: #f1fcfc;
+  background-color: #dedede;
   border: 1px solid #000000;
   min-width: 100px;
   display: inline-block;
@@ -188,11 +188,11 @@ h4 {
   box-shadow: 2px 2px 2px rgb(0, 3, 14);
 }
 .Botton:hover {
-  background-color: #c3edea;
+  background-color: #d9455f;
   cursor: pointer;
 }
 .BottonBack:hover {
-  background-color: #c3edea;
+  background-color: #d9455f;
   cursor: pointer;
 }
 .Status {
