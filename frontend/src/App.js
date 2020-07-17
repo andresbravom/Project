@@ -135,6 +135,17 @@ function App() {
       </AppContext.Provider>
     );
   }
+  //BODY SEGMENTS
+  if (button === 10) {
+    content = (
+      <AppContext.Provider value={contextData}>
+        <ApolloProvider client={client}>
+          <Header />
+          <Body />
+        </ApolloProvider>
+      </AppContext.Provider>
+    );
+  }
   console.log(nameRoute);
   return <div className="App">{content}</div>;
 }

@@ -15,6 +15,9 @@ const Menu = () => {
       <div className="Button" onClick={() => context.button.set(7)}>
         Subroute
       </div>
+      <div className="Button" onClick={() => context.button.set(10)}>
+        Segments
+      </div>
     </div>
   );
 };

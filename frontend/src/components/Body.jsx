@@ -52,6 +52,28 @@ const Body = () => {
         </div>
       </div>
     );
+  }else if (context.button.get === 10) {
+    content = (
+      <div className="Body">
+        <div className="Title">Options</div>
+        <hr className="hrBar"></hr>
+        <div className="Button" onClick={() => context.button.set(9)}>
+          Show segments
+        </div>
+        <div className="Button" onClick={() => context.button.set(8)}>
+          Add Probability
+        </div>
+        <div
+          className="ButtonBar"
+          onClick={() => {
+            context.button.set(1);
+            context.nameRoute.set(null);
+          }}
+        >
+          Back
+        </div>
+      </div>
+    );
   }
   return <div className="Body">{content}</div>;
 };
