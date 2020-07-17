@@ -12,6 +12,7 @@ import SearchRoute from "./components/SearchRoute";
 import SearchBar from "./components/SearchBar";
 import SearchSubroute from "./components/SearchSubroute";
 import AddSubroute from "./components/AddSubroute";
+import ShowSegments from "./components/ShowSegments";
 
 const httpLink = new HttpLink({
   uri: "http://127.0.0.1:4000/",
@@ -142,6 +143,29 @@ function App() {
         <ApolloProvider client={client}>
           <Header />
           <Body />
+        </ApolloProvider>
+      </AppContext.Provider>
+    );
+  }
+  //SEARCH BAR SEGMENTS
+  if (button === 11) {
+    content = (
+      <AppContext.Provider value={contextData}>
+        <ApolloProvider client={client}>
+          <Header />
+          <SearchBar />
+        </ApolloProvider>
+      </AppContext.Provider>
+    );
+  }
+  //SHOW SEGMENTS
+  if (button === 12) {
+    content = (
+      <AppContext.Provider value={contextData}>
+        <ApolloProvider client={client}>
+          <Header />
+          <SearchBar/>
+          <ShowSegments/>
         </ApolloProvider>
       </AppContext.Provider>
     );

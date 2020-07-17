@@ -57,10 +57,10 @@ const Body = () => {
       <div className="Body">
         <div className="Title">Options</div>
         <hr className="hrBar"></hr>
-        <div className="Button" onClick={() => context.button.set(9)}>
+        <div className="Button" onClick={() => context.button.set(11)}>
           Show segments
         </div>
-        <div className="Button" onClick={() => context.button.set(8)}>
+        <div className="Button" onClick={() => context.button.set(12)}>
           Add Probability
         </div>
         <div

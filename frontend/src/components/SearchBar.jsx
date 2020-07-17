@@ -70,8 +70,39 @@ const SearchBar = () => {
         </div>
       </div>
     );
+  }else if (context.button.get === 11 || context.button.get === 12) {
+    content = (
+      <div className="SearchBar">
+        <div className="Title">Insert Data</div>
+        <input
+          id="inputField"
+          className="Input"
+          type="text"
+          placeholder="Insert _id SubRoute"
+        ></input>
+        <div
+          className="Button"
+          onClick={() => {
+            context.nameSubroute.set(
+              document.getElementById("inputField").value
+            );
+            context.button.set(12);
+          }}
+        >
+          Search
+        </div>
+        <div
+          className="ButtonBar"
+          onClick={() => {
+            context.button.set(1);
+            context.nameRoute.set(null);
+          }}
+        >
+          Back
+        </div>
+      </div>
+    );
   }
-
   return <div>{content}</div>;
 };
 export { SearchBar as default };
