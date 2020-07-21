@@ -34,8 +34,7 @@ const ShowSegments = () => {
     <div className="ShowSegments">
         <div className="Information">
             {data ? (
-                <div className="Segment">
-                    <div className="Title">Segments</div>{" "}
+                <div className="Segments">
                     <div className="Title">Segments</div>{" "}
               {data.getSubrouteName.segments.map((obj) => (
                 <div>

@@ -93,6 +93,14 @@ h4 {
   text-align: center;
   flex-wrap: wrap;
 }
+.ShowSegments{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px;
+  text-align: center;
+  flex-wrap: wrap;
+}
 .Information {
   border: 1px solid #18b0b0;
   background-color: #f7fbfc;
@@ -136,6 +144,7 @@ h4 {
   width: 98%;
   flex-wrap: wrap;
 }
+
 /* .AddRoute {
   display: flex;
   justify-content: center;
