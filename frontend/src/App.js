@@ -14,7 +14,7 @@ import SearchSubroute from "./components/SearchSubroute";
 import AddSubroute from "./components/AddSubroute";
 import ShowSegments from "./components/ShowSegments";
 import AddProbability from "./components/AddProbability";
-
+import AddSegments from "./components/AddSegments";
 
 const httpLink = new HttpLink({
   uri: "http://127.0.0.1:4000/",
@@ -179,6 +179,18 @@ function App() {
         <ApolloProvider client={client}>
           <Header />
           <SearchBar/>
+        </ApolloProvider>
+      </AppContext.Provider>
+    );
+  }
+  //ADD SEGMENTS
+  if (button === 14) {
+    content = (
+      <AppContext.Provider value={contextData}>
+        <ApolloProvider client={client}>
+          <Header />
+          <SearchBar/>
+          <AddSegments/>
         </ApolloProvider>
       </AppContext.Provider>
     );
