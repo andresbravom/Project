@@ -14,7 +14,7 @@ const QUERY = gql`
     } 
 `;
 
-const AddProbability = () => {
+const GetComponentsProbability = () => {
     const context = useContext(AppContext);
 
 
@@ -24,4 +24,4 @@ const AddProbability = () => {
         </div>
     )
 }
-export { AddProbability as default };
+export { GetComponentsProbability as default };

@@ -13,7 +13,7 @@ import SearchBar from "./components/SearchBar";
 import SearchSubroute from "./components/SearchSubroute";
 import AddSubroute from "./components/AddSubroute";
 import ShowSegments from "./components/ShowSegments";
-import AddProbability from "./components/AddProbability";
+import GetComponentsProbability from "./components/GetComponentsProbability";
 import AddSegments from "./components/AddSegments";
 
 const httpLink = new HttpLink({
@@ -183,31 +183,29 @@ function App() {
       </AppContext.Provider>
     );
   }
-  
-  
-  // //ADD PROBABILITY SEARCH BAR
-  // if (button === 13) {
-  //   content = (
-  //     <AppContext.Provider value={contextData}>
-  //       <ApolloProvider client={client}>
-  //         <Header/>
-  //         <SearchBar/>
-  //       </ApolloProvider>
-  //     </AppContext.Provider>
-  //   );
-  // }
-  // //ADD PROBABILITY
-  // if (button === 14) {
-  //   content = (
-  //     <AppContext.Provider value={contextData}>
-  //       <ApolloProvider client={client}>
-  //         <Header/>
-  //         <SearchBar/>
-  //         <AddProbability/>
-  //       </ApolloProvider>
-  //     </AppContext.Provider>
-  //   );
-  // }
+  //ADD PROBABILITY SEARCH BAR
+  if (button === 14) {
+    content = (
+      <AppContext.Provider value={contextData}>
+        <ApolloProvider client={client}>
+          <Header/>
+          <SearchBar/>
+        </ApolloProvider>
+      </AppContext.Provider>
+    );
+  }
+  //ADD PROBABILITY
+  if (button === 15) {
+    content = (
+      <AppContext.Provider value={contextData}>
+        <ApolloProvider client={client}>
+          <Header/>
+          <SearchBar/>
+          <GetComponentsProbability/>
+        </ApolloProvider>
+      </AppContext.Provider>
+    );
+  }
   console.log(nameRoute);
   return <div className="App">{content}</div>;
 }
