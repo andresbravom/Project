@@ -78,7 +78,7 @@ const SearchBar = () => {
           id="inputField"
           className="Input"
           type="text"
-          placeholder="Insert _id SubRoute"
+          placeholder="Insert name SubRoute"
         ></input>
         <div
           className="Button"

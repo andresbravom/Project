@@ -189,7 +189,6 @@ function App() {
       <AppContext.Provider value={contextData}>
         <ApolloProvider client={client}>
           <Header />
-          <SearchBar/>
           <AddSegments/>
         </ApolloProvider>
       </AppContext.Provider>
