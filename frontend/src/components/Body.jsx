@@ -58,9 +58,12 @@ const Body = () => {
         <div className="Title">Options</div>
         <hr className="hrBar"></hr>
         <div className="Button" onClick={() => context.button.set(11)}>
-          Show segments
+          Show Segments
         </div>
-        <div className="Button" onClick={() => context.button.set(12)}>
+        <div className="Button" onClick={() => context.button.set(13)}>
+          Add Segments
+        </div>
+        <div className="Button" onClick={() => context.button.set(144)}>
           Add Probability
         </div>
         <div
