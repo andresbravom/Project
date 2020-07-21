@@ -31,12 +31,14 @@ function App() {
   const [nameRoute, setNameRoute] = useState(null);
   const [nameSubroute, setNameSubroute] = useState(null);
   const [segment, setSegments] = useState(0);
+  const [IDSubroute, setIDSubroute] = useState(null);
 
   const contextData = {
     button: { get: button, set: setButton },
     nameRoute: { get: nameRoute, set: setNameRoute },
     nameSubroute: { get: nameSubroute, set: setNameSubroute },
     segment: { get: segment, set: setSegments },
+    IDSubroute: { get: IDSubroute, set: setIDSubroute},
   };
   let content = null;
 

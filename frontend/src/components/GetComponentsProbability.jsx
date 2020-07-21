@@ -37,7 +37,7 @@ const GetComponentsProbability = () => {
               {/* {data.getSubrouteName.segments.map((obj) => (
                
               ))} */}
-              {context.button.set(17), context.segment.set(data.getSubrouteName.segments.length)}
+              {context.button.set(17), context.segment.set(data.getSubrouteName.segments.length), context.IDSubroute.set(data.getSubrouteName._id)}
                 </div>
             ) : null}
         </div>
