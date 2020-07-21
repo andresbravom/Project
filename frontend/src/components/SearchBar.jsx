@@ -118,7 +118,7 @@ const SearchBar = () => {
             context.nameSubroute.set(
               document.getElementById("inputField").value
             );
-            context.button.set(14);
+            context.button.set(13);
           }}
         >
           Search

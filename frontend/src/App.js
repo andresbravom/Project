@@ -172,19 +172,8 @@ function App() {
       </AppContext.Provider>
     );
   }
-  //SEARCH BAR ADD SEGMENTS
-  if (button === 13) {
-    content = (
-      <AppContext.Provider value={contextData}>
-        <ApolloProvider client={client}>
-          <Header />
-          <SearchBar/>
-        </ApolloProvider>
-      </AppContext.Provider>
-    );
-  }
   //ADD SEGMENTS
-  if (button === 14) {
+  if (button === 13) {
     content = (
       <AppContext.Provider value={contextData}>
         <ApolloProvider client={client}>
@@ -194,6 +183,8 @@ function App() {
       </AppContext.Provider>
     );
   }
+  
+  
   // //ADD PROBABILITY SEARCH BAR
   // if (button === 13) {
   //   content = (

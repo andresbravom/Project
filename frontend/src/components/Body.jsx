@@ -60,7 +60,7 @@ const Body = () => {
         <div className="Button" onClick={() => context.button.set(11)}>
           Show Segments
         </div>
-        <div className="Button" onClick={() => context.button.set(14)}>
+        <div className="Button" onClick={() => context.button.set(13)}>
           Add Segments
         </div>
         <div className="Button" onClick={() => context.button.set(144)}>
