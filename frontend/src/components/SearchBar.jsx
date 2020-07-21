@@ -102,7 +102,7 @@ const SearchBar = () => {
         </div>
       </div>
     );
-  }else if (context.button.get === 14 || context.button.get === 15) {
+  }else if (context.button.get === 13 || context.button.get === 14) {
     content = (
       <div className="SearchBar">
         <div className="Title">Insert Data</div>
@@ -119,6 +119,38 @@ const SearchBar = () => {
               document.getElementById("inputField").value
             );
             context.button.set(15);
+          }}
+        >
+          Search
+        </div>
+        <div
+          className="ButtonBar"
+          onClick={() => {
+            context.button.set(1);
+            context.nameRoute.set(null);
+          }}
+        >
+          Back
+        </div>
+      </div>
+    );
+  }else if (context.button.get === 16 || context.button.get === 15) {
+    content = (
+      <div className="SearchBar">
+        <div className="Title">Insert Data</div>
+        <input
+          id="inputField"
+          className="Input"
+          type="text"
+          placeholder="Insert Subroute name"
+        ></input>
+        <div
+          className="Button"
+          onClick={() => {
+            context.nameSubroute.set(
+              document.getElementById("inputField").value
+            );
+            context.button.set(16);
           }}
         >
           Search

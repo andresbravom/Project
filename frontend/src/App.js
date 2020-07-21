@@ -15,6 +15,7 @@ import AddSubroute from "./components/AddSubroute";
 import ShowSegments from "./components/ShowSegments";
 import GetComponentsProbability from "./components/GetComponentsProbability";
 import AddSegments from "./components/AddSegments";
+import UpdateProbability from "./components/UpdateProbability";
 
 const httpLink = new HttpLink({
   uri: "http://127.0.0.1:4000/",
@@ -29,11 +30,13 @@ function App() {
   const [button, setButton] = useState(1);
   const [nameRoute, setNameRoute] = useState(null);
   const [nameSubroute, setNameSubroute] = useState(null);
+  const [segment, setSegments] = useState(0);
 
   const contextData = {
     button: { get: button, set: setButton },
     nameRoute: { get: nameRoute, set: setNameRoute },
     nameSubroute: { get: nameSubroute, set: setNameSubroute },
+    segment: { get: segment, set: setSegments },
   };
   let content = null;
 
@@ -194,8 +197,19 @@ function App() {
       </AppContext.Provider>
     );
   }
-  //ADD PROBABILITY
+  //SEARCH BAR ADD PROBABILITY
   if (button === 15) {
+    content = (
+      <AppContext.Provider value={contextData}>
+        <ApolloProvider client={client}>
+          <Header/>
+          <SearchBar/>
+        </ApolloProvider>
+      </AppContext.Provider>
+    );
+  }
+  //ADD PROBABILITY
+  if (button === 16) {
     content = (
       <AppContext.Provider value={contextData}>
         <ApolloProvider client={client}>
@@ -206,7 +220,19 @@ function App() {
       </AppContext.Provider>
     );
   }
-  console.log(nameRoute);
+  //UPDATE PROBABILITY
+  if (button === 17) {
+    content = (
+      <AppContext.Provider value={contextData}>
+        <ApolloProvider client={client}>
+          <Header/>
+          <SearchBar/>
+          <UpdateProbability/>
+        </ApolloProvider>
+      </AppContext.Provider>
+    );
+  }
+  console.log(button);
   return <div className="App">{content}</div>;
 }
 export default App;

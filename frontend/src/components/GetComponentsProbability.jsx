@@ -7,6 +7,7 @@ import "./Styles.css";
 const QUERY = gql`
     query GetSubroute($name: String!){
         getSubrouteName(name: $name){
+            _id
             segments {
                 probability
             }
@@ -15,12 +16,32 @@ const QUERY = gql`
 `;
 
 const GetComponentsProbability = () => {
+    let inputSubroute;
     const context = useContext(AppContext);
 
+    const { loading, error, data, refetch, networkStatus } = useQuery(QUERY, {
+        variables: { name: context.nameSubroute.get },
+        notifyOnNetworkStatusChange: true,
+      });
+      if (networkStatus === 4) return <div>Refetching...</div>;
+      if (loading) return <div>Loading...</div>;
+      if (error) return <div>Error</div>;
 
+    console.log(data.getSubrouteName);
     return(
-        <div>
-            AddProbability
+        <div className="GetComponentsProbability">
+            <div className="Information">
+            {data ? (
+                <div className="Segments">
+                    <div className="Title">Segments</div>{" "}
+              {/* {data.getSubrouteName.segments.map((obj) => (
+               
+              ))} */}
+              {context.button.set(17), context.segment.set(data.getSubrouteName.segments.length)}
+                </div>
+            ) : null}
+        </div>
+            
         </div>
     )
 }

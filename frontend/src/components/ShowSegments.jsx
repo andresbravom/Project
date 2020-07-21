@@ -61,7 +61,6 @@ const ShowSegments = () => {
                 </div>
             ) : null}
         </div>
-
     </div>
   ) 
 };
