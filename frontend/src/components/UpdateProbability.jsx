@@ -12,10 +12,6 @@ const MUTATION = gql`
   }
 `;
 
-const a = () => {
-  
-}
-
 const UpdateProbability = () => {
   const context = useContext(AppContext);
   let array = [];
@@ -38,17 +34,11 @@ const UpdateProbability = () => {
               className="Input"
               placeholder="Insert probability"
               id={"probabilityID" + i}
-              // ref={(node) => {
-              //   inputProbability = node;
-              // }}
             />
           </div>
         </div>,
       ];
-      // array2.push(parseFloat(inputProbability.value))
-      
-    }
-     
+    }  
     content = (
         <div>
         <div className="AddRoute">
@@ -61,7 +51,6 @@ const UpdateProbability = () => {
               }
               addProbability({ variables: { subroute: context.IDSubroute.get, 
                 probability: array2 } });
-              
             }}
           >
           <button className="Botton" type="submit" onClick={() => setClick(true)}>
@@ -71,40 +60,7 @@ const UpdateProbability = () => {
         </div>
         </div>
     )
-
-    // content = (
-    //     <div className="AddRoute">
-    //       <form
-    //         className="Module"
-    //         onSubmit={(e) => {
-    //           e.preventDefault();
-    //           addProbability({ variables: { subroute: context.IDSubroute.get, probability: [parseFloat(inputProbability.value)] } });
-    //           inputProbability.value = 0;
-    //         }}
-    //       >
-    //         <div className="Fields">
-    //           <div className="Field">
-    //             <div className="Title">Insert Data</div>
-    //             <input
-    //               required
-    //               className="Input"
-    //               placeholder="Insert probability"
-    //               ref={(node) => {
-    //                 inputProbability = node;
-    //               }}
-    //             />
-    //           </div>
-    //         </div>
-    //         <button className="Botton" type="submit" onClick={() => setClick(true)}>
-    //       Add Probability
-    //     </button>
-    //       </form>
-    //     </div>
-    // )
-    //   ];
-    // }
   }
-  console.log(array2);
   return (
     <div>
       <div>
@@ -114,7 +70,6 @@ const UpdateProbability = () => {
         {content}
       </div>
     </div>
-  
   )
 };
 export { UpdateProbability as default };
