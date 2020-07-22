@@ -12,10 +12,13 @@ const MUTATION = gql`
   }
 `;
 
+const a = () => {
+  
+}
+
 const UpdateProbability = () => {
   const context = useContext(AppContext);
   let array = [];
-  let inputProbability = [];
   let array2 = [];
   let content;
 
@@ -34,17 +37,18 @@ const UpdateProbability = () => {
               required
               className="Input"
               placeholder="Insert probability"
-              ref={(node) => {
-                inputProbability = node;
-              }}
+              id={"probabilityID" + i}
+              // ref={(node) => {
+              //   inputProbability = node;
+              // }}
             />
           </div>
         </div>,
       ];
-      array2.push(parseFloat(inputProbability.value))
+      // array2.push(parseFloat(inputProbability.value))
       
     }
-
+     
     content = (
         <div>
         <div className="AddRoute">
@@ -52,8 +56,12 @@ const UpdateProbability = () => {
             className="Module"
             onSubmit={(e) => {
               e.preventDefault();
-              addProbability({ variables: { subroute: context.IDSubroute.get, probability: array2 } });
-              inputProbability.value = 0;
+              for(let i=0; i<context.segment.get; i += 1){
+                array2.push(parseFloat(document.getElementById("probabilityID" + i).value))
+              }
+              addProbability({ variables: { subroute: context.IDSubroute.get, 
+                probability: array2 } });
+              
             }}
           >
           <button className="Botton" type="submit" onClick={() => setClick(true)}>
@@ -96,7 +104,7 @@ const UpdateProbability = () => {
     //   ];
     // }
   }
-  console.log(inputProbability);
+  console.log(array2);
   return (
     <div>
       <div>
