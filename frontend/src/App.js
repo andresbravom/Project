@@ -247,6 +247,17 @@ function App() {
       </AppContext.Provider>
     );
   }
+  //VEHICLE VALUES SEARCH BAR
+  if (button === 19) {
+    content = (
+      <AppContext.Provider value={contextData}>
+        <ApolloProvider client={client}>
+          <Header/>
+          <Body/>
+        </ApolloProvider>
+      </AppContext.Provider>
+    );
+  }
   return <div className="App">{content}</div>;
 }
 export default App;
