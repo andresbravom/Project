@@ -21,6 +21,7 @@ const QUERY = gql`
 `;
 
 const ShowVehicleValues = () => {
+    const context = useContext(AppContext);
 
   const { loading, error, data, refetch, networkStatus } = useQuery(QUERY, {
     notifyOnNetworkStatusChange: true,
@@ -69,6 +70,15 @@ const ShowVehicleValues = () => {
             </div>
         ) : null}
     </div>
+    <div
+          className="ButtonBar"
+          onClick={() => {
+            context.button.set(1);
+            context.nameRoute.set(null);
+          }}
+        >
+          Back
+        </div>
 </div>
   )
   
