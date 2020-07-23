@@ -18,6 +18,7 @@ import AddSegments from "./components/AddSegments";
 import UpdateProbability from "./components/UpdateProbability";
 import AddVehicleValues from "./components/AddVehicleValues";
 import ShowVehicleValues from "./components/ShowVehicleValues";
+import ShowOValues from "./components/ShowOValues";
 
 const httpLink = new HttpLink({
   uri: "http://127.0.0.1:4000/",
@@ -50,7 +51,7 @@ function App() {
       <AppContext.Provider value={contextData}>
         <ApolloProvider client={client}>
           <Header />
-          <Menu />
+          <Menu/>
         </ApolloProvider>
       </AppContext.Provider>
     );
@@ -60,8 +61,8 @@ function App() {
     content = (
       <AppContext.Provider value={contextData}>
         <ApolloProvider client={client}>
-          <Header />
-          <Body />
+          <Header/>
+          <Body/>
         </ApolloProvider>
       </AppContext.Provider>
     );
@@ -71,8 +72,8 @@ function App() {
     content = (
       <AppContext.Provider value={contextData}>
         <ApolloProvider client={client}>
-          <Header />
-          <AddRoute />
+          <Header/>
+          <AddRoute/>
         </ApolloProvider>
       </AppContext.Provider>
     );
@@ -82,8 +83,8 @@ function App() {
     content = (
       <AppContext.Provider value={contextData}>
         <ApolloProvider client={client}>
-          <Header />
-          <SearchBar />
+          <Header/>
+          <SearchBar/>
         </ApolloProvider>
       </AppContext.Provider>
     );
@@ -94,7 +95,7 @@ function App() {
       <AppContext.Provider value={contextData}>
         <ApolloProvider client={client}>
           <Header />
-          <SearchBar />
+          <SearchBar/>
         </ApolloProvider>
       </AppContext.Provider>
     );
@@ -104,9 +105,9 @@ function App() {
     content = (
       <AppContext.Provider value={contextData}>
         <ApolloProvider client={client}>
-          <Header />
-          <SearchBar />
-          <SearchRoute />
+          <Header/>
+          <SearchBar/>
+          <SearchRoute/>
         </ApolloProvider>
       </AppContext.Provider>
     );
@@ -116,9 +117,9 @@ function App() {
     content = (
       <AppContext.Provider value={contextData}>
         <ApolloProvider client={client}>
-          <Header />
-          <SearchBar />
-          <SearchSubroute />
+          <Header/>
+          <SearchBar/>
+          <SearchSubroute/>
         </ApolloProvider>
       </AppContext.Provider>
     );
@@ -128,8 +129,8 @@ function App() {
     content = (
       <AppContext.Provider value={contextData}>
         <ApolloProvider client={client}>
-          <Header />
-          <Body />
+          <Header/>
+          <Body/>
         </ApolloProvider>
       </AppContext.Provider>
     );
@@ -139,8 +140,8 @@ function App() {
     content = (
       <AppContext.Provider value={contextData}>
         <ApolloProvider client={client}>
-          <Header />
-          <AddSubroute />
+          <Header/>
+          <AddSubroute/>
         </ApolloProvider>
       </AppContext.Provider>
     );
@@ -150,8 +151,8 @@ function App() {
     content = (
       <AppContext.Provider value={contextData}>
         <ApolloProvider client={client}>
-          <Header />
-          <Body />
+          <Header/>
+          <Body/>
         </ApolloProvider>
       </AppContext.Provider>
     );
@@ -161,8 +162,8 @@ function App() {
     content = (
       <AppContext.Provider value={contextData}>
         <ApolloProvider client={client}>
-          <Header />
-          <SearchBar />
+          <Header/>
+          <SearchBar/>
         </ApolloProvider>
       </AppContext.Provider>
     );
@@ -172,7 +173,7 @@ function App() {
     content = (
       <AppContext.Provider value={contextData}>
         <ApolloProvider client={client}>
-          <Header />
+          <Header/>
           <SearchBar/>
           <ShowSegments/>
         </ApolloProvider>
@@ -184,7 +185,7 @@ function App() {
     content = (
       <AppContext.Provider value={contextData}>
         <ApolloProvider client={client}>
-          <Header />
+          <Header/>
           <AddSegments/>
         </ApolloProvider>
       </AppContext.Provider>
@@ -241,8 +242,8 @@ function App() {
     content = (
       <AppContext.Provider value={contextData}>
         <ApolloProvider client={client}>
-          <Header />
-          <AddVehicleValues />
+          <Header/>
+          <AddVehicleValues/>
         </ApolloProvider>
       </AppContext.Provider>
     );
@@ -265,6 +266,28 @@ function App() {
         <ApolloProvider client={client}>
           <Header/>
           <ShowVehicleValues/>
+        </ApolloProvider>
+      </AppContext.Provider>
+    );
+  }
+  //BODY O VALUES
+  if (button === 21) {
+    content = (
+      <AppContext.Provider value={contextData}>
+        <ApolloProvider client={client}>
+          <Header/>
+          <Body/>
+        </ApolloProvider>
+      </AppContext.Provider>
+    );
+  }
+  //SHOW O VALUES
+  if (button === 22) {
+    content = (
+      <AppContext.Provider value={contextData}>
+        <ApolloProvider client={client}>
+          <Header/>
+          <ShowOValues/>
         </ApolloProvider>
       </AppContext.Provider>
     );

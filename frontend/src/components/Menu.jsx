@@ -21,6 +21,9 @@ const Menu = () => {
       <div className="Button" onClick={() => context.button.set(19)}>
         Vehicle Values
       </div>
+      <div className="Button" onClick={() => context.button.set(21)}>
+        O Values
+      </div>
     </div>
   );
 };

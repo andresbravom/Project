@@ -99,6 +99,28 @@ const Body = () => {
         </div>
       </div>
     );
+  }else if (context.button.get === 21) {
+    content = (
+      <div className="Body">
+        <div className="Title">Options</div>
+        <hr className="hrBar"></hr>
+        <div className="Button" onClick={() => context.button.set(22)}>
+          Show O Values
+        </div>
+        <div className="Button" onClick={() => context.button.set(23)}>
+          Add O Values
+        </div>
+        <div
+          className="ButtonBar"
+          onClick={() => {
+            context.button.set(1);
+            context.nameRoute.set(null);
+          }}
+        >
+          Back
+        </div>
+      </div>
+    );
   }
   return <div className="Body">{content}</div>;
 };
