@@ -257,16 +257,19 @@ const Mutation = {
         // console.log("Acceleration: " + O2Acceleration)
         // console.log("O2: " + O2);
 
+        const auxO1 = "O1";
+        const auxO2 = "O2";
+
         for (let j = 0; j < arraySegmentsID.length; j += 1) {
           if (arraySegments[j] !== 0) {
             const result = collectionSegments.findOneAndUpdate(
               { _id: ObjectID(arraySegmentsID[j]) },
-              { $set: { O: "O2" }, $set: { OValues: O2} }, 
+              { $set: { O: "O2", OValues: O2} }, 
             );
           } else {
             const result = collectionSegments.findOneAndUpdate(
               { _id: ObjectID(arraySegmentsID[j]) },
-              { $set: { O: "O1" }, $set: { OValues: O1 } },
+              {  $set: { O: "O1", OValues: O1 } },
             );
           }
         }
