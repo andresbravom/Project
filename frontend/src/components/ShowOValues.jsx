@@ -29,16 +29,16 @@ const ShowOValues = () => {
   if (error) return <div>Error</div>;
 
   return (
-    <div className="SearchRoute">
+    <div className="ShowOValues">
       <div className="Information">
         {data ? (
           <div className="Items">
-            <div className="Subroutes">
-              <div className="Title">Subroutes</div>{" "}
+            <div className="Route">
+              <div className="Title">Route</div>{" "}
               {data.getRouteName.subroutes.map((obj) => (
                 <div>
-                  <div className="Segments">
-                    <div className="Title">Segments</div>{" "}
+                  <div className="SubrouteOValue">
+                    <div className="Title">Subroute</div>{" "}
                     {obj.segments.map((obj1) => (
                       <div>
                         <div>

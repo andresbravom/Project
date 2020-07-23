@@ -109,6 +109,14 @@ h4 {
   text-align: center;
   flex-wrap: wrap;
 }
+.ShowOValues{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px;
+  text-align: center;
+  flex-wrap: wrap;
+}
 .Information {
   border: 1px solid #18b0b0;
   background-color: #f7fbfc;
@@ -140,6 +148,15 @@ h4 {
   text-align: center;
   align-items: center;
   width: 90%;
+  flex-wrap: wrap;
+}
+.SubrouteOValue {
+  margin: 5px;
+  border: 1px solid #e8aa8c;
+  background-color: #f9f3e6;
+  text-align: center;
+  align-items: center;
+  width: 98%;
   flex-wrap: wrap;
 }
 .Segments {
