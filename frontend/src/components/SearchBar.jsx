@@ -166,6 +166,38 @@ const SearchBar = () => {
         </div>
       </div>
     );
+  }else if (context.button.get === 23 || context.button.get === 22) {
+    content = (
+      <div className="SearchBar">
+        <div className="Title">Insert Data</div>
+        <input
+          id="inputField"
+          className="Input"
+          type="text"
+          placeholder="Insert Route name"
+        ></input>
+        <div
+          className="Button"
+          onClick={() => {
+            context.nameSubroute.set(
+              document.getElementById("inputField").value
+            );
+            context.button.set(23);
+          }}
+        >
+          Search
+        </div>
+        <div
+          className="ButtonBar"
+          onClick={() => {
+            context.button.set(1);
+            context.nameRoute.set(null);
+          }}
+        >
+          Back
+        </div>
+      </div>
+    );
   }
   return <div>{content}</div>;
 };

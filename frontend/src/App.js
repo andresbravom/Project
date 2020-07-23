@@ -281,12 +281,24 @@ function App() {
       </AppContext.Provider>
     );
   }
-  //SHOW O VALUES
+  //SEARCH BAR SHOW O VALUES
   if (button === 22) {
     content = (
       <AppContext.Provider value={contextData}>
         <ApolloProvider client={client}>
           <Header/>
+          <SearchBar/>
+        </ApolloProvider>
+      </AppContext.Provider>
+    );
+  }
+  //SHOW O VALUES
+  if (button === 23) {
+    content = (
+      <AppContext.Provider value={contextData}>
+        <ApolloProvider client={client}>
+          <Header/>
+          <SearchBar/>
           <ShowOValues/>
         </ApolloProvider>
       </AppContext.Provider>

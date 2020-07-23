@@ -1,14 +1,62 @@
-import React, { useContext, useState } from "react";
-import { useMutation, gql } from "@apollo/client";
+import React, { useContext } from "react";
 import AppContext from "../AppContext";
+import { useQuery, gql } from "@apollo/client";
 
 import "./Styles.css";
 
+const QUERY = gql`
+  query ShowOValues($name: String!) {
+    getRouteName(name: $name) {
+      subroutes {
+        segments {
+          O
+          OValues
+        }
+      }
+    }
+  }
+`;
+
 const ShowOValues = () => {
-    return(
-        <div>
-            ShowOValues
-        </div>
-    )
-}
+  const context = useContext(AppContext);
+
+  const { loading, error, data, refetch, networkStatus } = useQuery(QUERY, {
+    variables: { name: context.nameSubroute.get },
+    notifyOnNetworkStatusChange: true,
+  });
+  if (networkStatus === 4) return <div>Refetching...</div>;
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error</div>;
+
+  return (
+    <div className="SearchRoute">
+      <div className="Information">
+        {data ? (
+          <div className="Items">
+            <div className="Subroutes">
+              <div className="Title">Subroutes</div>{" "}
+              {data.getRouteName.subroutes.map((obj) => (
+                <div>
+                  <div className="Segments">
+                    <div className="Title">Segments</div>{" "}
+                    {obj.segments.map((obj1) => (
+                      <div>
+                        <div>
+                          <h4>O Type:</h4> {obj1.O}
+                        </div>
+                        <div>
+                          <h4>O Values:</h4> {obj1.OValues} W/h
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : null}
+      </div>
+    </div>
+  );
+};
 export { ShowOValues as default };
