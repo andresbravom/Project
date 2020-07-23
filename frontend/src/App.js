@@ -16,6 +16,8 @@ import ShowSegments from "./components/ShowSegments";
 import GetComponentsProbability from "./components/GetComponentsProbability";
 import AddSegments from "./components/AddSegments";
 import UpdateProbability from "./components/UpdateProbability";
+import AddVehicleValues from "./components/AddVehicleValues";
+
 
 const httpLink = new HttpLink({
   uri: "http://127.0.0.1:4000/",
@@ -234,7 +236,17 @@ function App() {
       </AppContext.Provider>
     );
   }
-  console.log(button);
+  //ADD VEHICLES VALUES
+  if (button === 18) {
+    content = (
+      <AppContext.Provider value={contextData}>
+        <ApolloProvider client={client}>
+          <Header />
+          <AddVehicleValues />
+        </ApolloProvider>
+      </AppContext.Provider>
+    );
+  }
   return <div className="App">{content}</div>;
 }
 export default App;
