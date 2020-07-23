@@ -22,7 +22,6 @@ const UpdateProbability = () => {
   const [click, setClick] = useState(false);
 
   if (context.segment.get) {
-      
     for (let i = 0; i < context.segment.get; i += 1) {
       array = [
         ...array,
@@ -38,38 +37,44 @@ const UpdateProbability = () => {
           </div>
         </div>,
       ];
-    }  
+    }
     content = (
-        <div>
+      <div>
         <div className="AddRoute">
           <form
             className="Module"
             onSubmit={(e) => {
               e.preventDefault();
-              for(let i=0; i<context.segment.get; i += 1){
-                array2.push(parseFloat(document.getElementById("probabilityID" + i).value))
+              for (let i = 0; i < context.segment.get; i += 1) {
+                array2.push(
+                  parseFloat(document.getElementById("probabilityID" + i).value)
+                );
               }
-              addProbability({ variables: { subroute: context.IDSubroute.get, 
-                probability: array2 } });
+              addProbability({
+                variables: {
+                  subroute: context.IDSubroute.get,
+                  probability: array2,
+                },
+              });
             }}
           >
-          <button className="Botton" type="submit" onClick={() => setClick(true)}>
-          Add Probability
-        </button>
+            <button
+              className="Botton"
+              type="submit"
+              onClick={() => setClick(true)}
+            >
+              Add Probability
+            </button>
           </form>
         </div>
-        </div>
-    )
+      </div>
+    );
   }
   return (
     <div>
-      <div>
-        {array}
-      </div>
-      <div>
-        {content}
-      </div>
+      <div>{array}</div>
+      <div>{content}</div>
     </div>
-  )
+  );
 };
 export { UpdateProbability as default };
