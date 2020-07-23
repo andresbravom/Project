@@ -208,7 +208,6 @@ const Mutation = {
     const alpha = resultVehicleValues.alpha;
 
     if (resultRoute && resultVehicleValues) {
-      console.log(resultVehicleValues);
       const resultSubroutes = await collectionSubroutes
         .find({ route: ObjectID(route) })
         .toArray();
