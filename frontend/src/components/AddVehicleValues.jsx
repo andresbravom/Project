@@ -53,14 +53,14 @@ const AddVehicleValues = () => {
           e.preventDefault();
           addVehicleValues({
             variables: {
-              p: inputP,
-              Cd: inputCd,
-              A: inputA,
-              M: inputM,
-              G: inputG,
-              fr: inputFr,
-              a: inputa,
-              alpha: inputAlpha,
+              p: parseFloat(inputP.value),
+              Cd: parseFloat(inputCd.value),
+              A: parseFloat(inputA.value),
+              M: parseFloat(inputM.value),
+              G: parseFloat(inputG.value),
+              fr: parseFloat(inputFr.value),
+              a: parseFloat(inputa.value),
+              alpha: parseFloat(inputAlpha.value),
             },
           });
           inputP.value = null;
@@ -159,8 +159,8 @@ const AddVehicleValues = () => {
           </div>
         </div>
         {data ? (
-          data.addRoute ? (
-            <div className="Status">Route created succesfully</div>
+          data.addVehicleValues ? (
+            <div className="Status">Values added succesfully</div>
           ) : click ? (
             <div className="Status">Ops something went wrong</div>
           ) : null
