@@ -107,7 +107,7 @@ const Body = () => {
         <div className="Button" onClick={() => context.button.set(22)}>
           Show O Values
         </div>
-        <div className="Button" onClick={() => context.button.set(23)}>
+        <div className="Button" onClick={() => context.button.set(24)}>
           Add O Values
         </div>
         <div

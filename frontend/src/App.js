@@ -19,6 +19,7 @@ import UpdateProbability from "./components/UpdateProbability";
 import AddVehicleValues from "./components/AddVehicleValues";
 import ShowVehicleValues from "./components/ShowVehicleValues";
 import ShowOValues from "./components/ShowOValues";
+import AddOValues from "./components/AddOValues";
 
 const httpLink = new HttpLink({
   uri: "http://127.0.0.1:4000/",
@@ -300,6 +301,17 @@ function App() {
           <Header/>
           <SearchBar/>
           <ShowOValues/>
+        </ApolloProvider>
+      </AppContext.Provider>
+    );
+  }
+  //ADD O VALUES
+  if (button === 24) {
+    content = (
+      <AppContext.Provider value={contextData}>
+        <ApolloProvider client={client}>
+          <Header/>
+          <AddOValues/>
         </ApolloProvider>
       </AppContext.Provider>
     );
