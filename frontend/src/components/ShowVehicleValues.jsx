@@ -33,7 +33,7 @@ const ShowVehicleValues = () => {
     <div className="ShowVehicleValues">
     <div className="Information">
         {data ? (
-            <div className="Segments">
+            <div className="Routes">
                 <div className="Title">Vehicle Values</div>{" "}
           {data.getVehicleValues.map((obj) => (
             <div>
