@@ -19,7 +19,7 @@ type Subroute {
     speed: Int!
     segments: [Segments]!
     route: Route!
-    Energy: Float!
+    energy: Float!
 }
 type Segments {
     _id: ID!

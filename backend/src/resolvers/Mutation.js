@@ -264,12 +264,10 @@ const Mutation = {
               { $set: { OValues: E } }
             );
         }
-
-        console.log(adderEnergy);
-
-//         for (let i=0; i<arraySubroutes; i += 1){
-//           console.log("hola")
-// ;        }
+        const result = collectionSubroutes.findOneAndUpdate(
+          {_id: ObjectID(arraySubroutes[i])},
+          { $set: {energy: adderEnergy}}
+        )
       }
       return resultRoute;
     } else {
