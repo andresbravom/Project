@@ -318,15 +318,15 @@ const Mutation = {
       for (let i=0; i<arrayVelocities.length; i += 1){
         
         if(arrayVelocities [i] < arrayVelocities [i+1]){
-          arrayAux.push("less")
+          arrayAux.push("O3Acceleration")
         }else if (arrayVelocities [i] > arrayVelocities [i+1]){
-          arrayAux.push("higher")
+          arrayAux.push("O3Braking")
         }
       };
 
       let O3 = 0;
       for (let i = 0; i < arrayAux.length; i += 1) {
-        if(arrayAux[i] === "less"){
+        if(arrayAux[i] === "O3Acceleration"){
 
           let indexAux = i + 1;
           const nextVelocity = arrayVelocities[indexAux]
@@ -345,7 +345,7 @@ const Mutation = {
   
           O3 = O3 + ETACC;
 
-        }else if(arrayAux[i] === "higher"){
+        }else if(arrayAux[i] === "O3Braking"){
           
         }
       }
