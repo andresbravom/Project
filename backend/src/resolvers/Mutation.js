@@ -316,20 +316,7 @@ const Mutation = {
       let arrayAux = [];
 
       for (let i=0; i<arrayVelocities.length; i += 1){
-
-        let indexAux = i + 1;
-
-        const nextVelocity = arrayVelocities[indexAux]
         
-        const v = arrayVelocities[i] * (5 / 18);
-
-        const auxNextVelocity = nextVelocity *  (5 / 18);
-
-        //O3 ACCELERATION
-        const tacc = (auxNextVelocity - v) / a; 
-
-        const ETACC1 = (M/2) * (Math.pow(v + a * tacc, 2) - Math.pow(v, 2));
-
         if(arrayVelocities [i] < arrayVelocities [i+1]){
           arrayAux.push("less")
         }else if (arrayVelocities [i] > arrayVelocities [i+1]){
@@ -337,14 +324,33 @@ const Mutation = {
         }
       };
 
-      let totalO3 = 0;
+      let O3 = 0;
       for (let i = 0; i < arrayAux.length; i += 1) {
         if(arrayAux[i] === "less"){
-          totalO3 = totalO3 + 1;
+
+          let indexAux = i + 1;
+          const nextVelocity = arrayVelocities[indexAux]
+          const v = arrayVelocities[i] * (5 / 18);
+          const auxNextVelocity = nextVelocity *  (5 / 18);
+  
+          //O3 ACCELERATION
+          const tacc = (auxNextVelocity - v) / a; 
+  
+          const ETACC1 = (M/2) * (Math.pow(v + a * tacc, 2) - Math.pow(v, 2));
+          const ETACC2 = (p * Cd * A) * ((Math.pow(v + a * tacc, 4) - Math.pow(v, 4)) / (8* a));
+          const ETACC3 = (M * G * fr) * (Math.pow(v + a * tacc, 2) - Math.pow(v,2)) / (2 * a);
+  
+          let ETACC = ETACC1 + ETACC2 + ETACC3;
+          ETACC = ETACC * 0.00027777777777778;
+  
+          O3 = O3 + ETACC;
+
         }else if(arrayAux[i] === "higher"){
-          totalO3 = totalO3 + 5;
+          
         }
       }
+
+      console.log(O3)
 
       for (let i = 0; i < arrayAux.length; i += 1) {
         if (arraySubroutes[i] !== 0) {
