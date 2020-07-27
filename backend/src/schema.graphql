@@ -19,6 +19,7 @@ type Subroute {
     speed: Int!
     segments: [Segments]!
     route: Route!
+    Energy: Float!
 }
 type Segments {
     _id: ID!
@@ -107,7 +108,7 @@ type Mutation {
     addVehicleValues (p: Float!, Cd: Float!, A: Float!, M: Float!, G: Float!, fr: Float!, a: Float!, alpha: Float!): VehicleValues!
     addOValues (route: ID!, vehicleValues: ID!): Route!
     addO3Values (route: ID!, vehicleValues: ID!): Route!
-
+    addEnergySubroute (route: ID!): Route!
 
 
 

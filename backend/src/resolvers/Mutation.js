@@ -253,16 +253,23 @@ const Mutation = {
         // console.log("Acceleration: " + O2Acceleration)
         // console.log("O2: " + O2);
 
-       
-        console.log(arraySegments);
+        let adderEnergy=0;
         for (let j = 0; j < arraySegmentsID.length; j += 1) {
-          const E = (O1 * (1 - arraySegments[j])) + (O2 * arraySegments[j]);
-
+          let E = (O1 * (1 - arraySegments[j])) + (O2 * arraySegments[j]);
+          adderEnergy = adderEnergy + E
+         
+          // console.log(E);
             const result = collectionSegments.findOneAndUpdate(
               { _id: ObjectID(arraySegmentsID[j]) },
               { $set: { OValues: E } }
             );
         }
+
+        console.log(adderEnergy);
+
+//         for (let i=0; i<arraySubroutes; i += 1){
+//           console.log("hola")
+// ;        }
       }
       return resultRoute;
     } else {
@@ -358,7 +365,6 @@ const Mutation = {
           O3 = O3 + ETBRAK;
         }
       }
-      console.log(O3);
 
       const result = collectionRoute.findOneAndUpdate(
         { _id: ObjectID(route) },
@@ -367,6 +373,10 @@ const Mutation = {
     }
     return resultRoute;
   },
+  // addEnergySubroute: async (parent, args, ctx, info) => {
+  //   const { subroute } = args;
+  //   const { client } = ctx;
+
 
 
 
