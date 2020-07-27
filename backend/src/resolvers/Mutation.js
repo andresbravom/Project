@@ -247,10 +247,10 @@ const Mutation = {
 
         let O2Acceleration = eacc1 + eacc2 + eacc3;
 
-        O2Acceleration = O2Acceleration + alpha  * O2BrakingAux;
+        O2Acceleration = O2Acceleration + alpha * O2BrakingAux;
         O2Acceleration = O2Acceleration * 0.00027777777777778;
 
-        const O2 = O2Braking + O2Acceleration
+        const O2 = O2Braking + O2Acceleration;
 
         // console.log("Braking: " + O2Braking);
         // console.log("Acceleration: " + O2Acceleration)
@@ -263,12 +263,12 @@ const Mutation = {
           if (arraySegments[j] !== 0) {
             const result = collectionSegments.findOneAndUpdate(
               { _id: ObjectID(arraySegmentsID[j]) },
-              { $set: { O: "O2", OValues: O2} }, 
+              { $set: { O: "O2", OValues: O2 } }
             );
           } else {
             const result = collectionSegments.findOneAndUpdate(
               { _id: ObjectID(arraySegmentsID[j]) },
-              {  $set: { O: "O1", OValues: O1 } },
+              { $set: { O: "O1", OValues: O1 } }
             );
           }
         }
@@ -285,16 +285,15 @@ const Mutation = {
     const db = client.db("DataBase");
     const collectionRoute = db.collection("Routes");
     const collectionSubroutes = db.collection("Subroutes");
-    const collectionSegments = db.collection("SegmentsSubroutes");
     const collectionVehiclesValues = db.collection("VehicleValues");
-  
+
     const resultRoute = await collectionRoute.findOne({
       _id: ObjectID(route),
     });
     const resultVehicleValues = await collectionVehiclesValues.findOne({
       _id: ObjectID(vehicleValues),
     });
-  
+
     const v0 = 0;
     const a = resultVehicleValues.a;
     const p = resultVehicleValues.p;
@@ -307,100 +306,76 @@ const Mutation = {
 
     if (resultRoute && resultVehicleValues) {
       const resultSubroutes = await collectionSubroutes
-      .find({ route: ObjectID(route) })
-      .toArray();
-
-      const arraySubroutes = resultSubroutes.map((obj) => obj._id);
+        .find({ route: ObjectID(route) })
+        .toArray();
+        
       const arrayVelocities = resultSubroutes.map((obj) => obj.speed);
 
       let arrayAux = [];
 
-      for (let i=0; i<arrayVelocities.length; i += 1){
-        
-        if(arrayVelocities [i] < arrayVelocities [i+1]){
-          arrayAux.push("O3Acceleration")
-        }else if (arrayVelocities [i] > arrayVelocities [i+1]){
-          arrayAux.push("O3Braking")
+      for (let i = 0; i < arrayVelocities.length; i += 1) {
+        if (arrayVelocities[i] < arrayVelocities[i + 1]) {
+          arrayAux.push("O3Acceleration");
+        } else if (arrayVelocities[i] > arrayVelocities[i + 1]) {
+          arrayAux.push("O3Braking");
         }
-      };
+      }
 
       let O3 = 0;
       for (let i = 0; i < arrayAux.length; i += 1) {
-
         let indexAux = i + 1;
-        const nextVelocity = arrayVelocities[indexAux]
+        const nextVelocity = arrayVelocities[indexAux];
         const v = arrayVelocities[i] * (5 / 18);
-        const auxNextVelocity = nextVelocity *  (5 / 18);
+        const auxNextVelocity = nextVelocity * (5 / 18);
 
         //O3 ACCELERATION
-        if(arrayAux[i] === "O3Acceleration"){
-          
-          const tacc = (auxNextVelocity - v) / a; 
-  
-          const ETACC1 = (M/2) * (Math.pow(v + a * tacc, 2) - Math.pow(v, 2));
-          const ETACC2 = (p * Cd * A) * ((Math.pow(v + a * tacc, 4) - Math.pow(v, 4)) / (8* a));
-          const ETACC3 = (M * G * fr) * (Math.pow(v + a * tacc, 2) - Math.pow(v,2)) / (2 * a);
-  
+        if (arrayAux[i] === "O3Acceleration") {
+          const tacc = (auxNextVelocity - v) / a;
+
+          const ETACC1 = (M / 2) * (Math.pow(v + a * tacc, 2) - Math.pow(v, 2));
+          const ETACC2 =
+            p *
+            Cd *
+            A *
+            ((Math.pow(v + a * tacc, 4) - Math.pow(v, 4)) / (8 * a));
+          const ETACC3 =
+            (M * G * fr * (Math.pow(v + a * tacc, 2) - Math.pow(v, 2))) /
+            (2 * a);
+
           let ETACC = ETACC1 + ETACC2 + ETACC3;
           ETACC = ETACC * 0.00027777777777778;
-  
+
           O3 = O3 + ETACC;
 
-        //O3 BRAKING
-        }else if(arrayAux[i] === "O3Braking"){
+          //O3 BRAKING
+        } else if (arrayAux[i] === "O3Braking") {
           const tbrak = (auxNextVelocity - v) / -a;
 
-          const ETBRAK1 = (M / 2) * (Math.pow(v + (-a) * tbrak, 2) - Math.pow(v, 2));
-          const ETBRAK2 = (p * Cd * A) * (Math.pow(v + (-a) * tbrak, 4) - Math.pow(v, 4)) / (8 * (-a));
-          const ETBRAK3 = (M * G * fr) * (Math.pow(v + (-a) * tbrak, 2) - Math.pow(v , 2)) / (2 * (-a));
+          const ETBRAK1 =
+            (M / 2) * (Math.pow(v + -a * tbrak, 2) - Math.pow(v, 2));
+          const ETBRAK2 =
+            (p * Cd * A * (Math.pow(v + -a * tbrak, 4) - Math.pow(v, 4))) /
+            (8 * -a);
+          const ETBRAK3 =
+            (M * G * fr * (Math.pow(v + -a * tbrak, 2) - Math.pow(v, 2))) /
+            (2 * -a);
 
           let ETBRAK = ETBRAK1 + ETBRAK2 + ETBRAK3;
           ETBRAK = ETBRAK * alpha;
           ETBRAK = ETBRAK * 0.00027777777777778;
-        
-          O3 = O3 + ETBRAK
+
+          O3 = O3 + ETBRAK;
         }
       }
+      console.log(O3);
 
-      // console.log(O3)
-
-      for (let i = 0; i < arrayAux.length; i += 1) {
-        if (arraySubroutes[i] !== 0) {
-          const result = collectionSubroutes.findOneAndUpdate(
-            { _id: ObjectID(arraySubroutes[i]) },
-            { $set: { O3: 13333} }, 
-          );
-        } else {
-          const result = collectionSegments.findOneAndUpdate(
-            { _id: ObjectID(arraySubroutes[i]) },
-            {  $set: { O3: 1111 } },
-          );
-        }
-      }
+      const result = collectionRoute.findOneAndUpdate(
+        { _id: ObjectID(route) },
+        { $set: { O3: O3 } }
+      );
     }
-return resultRoute;
+    return resultRoute;
   },
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
