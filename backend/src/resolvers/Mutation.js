@@ -82,7 +82,6 @@ const Mutation = {
           lenghtSegment: resultStreet.lenght,
           index: index + 1,
           probability: 0,
-          O: "O",
           OValues: 0.0,
         });
         return resultSegment.ops[0];
@@ -100,7 +99,6 @@ const Mutation = {
                   lenghtSegment,
                   index,
                   probability: 0,
-                  O: "O",
                   OValues: 0.0,
                 });
                 resolve(obj);
@@ -115,7 +113,6 @@ const Mutation = {
                   lenghtSegment: lenghtSegment,
                   index: index,
                   probability: 0,
-                  O: "O",
                   OValues: 0.0,
                 });
                 resolve(obj);
@@ -256,21 +253,15 @@ const Mutation = {
         // console.log("Acceleration: " + O2Acceleration)
         // console.log("O2: " + O2);
 
-        const auxO1 = "O1";
-        const auxO2 = "O2";
-
+       
+        console.log(arraySegments);
         for (let j = 0; j < arraySegmentsID.length; j += 1) {
-          if (arraySegments[j] !== 0) {
+          const E = (O1 * (1 - arraySegments[j])) + (O2 * arraySegments[j]);
+
             const result = collectionSegments.findOneAndUpdate(
               { _id: ObjectID(arraySegmentsID[j]) },
-              { $set: { O: "O2", OValues: O2 } }
+              { $set: { OValues: E } }
             );
-          } else {
-            const result = collectionSegments.findOneAndUpdate(
-              { _id: ObjectID(arraySegmentsID[j]) },
-              { $set: { O: "O1", OValues: O1 } }
-            );
-          }
         }
       }
       return resultRoute;
