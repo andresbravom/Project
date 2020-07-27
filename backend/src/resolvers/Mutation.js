@@ -30,7 +30,7 @@ const Mutation = {
     const db = client.db("DataBase");
     const collection = db.collection("Routes");
 
-    const result = await collection.insertOne({ name });
+    const result = await collection.insertOne({ name, O3: 0 });
     return result.ops[0];
   },
   addSubroute: async (parent, args, ctx, info) => {
@@ -51,7 +51,6 @@ const Mutation = {
         name,
         lenght,
         speed,
-        O3: 0,
       });
       return result.ops[0];
     } else {
@@ -279,12 +278,81 @@ const Mutation = {
       return new Error("Insert correct ID");
     }
   },
+  addO3Values: async (parent, args, ctx, info) => {
+    const { route, vehicleValues } = args;
+    const { client } = ctx;
 
+    const db = client.db("DataBase");
+    const collectionRoute = db.collection("Routes");
+    const collectionSubroutes = db.collection("Subroutes");
+    const collectionSegments = db.collection("SegmentsSubroutes");
+    const collectionVehiclesValues = db.collection("VehicleValues");
+  
+    const resultRoute = await collectionRoute.findOne({
+      _id: ObjectID(route),
+    });
+    const resultVehicleValues = await collectionVehiclesValues.findOne({
+      _id: ObjectID(vehicleValues),
+    });
+  
+    const v0 = 0;
+    const a = resultVehicleValues.a;
+    const p = resultVehicleValues.p;
+    const Cd = resultVehicleValues.Cd;
+    const A = resultVehicleValues.A;
+    const M = resultVehicleValues.M;
+    const G = resultVehicleValues.G;
+    const fr = resultVehicleValues.fr;
+    const alpha = resultVehicleValues.alpha;
 
+    if (resultRoute && resultVehicleValues) {
+      const resultSubroutes = await collectionSubroutes
+      .find({ route: ObjectID(route) })
+      .toArray();
 
+      const arraySubroutes = resultSubroutes.map((obj) => obj._id);
+      const arrayVelocities = resultSubroutes.map((obj) => obj.speed);
 
+      let arrayAux = [];
 
+      for (let i=0; i<arrayVelocities.length; i += 1){
+        if(arrayVelocities [i] < arrayVelocities [i+1]){
+          arrayAux.push("menor")
+        }else if (arrayVelocities [i] > arrayVelocities [i+1]){
+          arrayAux.push("mayor")
+        }
+      }
+      console.log(arrayAux);
 
+      let totalO3 = 0;
+      for (let i = 0; i < arrayAux.length; i += 1) {
+        if(arrayAux[i] === "menor"){
+          totalO3 = totalO3 + 1;
+        }else if(arrayAux[i] === "mayor"){
+          totalO3 = totalO3 + 5;
+        }
+      }
+      console.log("total" + totalO3);
+
+      for (let i = 0; i < arrayAux.length; i += 1) {
+        if (arraySubroutes[i] !== 0) {
+          const result = collectionSubroutes.findOneAndUpdate(
+            { _id: ObjectID(arraySubroutes[i]) },
+            { $set: { O3: 13333} }, 
+          );
+        } else {
+          const result = collectionSegments.findOneAndUpdate(
+            { _id: ObjectID(arraySubroutes[i]) },
+            {  $set: { O3: 1111 } },
+          );
+        }
+      }
+
+      console.log(arraySubroutes);
+      console.log(arrayVelocities);
+    }
+return resultRoute;
+  },
 
 
 

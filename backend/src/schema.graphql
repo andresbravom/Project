@@ -10,6 +10,7 @@ type Route {
     _id: ID!
     name: String!
     subroutes: [Subroute]!
+    O3: Float!
 }
 type Subroute {
     _id: ID!
@@ -18,7 +19,6 @@ type Subroute {
     speed: Int!
     segments: [Segments]!
     route: Route!
-    O3: Float!
 }
 type Segments {
     _id: ID!
@@ -106,7 +106,7 @@ type Mutation {
     addProbability(subroute: ID!, probability: [Float!]): Subroute!
     addVehicleValues (p: Float!, Cd: Float!, A: Float!, M: Float!, G: Float!, fr: Float!, a: Float!, alpha: Float!): VehicleValues!
     addOValues (route: ID!, vehicleValues: ID!): Route!
-
+    addO3Values (route: ID!, vehicleValues: ID!): Route!
 
 
 
