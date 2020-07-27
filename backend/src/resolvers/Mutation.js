@@ -371,10 +371,47 @@ const Mutation = {
     }
     return resultRoute;
   },
-  // addEnergySubroute: async (parent, args, ctx, info) => {
-  //   const { subroute } = args;
-  //   const { client } = ctx;
+  addEnergyRoute: async (parent, args, ctx, info) => {
+    const { route } = args;
+    const { client } = ctx;
 
+
+    const db = client.db("DataBase");
+    const collectionRoutes = db.collection("Routes");
+    const collectionSubroutes = db.collection("Subroutes");
+
+    const resultRoute = await collectionRoutes.findOne({
+      _id: ObjectID(route),
+    });
+
+    if(resultRoute) {
+      const resultSubroutes = await collectionSubroutes
+        .find({ route: ObjectID(route) })
+        .toArray();
+
+        const arrayEnergy = resultSubroutes.map((obj) => obj.energy);
+        const O3 = resultRoute.O3;
+
+        let energy = 0;
+
+        for (let i=0; i<arrayEnergy.length; i += 1) {
+          energy = energy + arrayEnergy[i];
+        }
+        energy = energy + O3;
+        console.log(arrayEnergy)
+        console.log (O3);
+        console.log(energy);
+
+        const result = collectionRoutes.findOneAndUpdate(
+          { _id: ObjectID(route) },
+          { $set: { energy: energy } }
+        );
+
+        return resultRoute;
+    }else {
+      return new Error("Insert correct ID");
+    }
+  },
 
 
 

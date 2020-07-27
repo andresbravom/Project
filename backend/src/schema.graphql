@@ -11,6 +11,7 @@ type Route {
     name: String!
     subroutes: [Subroute]!
     O3: Float!
+    energy: Float!
 }
 type Subroute {
     _id: ID!
@@ -108,7 +109,7 @@ type Mutation {
     addVehicleValues (p: Float!, Cd: Float!, A: Float!, M: Float!, G: Float!, fr: Float!, a: Float!, alpha: Float!): VehicleValues!
     addOValues (route: ID!, vehicleValues: ID!): Route!
     addO3Values (route: ID!, vehicleValues: ID!): Route!
-    addEnergySubroute (route: ID!): Route!
+    addEnergyRoute (route: ID!): Route!
 
 
 
