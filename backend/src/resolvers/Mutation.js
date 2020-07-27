@@ -51,6 +51,7 @@ const Mutation = {
         name,
         lenght,
         speed,
+        O3: 0,
       });
       return result.ops[0];
     } else {
