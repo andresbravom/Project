@@ -12,7 +12,6 @@ const QUERY = gql`
         index
         lenghtSegment
         probability
-        O
         OValues
       }
     }
@@ -49,9 +48,6 @@ const ShowSegments = () => {
                   </div>
                   <div>
                     <h4>Probability:</h4> {obj.probability}
-                  </div>
-                  <div>
-                    <h4>O Type:</h4> {obj.O}
                   </div>
                   <div>
                     <h4>O Values:</h4> {obj.OValues} W/h

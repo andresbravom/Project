@@ -19,7 +19,6 @@ const QUERY = gql`
           index
           lenghtSegment
           probability
-          O
           OValues
         }
       }
@@ -84,9 +83,6 @@ const SearchRoute = () => {
                         </div>
                         <div>
                           <h4>Probability:</h4> {obj1.probability}
-                        </div>
-                        <div>
-                          <h4>O Type:</h4> {obj1.O}
                         </div>
                         <div>
                           <h4>O Values:</h4> {obj1.OValues} W/h

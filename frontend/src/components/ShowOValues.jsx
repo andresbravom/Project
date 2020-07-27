@@ -9,7 +9,6 @@ const QUERY = gql`
     getRouteName(name: $name) {
       subroutes {
         segments {
-          O
           OValues
         }
       }
@@ -41,9 +40,6 @@ const ShowOValues = () => {
                     <div className="Title">Subroute</div>{" "}
                     {obj.segments.map((obj1) => (
                       <div>
-                        <div>
-                          <h4>O Type:</h4> {obj1.O}
-                        </div>
                         <div>
                           <h4>O Values:</h4> {obj1.OValues} W/h
                         </div>
