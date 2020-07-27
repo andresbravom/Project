@@ -326,14 +326,15 @@ const Mutation = {
 
       let O3 = 0;
       for (let i = 0; i < arrayAux.length; i += 1) {
-        if(arrayAux[i] === "O3Acceleration"){
 
-          let indexAux = i + 1;
-          const nextVelocity = arrayVelocities[indexAux]
-          const v = arrayVelocities[i] * (5 / 18);
-          const auxNextVelocity = nextVelocity *  (5 / 18);
-  
-          //O3 ACCELERATION
+        let indexAux = i + 1;
+        const nextVelocity = arrayVelocities[indexAux]
+        const v = arrayVelocities[i] * (5 / 18);
+        const auxNextVelocity = nextVelocity *  (5 / 18);
+
+        //O3 ACCELERATION
+        if(arrayAux[i] === "O3Acceleration"){
+          
           const tacc = (auxNextVelocity - v) / a; 
   
           const ETACC1 = (M/2) * (Math.pow(v + a * tacc, 2) - Math.pow(v, 2));
@@ -345,12 +346,23 @@ const Mutation = {
   
           O3 = O3 + ETACC;
 
+        //O3 BRAKING
         }else if(arrayAux[i] === "O3Braking"){
-          
+          const tbrak = (auxNextVelocity - v) / -a;
+
+          const ETBRAK1 = (M / 2) * (Math.pow(v + (-a) * tbrak, 2) - Math.pow(v, 2));
+          const ETBRAK2 = (p * Cd * A) * (Math.pow(v + (-a) * tbrak, 4) - Math.pow(v, 4)) / (8 * (-a));
+          const ETBRAK3 = (M * G * fr) * (Math.pow(v + (-a) * tbrak, 2) - Math.pow(v , 2)) / (2 * (-a));
+
+          let ETBRAK = ETBRAK1 + ETBRAK2 + ETBRAK3;
+          ETBRAK = ETBRAK * alpha;
+          ETBRAK = ETBRAK * 0.00027777777777778;
+        
+          O3 = O3 + ETBRAK
         }
       }
 
-      console.log(O3)
+      // console.log(O3)
 
       for (let i = 0; i < arrayAux.length; i += 1) {
         if (arraySubroutes[i] !== 0) {
