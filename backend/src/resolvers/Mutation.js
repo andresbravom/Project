@@ -316,23 +316,35 @@ const Mutation = {
       let arrayAux = [];
 
       for (let i=0; i<arrayVelocities.length; i += 1){
+
+        let indexAux = i + 1;
+
+        const nextVelocity = arrayVelocities[indexAux]
+        
+        const v = arrayVelocities[i] * (5 / 18);
+
+        const auxNextVelocity = nextVelocity *  (5 / 18);
+
+        //O3 ACCELERATION
+        const tacc = (auxNextVelocity - v) / a; 
+
+        const ETACC1 = (M/2) * (Math.pow(v + a * tacc, 2) - Math.pow(v, 2));
+
         if(arrayVelocities [i] < arrayVelocities [i+1]){
-          arrayAux.push("menor")
+          arrayAux.push("less")
         }else if (arrayVelocities [i] > arrayVelocities [i+1]){
-          arrayAux.push("mayor")
+          arrayAux.push("higher")
         }
-      }
-      console.log(arrayAux);
+      };
 
       let totalO3 = 0;
       for (let i = 0; i < arrayAux.length; i += 1) {
-        if(arrayAux[i] === "menor"){
+        if(arrayAux[i] === "less"){
           totalO3 = totalO3 + 1;
-        }else if(arrayAux[i] === "mayor"){
+        }else if(arrayAux[i] === "higher"){
           totalO3 = totalO3 + 5;
         }
       }
-      console.log("total" + totalO3);
 
       for (let i = 0; i < arrayAux.length; i += 1) {
         if (arraySubroutes[i] !== 0) {
@@ -347,9 +359,6 @@ const Mutation = {
           );
         }
       }
-
-      console.log(arraySubroutes);
-      console.log(arrayVelocities);
     }
 return resultRoute;
   },
