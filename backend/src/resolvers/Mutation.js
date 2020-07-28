@@ -30,7 +30,7 @@ const Mutation = {
     const db = client.db("DataBase");
     const collection = db.collection("Routes");
 
-    const result = await collection.insertOne({ name, O3: 0 });
+    const result = await collection.insertOne({ name, O3: 0, energy: 0 });
     return result.ops[0];
   },
   addSubroute: async (parent, args, ctx, info) => {
