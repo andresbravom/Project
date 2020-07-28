@@ -9,6 +9,8 @@ const QUERY = gql`
     getRouteName(name: $name) {
       _id
       name
+      O3
+      energy
       subroutes {
         _id
         name
@@ -50,6 +52,12 @@ const SearchRoute = () => {
               </div>
               <div>
                 <h4>_id Route:</h4> {data.getRouteName._id}
+              </div>
+              <div>
+                <h4>O3:</h4> {data.getRouteName.O3}
+              </div>
+              <div>
+                <h4>Energy:</h4> {data.getRouteName.energy}
               </div>
             </div>
             <div className="Subroutes">

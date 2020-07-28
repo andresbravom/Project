@@ -129,7 +129,7 @@ const Body = () => {
         <div className="Button" onClick={() => context.button.set(26)}>
           Add O3 Value
         </div>
-        <div className="Button" onClick={() => context.button.set(245)}>
+        <div className="Button" onClick={() => context.button.set(27)}>
           Get Energy
         </div>
         <div
