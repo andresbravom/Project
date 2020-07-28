@@ -24,6 +24,9 @@ const Menu = () => {
       <div className="Button" onClick={() => context.button.set(21)}>
         O Values
       </div>
+      <div className="Button" onClick={() => context.button.set(25)}>
+        Calcule Energy
+      </div>
     </div>
   );
 };

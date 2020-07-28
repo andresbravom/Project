@@ -20,6 +20,7 @@ import AddVehicleValues from "./components/AddVehicleValues";
 import ShowVehicleValues from "./components/ShowVehicleValues";
 import ShowOValues from "./components/ShowOValues";
 import AddOValues from "./components/AddOValues";
+import AddO3Values from "./components/AddO3Values";
 
 const httpLink = new HttpLink({
   uri: "http://127.0.0.1:4000/",
@@ -312,6 +313,28 @@ function App() {
         <ApolloProvider client={client}>
           <Header/>
           <AddOValues/>
+        </ApolloProvider>
+      </AppContext.Provider>
+    );
+  }
+  //CALCULE ENERGY
+  if (button === 25) {
+    content = (
+      <AppContext.Provider value={contextData}>
+        <ApolloProvider client={client}>
+          <Header/>
+          <Body/>
+        </ApolloProvider>
+      </AppContext.Provider>
+    );
+  }
+  //SEARCH BAR ADD O3
+  if (button === 26) {
+    content = (
+      <AppContext.Provider value={contextData}>
+        <ApolloProvider client={client}>
+          <Header/>
+          <AddO3Values/>
         </ApolloProvider>
       </AppContext.Provider>
     );
