@@ -70,7 +70,7 @@ const SearchSubroute = () => {
                     <h4>Probability:</h4> {obj.probability}
                   </div>
                   <div>
-                    <h4>O Values:</h4> {obj.OValues} W/h
+                    <h4>O Values:</h4> {obj.OValues} Wh
                   </div>
                 </div>
               ))}

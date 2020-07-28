@@ -85,7 +85,7 @@ const SearchRoute = () => {
                           <h4>Probability:</h4> {obj1.probability}
                         </div>
                         <div>
-                          <h4>O Values:</h4> {obj1.OValues} W/h
+                          <h4>O Values:</h4> {obj1.OValues} Wh
                         </div>
                       </div>
                     ))}
