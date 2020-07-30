@@ -233,25 +233,26 @@ const Mutation = {
         const ebreak3 =
           (M * G * fr * (Math.pow(v - a * t, 2) - Math.pow(v, 2))) / (-2 * a);
 
-        let O2BrakingAux = ebreak1 + ebreak2 + ebreak3;
-        let O2Braking = O2BrakingAux * alpha;
-        O2Braking = O2Braking * 0.00027777777777778;
+        let O2BrakingAUX = ebreak1 + ebreak2 + ebreak3;
+
+        O2BrakingAUX = O2BrakingAUX * 0.00027777777777778;
+        let O2Braking = O2BrakingAUX * alpha;
 
         //ENERGY ACCELERATION
         const eacc1 = (M * Math.pow(a * t, 2)) / 2;
-        const eacc2 = (p * Cd * A * Math.pow(a * t, 4)) / (8 * a);
+        const eacc2 = (p * Cd * A * (Math.pow(a * t, 4))) / (8 * a);
         const eacc3 = (M * G * fr * Math.pow(a * t, 2)) / (2 * a);
 
         let O2Acceleration = eacc1 + eacc2 + eacc3;
-
-        O2Acceleration = O2Acceleration + alpha * O2BrakingAux;
         O2Acceleration = O2Acceleration * 0.00027777777777778;
-
-        const O2 = O2Braking + O2Acceleration;
+        O2Acceleration = O2Acceleration + alpha * O2BrakingAUX;
+        
+        const O2 = O2Acceleration;
 
         // console.log("Braking: " + O2Braking);
         // console.log("Acceleration: " + O2Acceleration)
-        // console.log("O2: " + O2);
+        console.log("O1: " + O1);
+        console.log("O2: " + O2);
 
         let adderEnergy=0;
         for (let j = 0; j < arraySegmentsID.length; j += 1) {
@@ -317,7 +318,7 @@ const Mutation = {
         }
       }
 
-      let O3 = 0;
+      let O3;
       for (let i = 0; i < arrayAux.length; i += 1) {
         let indexAux = i + 1;
         const nextVelocity = arrayVelocities[indexAux];
@@ -361,9 +362,10 @@ const Mutation = {
           ETBRAK = ETBRAK * 0.00027777777777778;
 
           O3 = O3 + ETBRAK;
+          console.log("O3: " + O3)
+
         }
       }
-
       const result = collectionRoute.findOneAndUpdate(
         { _id: ObjectID(route) },
         { $set: { O3: O3 } }
