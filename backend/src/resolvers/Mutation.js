@@ -256,6 +256,7 @@ const Mutation = {
 
         let adderEnergy=0;
         for (let j = 0; j < arraySegmentsID.length; j += 1) {
+          
           let E = (O1 * (1 - arraySegments[j])) + (O2 * arraySegments[j]);
           adderEnergy = adderEnergy + E
          
@@ -270,6 +271,7 @@ const Mutation = {
           { $set: {energy: adderEnergy}}
         )
       }
+      
       return resultRoute;
     } else {
       return new Error("Insert correct ID");
