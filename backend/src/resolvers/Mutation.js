@@ -320,7 +320,7 @@ const Mutation = {
         }
       }
 
-      let O3;
+      let O3 = 0;
       for (let i = 0; i < arrayAux.length; i += 1) {
         let indexAux = i + 1;
         const nextVelocity = arrayVelocities[indexAux];
@@ -344,7 +344,8 @@ const Mutation = {
           let ETACC = ETACC1 + ETACC2 + ETACC3;
           ETACC = ETACC * 0.00027777777777778;
 
-          O3 = O3 + ETACC;
+          O3 =  O3 + ETACC;
+          console.log("O3AAAA: " + O3)
 
           //O3 BRAKING
         } else if (arrayAux[i] === "O3Braking") {
@@ -368,6 +369,7 @@ const Mutation = {
 
         }
       }
+      console.log("O3Final: " + O3)
       const result = collectionRoute.findOneAndUpdate(
         { _id: ObjectID(route) },
         { $set: { O3: O3 } }
